@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { markDayVisited } from "@/lib/progress";
 import { PipelineVisualizer } from "@/components/day4/PipelineVisualizer";
 import { DQXFlow } from "@/components/day4/DQXFlow";
+import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { recentRuns } from "@/data/pipeline";
 import { cn } from "@/lib/utils";
 import {
@@ -68,6 +69,93 @@ export default function Day4Page() {
         <div className="rounded-2xl border border-gray-200 bg-white p-5">
           <PipelineVisualizer />
         </div>
+
+        <AdvancedSection title="Multi-Task Job Orchestration" badge="Engineering">
+          <div className="space-y-4 text-sm text-gray-700">
+            <p>
+              Databricks Jobs can orchestrate complex multi-step workflows with conditional branching, retry logic,
+              and cross-task value passing — no external orchestrator required for most use cases.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {["Notebook", "Python script", "SQL", "DLT pipeline", "dbt", "Spark JAR"].map((t) => (
+                <div key={t} className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs font-medium text-gray-700 text-center">{t}</div>
+              ))}
+            </div>
+            <p className="font-medium text-gray-800">Passing values between tasks:</p>
+            <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
+{`# Task 1: Ingest — store a result for downstream tasks
+df = spark.read.format("csv").load("...")
+dbutils.jobs.taskValues.set(key="record_count", value=df.count())
+
+# Task 2: Validate — read the upstream value
+count = dbutils.jobs.taskValues.get(
+    taskKey="ingest",
+    key="record_count",
+    default=0
+)
+if count == 0:
+    raise Exception("Upstream produced zero records — aborting")`}
+            </pre>
+            <p className="font-medium text-gray-800">Branch conditions:</p>
+            <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
+{`# In the Job UI or API, set task dependencies:
+# - depends_on: ["ingest"]  with  if_succeeded
+# - depends_on: ["ingest"]  with  if_failed   → alert_task
+# - depends_on: ["ingest"]  with  if_any      → always runs (cleanup)
+
+# Retry policy (set per task in Job settings):
+# max_retries: 3
+# retry_on_timeout: true
+# timeout_seconds: 3600`}
+            </pre>
+          </div>
+        </AdvancedSection>
+
+        <AdvancedSection title="Delta Live Tables (DLT) — Declarative Pipelines" badge="Architecture">
+          <div className="space-y-4 text-sm text-gray-700">
+            <p>
+              DLT flips the orchestration model: instead of writing imperative code that runs tasks in order,
+              you <strong>declare</strong> what each table should contain and Databricks works out the
+              execution order automatically.
+            </p>
+            <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
+{`import dlt
+from pyspark.sql import functions as F
+
+# Bronze: raw ingest
+@dlt.table(comment="Raw policy records from source system")
+def bronze_policies():
+    return spark.readStream.format("cloudFiles") \
+        .option("cloudFiles.format", "json") \
+        .load("abfss://raw@storage.dfs.core.windows.net/policies/")
+
+# Silver: clean + expectations
+@dlt.expect("valid_commission", "commission_amount > 0")
+@dlt.expect_or_drop("non_null_customer", "customer_id IS NOT NULL")
+@dlt.table(comment="Validated policy records")
+def silver_policies():
+    return dlt.read_stream("bronze_policies") \
+        .withColumn("ingest_date", F.current_date())
+
+# Gold: aggregate
+@dlt.table(comment="Commission KPIs by reporting unit")
+def gold_commission_summary():
+    return dlt.read("silver_policies") \
+        .groupBy("reporting_unit") \
+        .agg(F.sum("commission_amount").alias("total_commission"))`}
+            </pre>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-green-50 border border-green-200 rounded-xl p-3">
+                <p className="text-xs font-bold text-green-700 mb-1">Use DLT when</p>
+                <p className="text-xs text-green-900">You need built-in data quality, automatic lineage, and simple dependency management</p>
+              </div>
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
+                <p className="text-xs font-bold text-blue-700 mb-1">Use standard Jobs when</p>
+                <p className="text-xs text-blue-900">You need complex branching, external API calls, or dbt/non-DLT task types</p>
+              </div>
+            </div>
+          </div>
+        </AdvancedSection>
       </div>
 
       {/* DQX Flow */}
@@ -77,6 +165,51 @@ export default function Day4Page() {
           DQX (Databricks Quality Extension) applies rule-based gates before data reaches Gold. Only records passing all rules flow through.
         </p>
         <DQXFlow />
+
+        <AdvancedSection title="DQX Rule Writing" badge="Engineering">
+          <div className="space-y-4 text-sm text-gray-700">
+            <p>
+              DQX rules are Python objects that wrap a SQL expression. Each rule has a name, an expression,
+              and an action that determines what happens when records fail.
+            </p>
+            <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
+{`from databricks.labs.dqx.col_rules import (
+    DQXRule, is_not_null, is_in_list, is_in_range
+)
+
+rules = [
+    # Use built-in helpers
+    is_not_null("customer_id"),
+    is_in_list("country", ["CH", "DE", "AT", "GB"]),
+    is_in_range("commission_amount", min=0, max=10_000_000),
+
+    # Or write custom SQL expressions
+    DQXRule(
+        name="commission_positive",
+        constraint="commission_amount > 0",
+        criticality="warn"   # warn | error
+    ),
+    DQXRule(
+        name="valid_policy_date",
+        constraint="policy_date >= '2020-01-01' AND policy_date <= current_date()",
+        criticality="error"
+    ),
+]
+
+# Apply rules — returns (good_df, bad_df)
+from databricks.labs.dqx.engine import DQEngine
+engine = DQEngine(spark)
+good_df, bad_df = engine.apply_checks_and_split(df, rules)
+
+# Write quarantined records for investigation
+bad_df.write.mode("append").saveAsTable("enterprise.bronze.quarantine")`}
+            </pre>
+            <p className="text-sm text-gray-600">
+              The quarantine table schema includes the original record plus a <code className="bg-gray-100 px-1 rounded">_errors</code> column
+              listing which rules failed and why — making it easy for data stewards to investigate issues.
+            </p>
+          </div>
+        </AdvancedSection>
       </div>
 
       {/* Monitoring section */}
@@ -170,6 +303,44 @@ export default function Day4Page() {
             </div>
           </div>
         </div>
+
+        <AdvancedSection title="Observability & Monitoring" badge="Operations">
+          <div className="space-y-4 text-sm text-gray-700">
+            <p>
+              Databricks exposes system telemetry through <strong>system tables</strong> — Delta tables you can
+              query like any other table. No external monitoring tool required for most operational dashboards.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              {[
+                { table: "system.lakeflow.job_run_timeline", desc: "Job run history, duration, status" },
+                { table: "system.access.audit", desc: "Every data access event" },
+                { table: "system.billing.usage", desc: "DBU consumption by workspace/tag" },
+              ].map(({ table, desc }) => (
+                <div key={table} className="bg-[#F0F1F5] border border-[#E2E3EA] rounded-xl p-3">
+                  <p className="text-[10px] font-mono font-semibold text-[#1F2144] mb-1">{table}</p>
+                  <p className="text-xs text-gray-600">{desc}</p>
+                </div>
+              ))}
+            </div>
+            <p className="font-medium text-gray-800">Alert on repeated failures using system tables:</p>
+            <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
+{`-- Jobs that failed more than twice in the last 24 hours
+SELECT
+    job_id,
+    COUNT(*) AS failure_count,
+    MAX(period_end_time) AS last_failure
+FROM system.lakeflow.job_run_timeline
+WHERE result_state = 'FAILED'
+  AND period_start_time > DATEADD(hour, -24, NOW())
+GROUP BY job_id
+HAVING COUNT(*) > 2
+ORDER BY failure_count DESC;
+
+-- Save this as a SQL Alert in the Databricks workspace
+-- and configure it to fire to Slack / PagerDuty / email`}
+            </pre>
+          </div>
+        </AdvancedSection>
       </div>
     </div>
   );

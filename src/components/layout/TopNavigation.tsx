@@ -1,12 +1,18 @@
 "use client";
 
-import { useBeginnerMode } from "@/context/BeginnerModeContext";
+import { useBeginnerMode, ViewLevel } from "@/context/BeginnerModeContext";
 import { usePresentationMode } from "@/context/PresentationContext";
-import { Presentation, BookOpen, Zap } from "lucide-react";
+import { Presentation, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const LEVELS: { value: ViewLevel; label: string }[] = [
+  { value: 'beginner', label: 'Beginner' },
+  { value: 'standard', label: 'Standard' },
+  { value: 'pro', label: 'Pro' },
+];
+
 export function TopNavigation() {
-  const { beginnerMode, toggleBeginnerMode } = useBeginnerMode();
+  const { viewLevel, setViewLevel } = useBeginnerMode();
   const { presentationMode, togglePresentationMode } = usePresentationMode();
 
   return (
@@ -18,22 +24,32 @@ export function TopNavigation() {
       </div>
 
       <div className="flex items-center gap-2">
-        {/* Beginner Mode Toggle — orange when ON */}
-        <button
-          onClick={toggleBeginnerMode}
-          className={cn(
-            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
-            beginnerMode
-              ? "bg-[#FFF3E8] text-[#F47920] border-[#F47920]/40"
-              : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
-          )}
-          title={beginnerMode ? "Beginner mode ON — click to show technical details" : "Technical mode — click for beginner mode"}
-        >
-          <BookOpen size={12} />
-          {beginnerMode ? "Beginner Mode" : "Technical Mode"}
-        </button>
+        {/* Three-segment view level switcher */}
+        <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 p-0.5 gap-0.5">
+          {LEVELS.map(({ value, label }) => {
+            const isActive = viewLevel === value;
+            return (
+              <button
+                key={value}
+                onClick={() => setViewLevel(value)}
+                className={cn(
+                  "px-3 py-1 rounded-full text-xs font-semibold transition-all",
+                  isActive
+                    ? value === 'beginner'
+                      ? "bg-[#FFF3E8] text-[#F47920] shadow-sm"
+                      : value === 'standard'
+                        ? "bg-white text-gray-700 shadow-sm"
+                        : "bg-[#1F2144] text-white shadow-sm"
+                    : "text-gray-400 hover:text-gray-600"
+                )}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
 
-        {/* Present button — orange accent when active */}
+        {/* Present button — navy accent when active */}
         <button
           onClick={togglePresentationMode}
           className={cn(

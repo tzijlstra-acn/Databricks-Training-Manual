@@ -5,6 +5,7 @@ import { Database, Folder, FileText, Table2, Lock, ArrowRight } from "lucide-rea
 import { markDayVisited } from "@/lib/progress";
 import { WorkspaceExplorer } from "@/components/day1/WorkspaceExplorer";
 import { FirstTenMinutes } from "@/components/day1/FirstTenMinutes";
+import { AdvancedSection } from "@/components/shared/AdvancedSection";
 
 export default function Day1Page() {
   useEffect(() => {
@@ -43,6 +44,109 @@ export default function Day1Page() {
             </p>
           </div>
           <WorkspaceExplorer />
+
+          <AdvancedSection title="Delta Lake — The Storage Layer" badge="Architecture">
+            <div className="space-y-4 text-sm text-gray-700">
+              <p>
+                Delta Lake is an open-source storage layer that brings <strong>ACID transactions</strong> to data lakes.
+                It sits on top of your cloud object store (ADLS, S3, GCS) and adds a transaction log that turns a pile
+                of Parquet files into a reliable, queryable table.
+              </p>
+              <div className="bg-gray-800 rounded-xl p-4 font-mono text-xs">
+                <p className="text-gray-400 mb-2">{"// What a Delta Table looks like on disk"}</p>
+                <p className="text-green-400">my-table/</p>
+                <p className="text-green-400 pl-4">├── part-00000-abc.parquet</p>
+                <p className="text-green-400 pl-4">├── part-00001-def.parquet</p>
+                <p className="text-yellow-400 pl-4">└── _delta_log/</p>
+                <p className="text-yellow-400 pl-8">├── 00000000000000000000.json  {"// first write"}</p>
+                <p className="text-yellow-400 pl-8">├── 00000000000000000001.json  {"// second write"}</p>
+                <p className="text-yellow-400 pl-8">└── 00000000000000000010.checkpoint.parquet</p>
+              </div>
+              <ul className="list-disc list-inside space-y-1.5">
+                <li><strong>ACID transactions</strong> — concurrent reads/writes without corruption</li>
+                <li><strong>Scalable metadata</strong> — billions of files handled efficiently</li>
+                <li><strong>Schema enforcement</strong> — rejects writes that break the schema</li>
+                <li><strong>Time Travel</strong> — query any historical version of a table</li>
+              </ul>
+              <p className="italic text-gray-500">Think of it as: a database engine built on top of files</p>
+              <p className="font-medium text-gray-800">Time Travel example:</p>
+              <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
+{`SELECT * FROM enterprise.gold.customer_summary
+TIMESTAMP AS OF '2024-01-01';
+
+-- Or by version number:
+SELECT * FROM enterprise.gold.customer_summary VERSION AS OF 42;`}
+              </pre>
+            </div>
+          </AdvancedSection>
+
+          <AdvancedSection title="Apache Spark — The Compute Engine" badge="Engineering">
+            <div className="space-y-4 text-sm text-gray-700">
+              <p>
+                Spark is a <strong>distributed computing engine</strong> — it splits work across many machines so a
+                query that would take hours on a single server completes in minutes. Databricks is the managed,
+                performance-optimised platform built by the creators of Spark.
+              </p>
+              <div className="bg-gray-800 rounded-xl p-4 font-mono text-xs text-green-400">
+                <p className="text-gray-400 mb-2">{"// Spark architecture"}</p>
+                <p>Driver (your notebook) → Cluster Manager → Worker nodes (Executors)</p>
+                <p className="text-gray-400 mt-2">{"// Driver plans the query. Executors do the work in parallel."}</p>
+              </div>
+              <ul className="list-disc list-inside space-y-1.5">
+                <li><strong>DataFrames</strong> — the primary API for structured data (like a distributed table)</li>
+                <li><strong>Lazy evaluation</strong> — transformations are planned, not executed until an action (e.g. <code className="bg-gray-100 px-1 rounded">.count()</code>) is called</li>
+                <li><strong>Photon engine</strong> — Databricks-built C++ vectorised query engine; accelerates SQL and batch ETL by 2–10×</li>
+              </ul>
+              <p className="font-medium text-gray-800">When Spark matters vs. when it does not:</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-green-50 border border-green-200 rounded-xl p-3">
+                  <p className="text-xs font-bold text-green-700 mb-1">Use Spark for</p>
+                  <p className="text-xs text-green-800">Data {">"} 1 GB, complex joins, ML feature engineering, streaming</p>
+                </div>
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                  <p className="text-xs font-bold text-amber-700 mb-1">Overkill for</p>
+                  <p className="text-xs text-amber-800">{"<"} 100 MB lookups, simple single-row inserts, ad-hoc small queries</p>
+                </div>
+              </div>
+            </div>
+          </AdvancedSection>
+
+          <AdvancedSection title="Access Control Model" badge="Administration">
+            <div className="space-y-4 text-sm text-gray-700">
+              <p>
+                Databricks has two levels of identity: <strong>workspace-level</strong> (notebooks, clusters) and
+                <strong> account-level</strong> (Unity Catalog, billing). Understanding this prevents the most common
+                &quot;I can&apos;t see the table&quot; support tickets.
+              </p>
+              <ul className="list-disc list-inside space-y-1.5">
+                <li><strong>Users</strong> — individual humans, identified by email</li>
+                <li><strong>Service Principals</strong> — machine identities for pipelines and CI/CD (no human login)</li>
+                <li><strong>Groups</strong> — collections of users/SPs; assign permissions once at group level</li>
+                <li><strong>Personal Access Tokens (PATs)</strong> — long-lived API keys; use only for tooling, rotate regularly</li>
+              </ul>
+              <p className="font-medium text-gray-800">Unity Catalog permission hierarchy:</p>
+              <div className="bg-gray-800 rounded-xl p-4 font-mono text-xs text-green-400">
+                <p>Metastore (account-level)</p>
+                <p className="pl-4">└── Catalog  (e.g. enterprise)</p>
+                <p className="pl-8">└── Schema   (e.g. gold)</p>
+                <p className="pl-12">└── Table    (e.g. customer_summary)</p>
+              </div>
+              <p className="font-medium text-gray-800">GRANT / REVOKE syntax:</p>
+              <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
+{`-- Grant read access to a group
+GRANT SELECT ON TABLE enterprise.gold.customer_summary
+TO \`analysts@company.com\`;
+
+-- Grant write access to a service principal
+GRANT MODIFY ON SCHEMA enterprise.silver
+TO \`sp-pipeline-prod\`;
+
+-- Revoke
+REVOKE SELECT ON TABLE enterprise.gold.customer_summary
+FROM \`temp-contractor@company.com\`;`}
+              </pre>
+            </div>
+          </AdvancedSection>
         </section>
 
         {/* First 10 Minutes */}

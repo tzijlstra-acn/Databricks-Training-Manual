@@ -3,7 +3,6 @@
 import { useState } from "react";
 import {
   Folder,
-  Clock,
   Database,
   Workflow,
   Cpu,
@@ -18,13 +17,18 @@ import {
   Users,
   Lightbulb,
   BookOpen,
+  History,
+  Server,
+  Activity,
+  Upload,
+  Brain,
+  Bot,
 } from "lucide-react";
-import { workspaceSidebarItems } from "@/data/platformComponents";
+import { workspaceSidebarSections, NavItem } from "@/data/platformComponents";
 import { cn } from "@/lib/utils";
 
 const iconMap: Record<string, React.ReactNode> = {
   folder: <Folder className="w-4 h-4" />,
-  clock: <Clock className="w-4 h-4" />,
   database: <Database className="w-4 h-4" />,
   workflow: <Workflow className="w-4 h-4" />,
   cpu: <Cpu className="w-4 h-4" />,
@@ -34,13 +38,26 @@ const iconMap: Record<string, React.ReactNode> = {
   "layout-dashboard": <LayoutDashboard className="w-4 h-4" />,
   sparkles: <Sparkles className="w-4 h-4" />,
   bell: <Bell className="w-4 h-4" />,
+  history: <History className="w-4 h-4" />,
+  server: <Server className="w-4 h-4" />,
+  activity: <Activity className="w-4 h-4" />,
+  upload: <Upload className="w-4 h-4" />,
+  brain: <Brain className="w-4 h-4" />,
+  bot: <Bot className="w-4 h-4" />,
 };
 
-type SidebarItem = (typeof workspaceSidebarItems)[number];
+const SECTION_LABEL_COLORS: Record<string, string> = {
+  main: "text-gray-400",
+  SQL: "text-blue-400",
+  "Data Engineering": "text-amber-400",
+  "AI & ML": "text-purple-400",
+};
 
 export function WorkspaceExplorer() {
-  const [activeItem, setActiveItem] = useState<SidebarItem | null>(null);
+  const [activeItem, setActiveItem] = useState<NavItem | null>(null);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  const quickStartItems = workspaceSidebarSections[0].items.slice(0, 4);
 
   return (
     <div className="w-full rounded-2xl border border-gray-200 overflow-hidden shadow-lg">
@@ -59,9 +76,9 @@ export function WorkspaceExplorer() {
         <span className="text-xs text-gray-400 font-medium">Databricks Workspace</span>
       </div>
 
-      <div className="flex" style={{ height: 480 }}>
+      <div className="flex" style={{ height: 520 }}>
         {/* Left sidebar */}
-        <div className="w-52 bg-[#1A1A2E] flex flex-col border-r border-[#2D2D4E] flex-shrink-0">
+        <div className="w-56 bg-[#1A1A2E] flex flex-col border-r border-[#2D2D4E] flex-shrink-0">
           {/* Brand bar */}
           <div className="px-4 py-3 border-b border-[#2D2D4E] flex items-center gap-2">
             <div className="w-6 h-6 bg-[#FF3621] rounded flex items-center justify-center">
@@ -70,45 +87,55 @@ export function WorkspaceExplorer() {
             <span className="text-white text-sm font-semibold">Databricks</span>
           </div>
 
-          {/* Nav items */}
-          <nav className="flex-1 overflow-y-auto py-2">
-            {workspaceSidebarItems.map((item) => (
-              <div key={item.id} className="relative group">
-                <button
-                  onClick={() => setActiveItem(activeItem?.id === item.id ? null : item)}
-                  onMouseEnter={() => setHoveredItem(item.id)}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  className={cn(
-                    "w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-colors text-left",
-                    activeItem?.id === item.id
-                      ? "bg-[#2D2D4E] text-white"
-                      : "text-gray-300 hover:bg-[#2D2D4E] hover:text-white"
-                  )}
-                >
-                  <span style={{ color: activeItem?.id === item.id ? item.color : undefined }}>
-                    {iconMap[item.icon] ?? <Folder className="w-4 h-4" />}
-                  </span>
-                  <span className="flex-1">{item.label}</span>
-                  {/* Pulsing hotspot */}
-                  <span className="relative flex h-2 w-2">
-                    <span
-                      className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span
-                      className="relative inline-flex rounded-full h-2 w-2"
-                      style={{ backgroundColor: item.color }}
-                    />
-                  </span>
-                </button>
-
-                {/* Hover tooltip */}
-                {hoveredItem === item.id && activeItem?.id !== item.id && (
-                  <div className="absolute left-full top-0 z-50 ml-1 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-3 pointer-events-none">
-                    <p className="text-xs font-semibold text-gray-800 mb-1">{item.label}</p>
-                    <p className="text-xs text-gray-500 leading-snug">{item.description}</p>
+          {/* Nav items grouped by section */}
+          <nav className="flex-1 overflow-y-auto py-1">
+            {workspaceSidebarSections.map((section) => (
+              <div key={section.section}>
+                {/* Section header — hidden for "main" (top-level items have no header in real Databricks) */}
+                {section.section !== "main" && (
+                  <div className={cn("px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-widest", SECTION_LABEL_COLORS[section.section] ?? "text-gray-500")}>
+                    {section.section}
                   </div>
                 )}
+                {section.items.map((item) => (
+                  <div key={item.id} className="relative group">
+                    <button
+                      onClick={() => setActiveItem(activeItem?.id === item.id ? null : item)}
+                      onMouseEnter={() => setHoveredItem(item.id)}
+                      onMouseLeave={() => setHoveredItem(null)}
+                      className={cn(
+                        "w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors text-left",
+                        activeItem?.id === item.id
+                          ? "bg-[#2D2D4E] text-white"
+                          : "text-gray-300 hover:bg-[#2D2D4E] hover:text-white"
+                      )}
+                    >
+                      <span style={{ color: activeItem?.id === item.id ? item.color : undefined }}>
+                        {iconMap[item.icon] ?? <Folder className="w-4 h-4" />}
+                      </span>
+                      <span className="flex-1 text-xs">{item.label}</span>
+                      {/* Pulsing hotspot */}
+                      <span className="relative flex h-2 w-2 flex-shrink-0">
+                        <span
+                          className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span
+                          className="relative inline-flex rounded-full h-2 w-2"
+                          style={{ backgroundColor: item.color }}
+                        />
+                      </span>
+                    </button>
+
+                    {/* Hover tooltip */}
+                    {hoveredItem === item.id && activeItem?.id !== item.id && (
+                      <div className="absolute left-full top-0 z-50 ml-1 w-60 bg-white rounded-xl shadow-xl border border-gray-100 p-3 pointer-events-none">
+                        <p className="text-xs font-semibold text-gray-800 mb-1">{item.label}</p>
+                        <p className="text-xs text-gray-500 leading-snug">{item.description}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             ))}
           </nav>
@@ -146,7 +173,7 @@ export function WorkspaceExplorer() {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center mt-2">
-                  {workspaceSidebarItems.slice(0, 4).map((item) => (
+                  {quickStartItems.map((item) => (
                     <button
                       key={item.id}
                       onClick={() => setActiveItem(item)}
