@@ -244,7 +244,7 @@ export function MedallionFlow() {
         {whyOpen && (
           <div className="px-5 py-5 bg-white border-t border-gray-100">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              [
+              {[
                 {
                   emoji: "🐛",
                   title: "Dirty data",

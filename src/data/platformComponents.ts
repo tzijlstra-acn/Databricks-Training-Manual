@@ -193,9 +193,11 @@ export const catalogTree = {
       type: "schema" as const,
       description: "Raw ingested data from source systems",
       children: [
-        { name: "customers_raw", type: "table" as const, rows: "1,200,000", description: "Raw customer records from CRM", layer: "bronze" as const },
-        { name: "commission_raw", type: "table" as const, rows: "456,000", description: "Raw commission transactions from mainframe", layer: "bronze" as const },
-        { name: "policies_raw", type: "table" as const, rows: "89,000", description: "Raw insurance policy records", layer: "bronze" as const },
+        { name: "bayo_raw",       type: "table" as const, rows: "48,234",  description: "Raw BAYO export — contains deals for Howden Schweiz AG and SWIBRO AG combined. Entity attribution happens in Silver.", layer: "bronze" as const },
+        { name: "ibs_raw",        type: "table" as const, rows: "31,102",  description: "Raw IBS Alabus export for Howden Schweiz AG. Commission field: commission_chf.", layer: "bronze" as const },
+        { name: "max_raw",        type: "table" as const, rows: "22,780",  description: "Raw MAX CRM export for Howden Broker Services AG. Commission field: brokerage_fee.", layer: "bronze" as const },
+        { name: "ketl_raw",       type: "table" as const, rows: "12,506",  description: "Raw KETL export for Perennial AG. Commission field: comm_amt.", layer: "bronze" as const },
+        { name: "vp_raw",         type: "table" as const, rows: "8,914",   description: "Raw Vorsorge Partner CRM export. Commission field: fee_earned.", layer: "bronze" as const },
       ],
     },
     {
@@ -203,9 +205,9 @@ export const catalogTree = {
       type: "schema" as const,
       description: "Cleaned and validated data",
       children: [
-        { name: "customers_clean", type: "table" as const, rows: "1,183,000", description: "Customers with nulls fixed, names standardised", layer: "silver" as const },
-        { name: "commission_validated", type: "table" as const, rows: "451,000", description: "Commission records passing all DQX rules", layer: "silver" as const },
-        { name: "policies_enriched", type: "table" as const, rows: "88,400", description: "Policies with product category enrichment", layer: "silver" as const },
+        { name: "commissions_clean",     type: "table" as const, rows: "123,536", description: "All 5 CRM extracts merged with unified field names. commission_chf is the single canonical amount field.", layer: "silver" as const },
+        { name: "entity_attribution",    type: "table" as const, rows: "48,234",  description: "BAYO rows resolved to Howden Schweiz AG or SWIBRO AG based on deal-level entity identifier. Unresolved rows quarantined.", layer: "silver" as const },
+        { name: "dq_rejected_records",   type: "table" as const, rows: "142",     description: "Rows that failed DQX rules — null commission, unresolvable entity, or Abacus variance breach. Reviewed before each submission.", layer: "silver" as const },
       ],
     },
     {
@@ -213,9 +215,9 @@ export const catalogTree = {
       type: "schema" as const,
       description: "Business-ready reporting tables",
       children: [
-        { name: "customer_summary", type: "table" as const, rows: "8,234", description: "One row per active customer with commission totals", layer: "gold" as const },
-        { name: "commission_reporting", type: "table" as const, rows: "2,100", description: "Commission aggregated by reporting unit and period", layer: "gold" as const },
-        { name: "portfolio_snapshot", type: "table" as const, rows: "312", description: "Portfolio totals by region and segment", layer: "gold" as const },
+        { name: "finma_commission_summary", type: "table" as const, rows: "5",     description: "One row per entity — FINMA-reportable commission totals for 2025 submission (Art. 190b ISO). Deadline: 31 May.", layer: "gold" as const },
+        { name: "abacus_reconciliation",    type: "table" as const, rows: "5",     description: "Commission totals vs Abacus cashflows by entity. Variance flagged if > CHF 10,000 or > 5% of category total.", layer: "gold" as const },
+        { name: "commission_by_period",     type: "table" as const, rows: "1,248", description: "Monthly commission aggregated by entity and line of business for internal management reporting.", layer: "gold" as const },
       ],
     },
     {
@@ -223,8 +225,8 @@ export const catalogTree = {
       type: "schema" as const,
       description: "Data quality and pipeline audit logs",
       children: [
-        { name: "dqx_failures", type: "table" as const, rows: "38", description: "Records failing data quality checks", layer: "bronze" as const },
-        { name: "pipeline_runs", type: "table" as const, rows: "1,204", description: "Historical pipeline run metadata", layer: "bronze" as const },
+        { name: "dqx_run_log",    type: "table" as const, rows: "3,614",  description: "Each DQX rule execution: rule name, records checked, pass/fail counts, timestamp.", layer: "bronze" as const },
+        { name: "pipeline_runs",  type: "table" as const, rows: "1,204",  description: "Historical pipeline run metadata — status, duration, task-level detail.", layer: "bronze" as const },
       ],
     },
   ],

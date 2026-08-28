@@ -24,34 +24,45 @@ const cells: Cell[] = [
   {
     id: 1,
     language: "Markdown",
-    content: `## Explore Customer Data\nAnalyzing the gold customer summary table.`,
+    content: `## FINMA 2025 — Entity Attribution Check\nValidating commission totals per entity before FINMA submission.`,
   },
   {
     id: 2,
     language: "SQL",
     content: `SELECT
-  customer_name,
-  segment,
-  region,
-  SUM(commission_amount) AS total_commission
-FROM enterprise.gold.customer_summary
-WHERE region = 'DACH'
-GROUP BY customer_name, segment, region
-ORDER BY total_commission DESC
-LIMIT 5;`,
+  entity_code,
+  entity_name,
+  COUNT(DISTINCT deal_id)      AS deal_count,
+  SUM(commission_chf)          AS total_commission_chf,
+  SUM(commission_chf) * 0.9   AS abacus_baseline_chf,
+  ABS(SUM(commission_chf)
+    - SUM(commission_chf) * 0.9)
+    / (SUM(commission_chf) * 0.9)
+    * 100                      AS variance_pct
+FROM enterprise.silver.commissions_clean
+GROUP BY entity_code, entity_name
+ORDER BY total_commission_chf DESC;`,
   },
   {
     id: 3,
     language: "Python",
     content: `from pyspark.sql import functions as F
 
-df = spark.table("enterprise.gold.customer_summary")
+df = spark.table("enterprise.silver.commissions_clean")
 
+# Flag entities where variance vs Abacus exceeds threshold
 result = (
-    df.filter(F.col("region") == "DACH")
-    .groupBy("segment")
-    .agg(F.sum("commission_amount").alias("total_commission"))
-    .orderBy(F.desc("total_commission"))
+    df.groupBy("entity_code", "entity_name")
+    .agg(F.sum("commission_chf").alias("total_commission_chf"))
+    .withColumn(
+        "abacus_variance_chf",
+        F.abs(F.col("total_commission_chf") * 0.003)
+    )
+    .withColumn(
+        "variance_ok",
+        (F.col("abacus_variance_chf") < 10000)
+    )
+    .orderBy(F.desc("total_commission_chf"))
 )
 
 display(result)`,
@@ -59,18 +70,19 @@ display(result)`,
 ];
 
 const sqlOutputRows = [
-  { customer_name: "Zurich Insurance Group", segment: "Enterprise", commission_amount: "CHF 1,234,500" },
-  { customer_name: "Swiss Re AG", segment: "Enterprise", commission_amount: "CHF 987,200" },
-  { customer_name: "Helvetia Group", segment: "Mid-Market", commission_amount: "CHF 654,300" },
-  { customer_name: "Baloise Insurance", segment: "Mid-Market", commission_amount: "CHF 432,100" },
-  { customer_name: "Mobiliar Group", segment: "SME", commission_amount: "CHF 218,750" },
+  { customer_name: "Howden Schweiz AG",        segment: "HW-CH-01", commission_amount: "CHF 4,821,300" },
+  { customer_name: "Howden Broker Services AG", segment: "HW-CH-02", commission_amount: "CHF 3,190,400" },
+  { customer_name: "SWIBRO AG",                 segment: "HW-CH-03", commission_amount: "CHF 2,640,200" },
+  { customer_name: "Perennial AG",              segment: "HW-CH-04", commission_amount: "CHF 1,204,800" },
+  { customer_name: "Vorsorge Partner AG",       segment: "HW-CH-05", commission_amount: "CHF 543,100" },
 ];
 
 const chartData = [
-  { segment: "Enterprise", commission: 2221700 },
-  { segment: "Mid-Market", commission: 1086400 },
-  { segment: "SME", commission: 436900 },
-  { segment: "Public Sector", commission: 198400 },
+  { segment: "HW-CH-01",  commission: 4821300 },
+  { segment: "HW-CH-02",  commission: 3190400 },
+  { segment: "HW-CH-03",  commission: 2640200 },
+  { segment: "HW-CH-04",  commission: 1204800 },
+  { segment: "HW-CH-05",  commission: 543100 },
 ];
 
 const languageColors: Record<string, string> = {
@@ -103,7 +115,7 @@ export function NotebookSimulator() {
       {/* Toolbar */}
       <div className="flex items-center justify-between px-4 py-2 bg-gray-900 text-gray-200 text-xs">
         <div className="flex items-center gap-3">
-          <span className="font-mono font-semibold">customer_analysis.ipynb</span>
+          <span className="font-mono font-semibold">finma_entity_validation.ipynb</span>
           <span className="text-gray-500">|</span>
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
@@ -188,8 +200,8 @@ export function NotebookSimulator() {
                   <div className="px-4 pb-4">
                     {cell.id === 1 && (
                       <div className="text-gray-300 text-sm">
-                        <h2 className="text-lg font-bold text-white">Explore Customer Data</h2>
-                        <p className="text-gray-400 mt-1">Analyzing the gold customer summary table.</p>
+                        <h2 className="text-lg font-bold text-white">FINMA 2025 — Entity Attribution Check</h2>
+                        <p className="text-gray-400 mt-1">Validating commission totals per entity before FINMA submission.</p>
                       </div>
                     )}
                     {cell.id === 2 && (
@@ -197,9 +209,9 @@ export function NotebookSimulator() {
                         <table className="text-xs text-gray-300 w-full">
                           <thead>
                             <tr className="border-b border-gray-700 text-gray-400">
-                              <th className="text-left py-1.5 pr-4">customer_name</th>
-                              <th className="text-left py-1.5 pr-4">segment</th>
-                              <th className="text-right py-1.5">commission_amount</th>
+                              <th className="text-left py-1.5 pr-4">entity_name</th>
+                              <th className="text-left py-1.5 pr-4">entity_code</th>
+                              <th className="text-right py-1.5">total_commission_chf</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -221,7 +233,7 @@ export function NotebookSimulator() {
                             ))}
                           </tbody>
                         </table>
-                        <p className="text-gray-500 text-xs mt-2">5 rows × 3 columns — 0.38s</p>
+                        <p className="text-gray-500 text-xs mt-2">5 rows × 3 columns — enterprise.silver.commissions_clean — 0.38s</p>
                       </div>
                     )}
                     {cell.id === 3 && (
@@ -242,7 +254,7 @@ export function NotebookSimulator() {
                             <Bar dataKey="commission" fill="#3B82F6" radius={[4, 4, 0, 0]} />
                           </BarChart>
                         </ResponsiveContainer>
-                        <p className="text-gray-500 text-xs mt-1">Commission by segment — DACH region — 1.14s</p>
+                        <p className="text-gray-500 text-xs mt-1">Total commission by entity code — enterprise.silver.commissions_clean — 1.14s</p>
                       </div>
                     )}
                   </div>
