@@ -84,8 +84,8 @@ export const layerAssignmentQuiz = [
 export const workflowOrderQuiz = [
   { id: "step-source", label: "Source System", correct: 1 },
   { id: "step-bronze", label: "Bronze Ingestion", correct: 2 },
-  { id: "step-silver", label: "Silver Transformation", correct: 3 },
-  { id: "step-quality", label: "Data Quality Check", correct: 4 },
+  { id: "step-quality", label: "Data Quality Check", correct: 3 },
+  { id: "step-silver", label: "Silver Transformation", correct: 4 },
   { id: "step-gold", label: "Gold Build", correct: 5 },
   { id: "step-dashboard", label: "Dashboard Refresh", correct: 6 },
 ];
