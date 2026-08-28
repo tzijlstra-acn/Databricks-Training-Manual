@@ -16,16 +16,18 @@ const layers = [
     text: "text-bronze-text",
     headerBg: "bg-[#CD7F32]",
     record: {
-      customer_id: "C-00482",
-      first_name: "thomas ",
-      last_name: "ZIJLSTRA",
-      email: "T.Zijlstra@accenture.com ",
-      commission_amount: "1250.50",
-      record_date: "20240115",
-      source: "CRM_EXPORT_v3",
+      policy_ref: "POL-2024-77821",
+      insured: "helvetica ag",
+      lob_code: "PROP",
+      premium: "485000",
+      currency: "CHF",
+      inception_dt: "20240101",
+      expiry_dt: "",
+      broker_fee_pct: "10",
+      source_system: "ZUR_PORTAL_V2",
     },
-    issues: ["Trailing whitespace in first_name", "Inconsistent casing (ZIJLSTRA)", "Date not ISO format", "Trailing space in email"],
-    description: "Exact copy of source data. No changes. Preserves the original — warts and all.",
+    issues: ["Insured name in lowercase", "LoB code not human-readable", "Dates in YYYYMMDD not ISO", "Expiry date missing", "Premium stored as string"],
+    description: "Exact copy of what arrived from the Zurich carrier portal. No changes. Preserves the original — warts and all.",
   },
   {
     id: "silver",
@@ -37,16 +39,17 @@ const layers = [
     text: "text-silver-text",
     headerBg: "bg-[#6B7280]",
     record: {
-      customer_id: "C-00482",
-      first_name: "Thomas",
-      last_name: "Zijlstra",
-      email: "t.zijlstra@accenture.com",
-      commission_amount: 1250.50,
-      record_date: "2024-01-15",
+      policy_ref: "POL-2024-77821",
+      insured_name: "Helvetica AG",
+      line_of_business: "Property",
+      premium_chf: 485000.00,
+      coverage_start: "2024-01-01",
+      coverage_end: "2024-12-31",
+      commission_rate: 0.10,
       is_valid: true,
     },
-    fixes: ["Trimmed whitespace", "Normalised casing", "Parsed ISO date", "Lowercased email", "Cast to decimal"],
-    description: "Cleaned, validated, and standardised. Safe to use for analysis. Still one row per source record.",
+    fixes: ["Insured name title-cased", "LoB code decoded to readable label", "Dates converted to ISO 8601", "Coverage end date derived (inception + 12 months)", "Premium cast to decimal"],
+    description: "Cleaned, validated, and standardised. Safe to use for analysis. Still one row per policy.",
   },
   {
     id: "gold",
@@ -58,16 +61,15 @@ const layers = [
     text: "text-gold-text",
     headerBg: "bg-[#D97706]",
     record: {
-      customer_id: "C-00482",
-      full_name: "Thomas Zijlstra",
-      email: "t.zijlstra@accenture.com",
-      total_commission_ytd: 18430.00,
-      commission_count: 14,
-      last_commission_date: "2024-01-15",
-      tier: "Senior",
+      period: "Q1 2024",
+      line_of_business: "Property",
+      total_premium_chf: 12400000,
+      commission_earned_chf: 1240000,
+      policy_count: 847,
+      renewal_rate_pct: 91.3,
     },
-    additions: ["Aggregated 14 commissions into YTD total", "Added derived tier field", "Joined with employee master", "Optimised for dashboard queries"],
-    description: "Aggregated and enriched for reporting. One row per business entity. Query this layer for dashboards.",
+    additions: ["Aggregated 847 policies into quarterly totals", "Commission calculated (rate × premium)", "Renewal rate derived from policies renewed vs. lapsed", "Optimised for board-level reporting"],
+    description: "Aggregated and enriched for reporting. One row per line of business per quarter. Query this layer for dashboards.",
   },
 ];
 
@@ -242,21 +244,21 @@ export function MedallionFlow() {
         {whyOpen && (
           <div className="px-5 py-5 bg-white border-t border-gray-100">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {[
+              [
                 {
                   emoji: "🐛",
                   title: "Dirty data",
-                  body: "Bronze contains exactly what arrived from the source — misspellings, nulls, wrong types, duplicates. Reporting on it means your dashboards will reflect those errors directly.",
+                  body: "Bronze contains exactly what arrived from the carrier portal — lowercase insured names, missing expiry dates, premium amounts stored as strings. Reporting on it means your commission dashboard reflects those errors.",
                 },
                 {
                   emoji: "📐",
                   title: "No standards",
-                  body: "Column names, date formats, and casing vary between source systems. Without Silver's standardisation, a JOIN between two Bronze tables would silently drop or duplicate rows.",
+                  body: "The Zurich portal sends YYYYMMDD dates; the Lloyd's feed sends DD/MM/YYYY. Without Silver's standardisation, a JOIN between two Bronze tables would silently drop or double-count policies.",
                 },
                 {
                   emoji: "🔢",
                   title: "Wrong granularity",
-                  body: "Executives want totals, not raw transaction rows. Bronze has one row per event. Gold aggregates those into the single-number KPIs that dashboards need.",
+                  body: "Your board wants total commission by line of business for the quarter — not 847 individual policy rows. Bronze has one row per policy. Gold aggregates those into the KPIs your executives actually need.",
                 },
               ].map(({ emoji, title, body }) => (
                 <div key={title} className="rounded-xl bg-amber-50 border border-amber-100 p-4">

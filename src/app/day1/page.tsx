@@ -6,6 +6,7 @@ import { markDayVisited } from "@/lib/progress";
 import { WorkspaceExplorer } from "@/components/day1/WorkspaceExplorer";
 import { FirstTenMinutes } from "@/components/day1/FirstTenMinutes";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
+import { HowdenContext } from "@/components/shared/HowdenContext";
 
 export default function Day1Page() {
   useEffect(() => {
@@ -34,6 +35,14 @@ export default function Day1Page() {
             Outcome: Know your way around the platform
           </div>
         </div>
+
+        <HowdenContext>
+          Think of Databricks as the engine room for all of Howden&apos;s data. Instead of analysts downloading policy files
+          from carrier portals into Excel, Databricks pulls in data from Zurich, Lloyd&apos;s, and every other feed
+          automatically — and makes it available to the whole team at once. The <strong>Workspace</strong> is where
+          your scripts and notebooks live; the <strong>Catalog</strong> is where all your policy, premium, and
+          commission data sits, governed and ready to query.
+        </HowdenContext>
 
         {/* Workspace Explorer */}
         <section className="mb-14">

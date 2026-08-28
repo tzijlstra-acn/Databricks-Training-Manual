@@ -6,6 +6,7 @@ import { markDayVisited } from "@/lib/progress";
 import { CatalogTree } from "@/components/day2/CatalogTree";
 import { MedallionFlow } from "@/components/day2/MedallionFlow";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
+import { HowdenContext } from "@/components/shared/HowdenContext";
 
 export default function Day2Page() {
   useEffect(() => {
@@ -37,6 +38,14 @@ export default function Day2Page() {
             Outcome: Navigate Unity Catalog and understand Medallion layers
           </div>
         </div>
+
+        <HowdenContext>
+          A policy record arrives from the Zurich portal at 2 am. <strong>Bronze</strong> stores it exactly as
+          received — lowercase insured name, date in the wrong format, no expiry date. <strong>Silver</strong> cleans
+          it: name title-cased, ISO dates, coverage end date derived, premium parsed to a number.
+          <strong> Gold</strong> aggregates: total premium by line of business, commission earned in Q1, renewal rate
+          across the Property book. Your executive dashboard only ever queries Gold.
+        </HowdenContext>
 
         {/* Catalog Tree */}
         <section className="mb-14">

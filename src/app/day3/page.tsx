@@ -5,6 +5,7 @@ import { markDayVisited } from "@/lib/progress";
 import { NotebookSimulator } from "@/components/day3/NotebookSimulator";
 import { ComputeExplainer } from "@/components/day3/ComputeExplainer";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
+import { HowdenContext } from "@/components/shared/HowdenContext";
 import { cn } from "@/lib/utils";
 
 const decisionTree = [
@@ -74,6 +75,14 @@ export default function Day3Page() {
           </div>
         </div>
       </div>
+
+      <HowdenContext>
+        At Howden, a notebook might calculate loss ratios across the Swiss property portfolio, or model how different
+        deductible structures affect client retention. Instead of running that analysis in Excel on your laptop —
+        which might crash on 50,000 policy rows — Databricks runs it on a <strong>cluster</strong> (dozens of
+        machines working in parallel) and returns the answer in seconds. Your analysts write the logic once; the
+        platform handles the scale.
+      </HowdenContext>
 
       {/* Notebook Simulator */}
       <div>

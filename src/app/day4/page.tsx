@@ -5,6 +5,7 @@ import { markDayVisited } from "@/lib/progress";
 import { PipelineVisualizer } from "@/components/day4/PipelineVisualizer";
 import { DQXFlow } from "@/components/day4/DQXFlow";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
+import { HowdenContext } from "@/components/shared/HowdenContext";
 import { recentRuns } from "@/data/pipeline";
 import { cn } from "@/lib/utils";
 import {
@@ -59,6 +60,14 @@ export default function Day4Page() {
           </div>
         </div>
       </div>
+
+      <HowdenContext>
+        Instead of an analyst manually downloading policy files from carrier portals every morning, a Databricks
+        <strong> Job</strong> does it automatically at 2 am — ingesting new policies, running data quality checks
+        (is the premium present? is the insured name non-null? are coverage dates valid?), and if everything
+        passes, updating the Gold commission tables so your reporting is fresh when the team arrives. If a quality
+        check fails, an <strong>alert</strong> fires immediately — bad data never reaches your dashboards.
+      </HowdenContext>
 
       {/* Pipeline Visualizer */}
       <div>

@@ -63,21 +63,21 @@ export const quizQuestions: QuizQuestion[] = [
 export const layerAssignmentQuiz = [
   {
     id: "record-1",
-    description: "Raw CSV: john smith,CH,NULL,2450,2024-01-15T09:23:11Z",
+    description: "POL-2024-77821,helvetica ag,PROP,485000,CHF,20240101,,10,ZUR_PORTAL_V2",
     correct: "bronze",
-    hint: "Notice: lowercase, null values, timestamp format — this is raw, unprocessed data.",
+    hint: "Lowercase insured name, LoB code not decoded, date not ISO, expiry missing — this is raw carrier data exactly as received.",
   },
   {
     id: "record-2",
-    description: "Customer: John Smith | Country: Switzerland | Status: Active | Commission: 2,450.00",
+    description: "Policy: POL-2024-77821 | Insured: Helvetica AG | LoB: Property | Premium: CHF 485,000 | Coverage: 2024-01-01 → 2024-12-31 | Status: Active",
     correct: "silver",
-    hint: "Names capitalised, country expanded, nulls filled, number formatted — cleaned but not yet aggregated.",
+    hint: "Name title-cased, LoB decoded, ISO dates, expiry date derived — cleaned and validated but still one row per policy.",
   },
   {
     id: "record-3",
-    description: "Region: DACH | Total Commission: CHF 12.4M | Active Customers: 8,234 | Period: Q1 2024",
+    description: "Q1 2024 | Property | Premium: CHF 12.4M | Commission: CHF 1.24M | Policies: 847 | Renewal Rate: 91.3%",
     correct: "gold",
-    hint: "Aggregated by region, CHF currency formatted, quarter summary — this is business-ready reporting data.",
+    hint: "Aggregated across 847 policies, commission calculated, renewal KPI derived — business-ready for board-level reporting.",
   },
 ];
 

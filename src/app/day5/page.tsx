@@ -5,6 +5,7 @@ import { markDayVisited } from "@/lib/progress";
 import { DashboardLineage } from "@/components/day5/DashboardLineage";
 import { GenieDemo } from "@/components/day5/GenieDemo";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
+import { HowdenContext } from "@/components/shared/HowdenContext";
 import { ArrowRight, BarChart3 } from "lucide-react";
 
 const capstoneNodes = [
@@ -48,6 +49,14 @@ export default function Day5Page() {
           Outcome: Navigate from dashboard KPI back to source data and ask questions in plain English
         </div>
       </div>
+
+      <HowdenContext>
+        Howden&apos;s leadership can now ask <strong>Genie</strong>: &ldquo;What is our total commission for Swiss
+        property this quarter?&rdquo; and see a chart in 10 seconds — no IT ticket, no waiting for a report to be
+        run. Dashboards show KPIs like renewal rate, claims ratio, and premium volume by line of business. And if
+        a number looks unexpected, you can click it to <strong>trace it back</strong> to the exact policy records
+        that generated it — all the way to the raw carrier feed.
+      </HowdenContext>
 
       {/* Dashboard Lineage */}
       <section className="mb-14">

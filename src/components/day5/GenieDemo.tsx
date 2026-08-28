@@ -14,27 +14,28 @@ import {
 } from "recharts";
 
 const suggestedQuestions = [
-  "What was total commission by reporting unit last month?",
-  "Which customer segment grew the most in DACH?",
-  "Show top 5 customers by commission in Switzerland",
-  "How many policies were active at end of quarter?",
+  "What is our total commission by line of business this quarter?",
+  "Which clients are due for renewal in Q2 with premium over CHF 100k?",
+  "What is our claims ratio for Swiss property risks year-to-date?",
+  "Show the top 10 clients by premium volume in the DACH region",
 ];
 
 const generatedSQL = `SELECT
-  reporting_unit,
-  SUM(commission_amount) AS total_commission,
-  COUNT(DISTINCT customer_id) AS customer_count
+  line_of_business,
+  SUM(commission_earned_chf)  AS total_commission_chf,
+  SUM(total_premium_chf)      AS total_premium_chf,
+  COUNT(*)                    AS policy_count
 FROM enterprise.gold.commission_summary
-WHERE period_month = DATE_TRUNC('month', DATEADD(month, -1, CURRENT_DATE))
-GROUP BY reporting_unit
-ORDER BY total_commission DESC;`;
+WHERE period = DATE_TRUNC('quarter', CURRENT_DATE)
+GROUP BY line_of_business
+ORDER BY total_commission_chf DESC;`;
 
 const chartData = [
-  { unit: "Life & Pensions", commission: 4820000 },
-  { unit: "Property & Casualty", commission: 3640000 },
-  { unit: "Health", commission: 2190000 },
-  { unit: "Commercial Lines", commission: 1230000 },
-  { unit: "Specialty Risk", commission: 520000 },
+  { unit: "Property & Casualty", commission: 4820000 },
+  { unit: "D&O & Prof. Liability", commission: 3190000 },
+  { unit: "Marine & Cargo", commission: 2640000 },
+  { unit: "Specialty Risk", commission: 1530000 },
+  { unit: "Health & Benefits", commission: 820000 },
 ];
 
 const COLORS = ["#1E40AF", "#2563EB", "#3B82F6", "#60A5FA", "#93C5FD"];
@@ -201,7 +202,7 @@ export function GenieDemo() {
         {showResult && activeQuestion === suggestedQuestions[0] && (
           <div className="animate-in slide-in-from-bottom-2 duration-500">
             <p className="text-xs font-semibold text-gray-600 mb-3">
-              Total Commission by Reporting Unit — Last Month
+              Commission by Line of Business — Current Quarter (CHF)
             </p>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={chartData} margin={{ top: 4, right: 12, left: 12, bottom: 4 }}>
@@ -223,7 +224,7 @@ export function GenieDemo() {
               </BarChart>
             </ResponsiveContainer>
             <p className="text-xs text-gray-400 mt-2 text-center">
-              5 rows · Queried from enterprise.gold.commission_summary · 0.42s
+              5 rows · Queried from enterprise.gold.commission_summary · 0.38s
             </p>
           </div>
         )}
