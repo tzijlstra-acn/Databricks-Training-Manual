@@ -59,6 +59,32 @@ export default function WorkspaceMapPage() {
           ))}
         </div>
 
+        {/* FINMA scenario context */}
+        <div className="mb-8 rounded-2xl border border-orange-200 bg-orange-50 p-5">
+          <p className="text-xs font-bold text-[#F47920] uppercase tracking-wider mb-3">
+            Where does each section appear in the FINMA pipeline?
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              { icon: "📂", section: "Workspace", role: "Notebooks live here — finma_entity_validation.ipynb, Silver transformation logic, and ad-hoc analysis scripts." },
+              { icon: "🗄️", section: "Catalog", role: "All production tables: enterprise.bronze.bayo_raw → enterprise.silver.commissions_clean → enterprise.gold.finma_commission_summary." },
+              { icon: "⚙️", section: "Jobs & Pipelines", role: "The nightly FINMA pipeline runs here: CRM Ingest → Entity Attribution → DQ Gate → Gold Build → Abacus Reconciliation." },
+              { icon: "🖥️", section: "Compute", role: "Job Cluster for the nightly pipeline; SQL Warehouse for the dashboard and Genie queries; All-Purpose Cluster for notebook development." },
+              { icon: "📊", section: "Dashboards", role: "The FINMA executive dashboard: Commission CHF 12.4M · Attribution Rate 99.88% · Abacus Variance CHF 4,200 · Reports 5/5." },
+              { icon: "✨", section: "Genie Spaces", role: "Business users ask: 'What is total commission for SWIBRO AG this year?' — Genie queries enterprise.gold.finma_commission_summary and returns the answer." },
+              { icon: "🔔", section: "Alerts", role: "An alert fires if enterprise.silver.dq_rejected_records contains any new rows after the nightly pipeline — immediate email to the data team." },
+              { icon: "📜", section: "Query History", role: "Every SQL query run against the FINMA tables is logged here — useful for auditing who ran what before a submission." },
+            ].map(({ icon, section, role }) => (
+              <div key={section} className="bg-white rounded-xl border border-orange-100 px-4 py-3">
+                <p className="text-xs font-bold text-gray-700 mb-1">
+                  <span className="mr-1.5">{icon}</span>{section}
+                </p>
+                <p className="text-xs text-gray-500 leading-relaxed">{role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Full-page workspace explorer */}
         <WorkspaceExplorer />
 
