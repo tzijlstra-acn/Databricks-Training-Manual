@@ -61,13 +61,15 @@ export default function Day4Page() {
         </div>
       </div>
 
-      <HowdenContext>
-        Today the upload is manual — someone downloads a CSV, checks it looks roughly right, and uploads it.
-        If the file has wrong premium values or a missing insured name, nobody finds out until a report looks
-        wrong. Even with manual uploads as the starting point, Databricks <strong>Jobs</strong> can automate
-        everything that happens next: run data quality checks the moment a file lands, flag bad rows immediately,
-        and only update the Gold tables once the data passes. The manual step shrinks to just the upload;
-        the checking and processing becomes automatic.
+      <HowdenContext title="Automating the FINMA pipeline">
+        Today a data steward manually extracts from each CRM, checks the file looks roughly right, and sends
+        it to Accenture. If a BAYO row is attributed to the wrong entity, or the MAX export uses a different
+        commission field this year, nobody finds out until the FINMA report totals don&apos;t reconcile against
+        Abacus. With Databricks <strong>Jobs</strong>, the moment a file lands, automated DQ checks fire:{" "}
+        <em>Can every row be attributed to exactly one of the 5 entities? Is the commission field non-null?
+        Do the totals match Abacus cashflows within the CHF 10,000 / 5% variance threshold?</em> Rows
+        that fail are quarantined before they reach Silver — and an alert fires immediately so nothing slips
+        through to the 31 May submission.
       </HowdenContext>
 
       {/* Pipeline Visualizer */}

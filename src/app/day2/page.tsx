@@ -39,13 +39,14 @@ export default function Day2Page() {
           </div>
         </div>
 
-        <HowdenContext>
-          Right now, when a CSV arrives from a carrier portal, someone manually opens it in Excel, fixes the obvious
-          issues — lowercase names, wrong date formats, missing expiry dates — saves a &ldquo;cleaned&rdquo; version,
-          and sends it on. That fix exists only in their copy. <strong>Bronze</strong> solves the first problem: it
-          stores the original CSV untouched, so you can always go back. <strong>Silver</strong> applies those same
-          manual fixes automatically and consistently for everyone. <strong>Gold</strong> builds the commission
-          summary your team currently assembles by hand at end of quarter — done in seconds, every time.
+        <HowdenContext title="The FINMA scenario in Medallion terms">
+          Five CRM systems (BAYO, IBS Alabus, MAX, KETL, Vorsorge Partner) each export a different field name
+          for the commission amount. Critically, BAYO is shared by Howden Schweiz AG and SWIBRO AG — its extract
+          contains rows for both entities mixed together. <strong>Bronze</strong> stores every extract exactly as
+          delivered (untouched audit trail, always recoverable). <strong>Silver</strong> applies the fixes a data
+          steward does manually today: rename all commission field variants to one canonical name, split BAYO rows
+          correctly by entity, flag anything ambiguous. <strong>Gold</strong> produces 5 separate datasets — one
+          per entity — reconciled against Abacus and ready for FINMA submission by 31 May.
         </HowdenContext>
 
         {/* Catalog Tree */}

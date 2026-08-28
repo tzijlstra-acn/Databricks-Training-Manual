@@ -359,7 +359,7 @@ function WorkflowOrderQuiz() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function MultipleChoiceQuiz() {
-  const questions = quizQuestions.slice(0, 4);
+  const questions = quizQuestions.slice(0, 5);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [submitted, setSubmitted] = useState(false);
 

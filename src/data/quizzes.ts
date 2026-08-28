@@ -58,6 +58,18 @@ export const quizQuestions: QuizQuestion[] = [
     correct: 2,
     explanation: "Catalog contains Schemas, which contain Tables. For example: enterprise (catalog) → gold (schema) → customer_summary (table).",
   },
+  {
+    id: "q7",
+    question: "BAYO is the CRM used by both Howden Schweiz AG and SWIBRO AG. A single BAYO extract contains rows for both entities mixed together. Which Medallion layer correctly separates them?",
+    options: [
+      "Bronze — it splits entities on ingestion",
+      "Silver — it applies attribution logic after Bronze stores the raw extract",
+      "Gold — it separates entities at aggregation time",
+      "Abacus — the accounting system resolves entity attribution",
+    ],
+    correct: 1,
+    explanation: "Bronze stores the BAYO extract exactly as received — all entities mixed together. Silver is where the attribution logic runs: rows are assigned to Howden Schweiz AG or SWIBRO AG based on deal-level identifiers, then validated before the data moves to Gold.",
+  },
 ];
 
 export const layerAssignmentQuiz = [
