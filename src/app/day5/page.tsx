@@ -51,11 +51,12 @@ export default function Day5Page() {
       </div>
 
       <HowdenContext>
-        Howden&apos;s leadership can now ask <strong>Genie</strong>: &ldquo;What is our total commission for Swiss
-        property this quarter?&rdquo; and see a chart in 10 seconds — no IT ticket, no waiting for a report to be
-        run. Dashboards show KPIs like renewal rate, claims ratio, and premium volume by line of business. And if
-        a number looks unexpected, you can click it to <strong>trace it back</strong> to the exact policy records
-        that generated it — all the way to the raw carrier feed.
+        Today, getting total commission by line of business means someone assembles the CSVs, runs the pivot in
+        Excel, and sends a report — maybe a day later, maybe with last week&apos;s data. Once the CSVs are flowing
+        through Databricks, that same question becomes a 10-second <strong>Genie</strong> query:{" "}
+        &ldquo;What is our total commission for Swiss property this quarter?&rdquo; — answered live, from a
+        dashboard, by anyone. And if a number looks wrong, you can click it to trace it all the way back to the
+        exact row in the original CSV that generated it.
       </HowdenContext>
 
       {/* Dashboard Lineage */}

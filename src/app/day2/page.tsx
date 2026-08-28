@@ -40,11 +40,12 @@ export default function Day2Page() {
         </div>
 
         <HowdenContext>
-          A policy record arrives from the Zurich portal at 2 am. <strong>Bronze</strong> stores it exactly as
-          received — lowercase insured name, date in the wrong format, no expiry date. <strong>Silver</strong> cleans
-          it: name title-cased, ISO dates, coverage end date derived, premium parsed to a number.
-          <strong> Gold</strong> aggregates: total premium by line of business, commission earned in Q1, renewal rate
-          across the Property book. Your executive dashboard only ever queries Gold.
+          Right now, when a CSV arrives from a carrier portal, someone manually opens it in Excel, fixes the obvious
+          issues — lowercase names, wrong date formats, missing expiry dates — saves a &ldquo;cleaned&rdquo; version,
+          and sends it on. That fix exists only in their copy. <strong>Bronze</strong> solves the first problem: it
+          stores the original CSV untouched, so you can always go back. <strong>Silver</strong> applies those same
+          manual fixes automatically and consistently for everyone. <strong>Gold</strong> builds the commission
+          summary your team currently assembles by hand at end of quarter — done in seconds, every time.
         </HowdenContext>
 
         {/* Catalog Tree */}

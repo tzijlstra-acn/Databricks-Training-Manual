@@ -77,11 +77,11 @@ export default function Day3Page() {
       </div>
 
       <HowdenContext>
-        At Howden, a notebook might calculate loss ratios across the Swiss property portfolio, or model how different
-        deductible structures affect client retention. Instead of running that analysis in Excel on your laptop —
-        which might crash on 50,000 policy rows — Databricks runs it on a <strong>cluster</strong> (dozens of
-        machines working in parallel) and returns the answer in seconds. Your analysts write the logic once; the
-        platform handles the scale.
+        Today, if someone wants to calculate the loss ratio across the Swiss property portfolio, they assemble the
+        CSVs manually, run formulas in Excel, and hope nothing breaks on the large files. That analysis lives only
+        on their laptop — nobody else can reproduce it or build on it. A Databricks <strong>notebook</strong> is
+        the replacement: the logic is written once, runs on the same shared data everyone uses, and can handle the
+        full dataset without crashing. Anyone on the team can open it and re-run it tomorrow.
       </HowdenContext>
 
       {/* Notebook Simulator */}

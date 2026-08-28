@@ -37,11 +37,12 @@ export default function Day1Page() {
         </div>
 
         <HowdenContext>
-          Think of Databricks as the engine room for all of Howden&apos;s data. Instead of analysts downloading policy files
-          from carrier portals into Excel, Databricks pulls in data from Zurich, Lloyd&apos;s, and every other feed
-          automatically — and makes it available to the whole team at once. The <strong>Workspace</strong> is where
-          your scripts and notebooks live; the <strong>Catalog</strong> is where all your policy, premium, and
-          commission data sits, governed and ready to query.
+          Today, policy data arrives as CSV files — downloaded manually from Zurich, Lloyd&apos;s, or other carrier
+          portals, then uploaded or emailed around the team. Everyone has a slightly different copy; nobody is sure
+          which version is current. Databricks is the shared engine that changes this: once a CSV lands, the{" "}
+          <strong>Workspace</strong> holds the scripts that process it consistently for everyone, and the{" "}
+          <strong>Catalog</strong> becomes the single governed place where the result lives — no more spreadsheets
+          flying around in email.
         </HowdenContext>
 
         {/* Workspace Explorer */}
