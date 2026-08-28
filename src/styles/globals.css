@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Howden brand tokens */
+    --brand-navy: #1F2144;
+    --brand-navy-light: #E8E9F0;
+    --brand-orange: #F47920;
+    --brand-orange-light: #FFF3E8;
+    --sidebar-bg: #1F2144;
+    --sidebar-text: #FFFFFF;
+    --sidebar-active: #F47920;
+    --topnav-bg: #FFFFFF;
+    --primary-button-bg: #F47920;
+    --primary-button-text: #FFFFFF;
+    --surface: #F8F9FA;
+
+    /* Shadcn/Tailwind CSS variables — primary mapped to Howden navy */
+    --background: 0 0% 100%;
+    --foreground: 237 37% 19%;
+    --card: 0 0% 100%;
+    --card-foreground: 237 37% 19%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 237 37% 19%;
+    --primary: 237 37% 19%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 237 20% 93%;
+    --secondary-foreground: 237 37% 19%;
+    --muted: 237 20% 93%;
+    --muted-foreground: 237 10% 46%;
+    --accent: 25 91% 54%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 237 20% 88%;
+    --input: 237 20% 88%;
+    --ring: 25 91% 54%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-surface text-foreground;
+    font-family: var(--font-geist-sans, "Geist"), "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  /* Bronze layer theme */
+  .bronze-layer {
+    background-color: #FDF3E7;
+    border-color: #E8B86D;
+  }
+
+  /* Silver layer theme */
+  .silver-layer {
+    background-color: #F3F4F6;
+    border-color: #D1D5DB;
+  }
+
+  /* Gold layer theme */
+  .gold-layer {
+    background-color: #FFFBEB;
+    border-color: #FCD34D;
+  }
+
+  /* Animated gradient for data flow */
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  /* Flow animation for connector paths */
+  .flow-path {
+    stroke-dasharray: 12 6;
+    animation: flow-dash 1.5s linear infinite;
+  }
+
+  /* Pulse glow effect */
+  .pulse-glow-bronze {
+    animation: pulse-glow-bronze 2s ease-in-out infinite;
+  }
+
+  .pulse-glow-silver {
+    animation: pulse-glow-silver 2s ease-in-out infinite;
+  }
+
+  .pulse-glow-gold {
+    animation: pulse-glow-gold 2s ease-in-out infinite;
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes flow-dash {
+  to { stroke-dashoffset: -18; }
+}
+
+@keyframes pulse-glow-bronze {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(205, 127, 50, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(205, 127, 50, 0.3); }
+}
+
+@keyframes pulse-glow-silver {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(156, 163, 175, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(156, 163, 175, 0.4); }
+}
+
+@keyframes pulse-glow-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(217, 119, 6, 0.3); }
+}
+
+/* XYFlow / React Flow overrides */
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+}
+
+/* Presentation mode */
+.presentation-mode {
+  font-size: 1.1em;
+}
+
+.presentation-mode h1 { font-size: 2.5rem; }
+.presentation-mode h2 { font-size: 2rem; }
+.presentation-mode h3 { font-size: 1.5rem; }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
