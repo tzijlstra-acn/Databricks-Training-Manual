@@ -65,7 +65,7 @@ export default function Day1Page() {
           </div>
           <WorkspaceExplorer />
 
-          <AdvancedSection title="Delta Lake — The Storage Layer" badge="Architecture">
+          <AdvancedSection title="Delta Lake: The Storage Layer" badge="Architecture">
             <div className="space-y-4 text-sm text-gray-700">
               <p>
                 Delta Lake is an open-source storage layer that brings <strong>ACID transactions</strong> to data lakes.
@@ -100,7 +100,7 @@ SELECT * FROM enterprise.gold.customer_summary VERSION AS OF 42;`}
             </div>
           </AdvancedSection>
 
-          <AdvancedSection title="Apache Spark — The Compute Engine" badge="Engineering">
+          <AdvancedSection title="Apache Spark: The Compute Engine" badge="Engineering">
             <div className="space-y-4 text-sm text-gray-700">
               <p>
                 Spark is a <strong>distributed computing engine</strong>. It splits work across many machines so a

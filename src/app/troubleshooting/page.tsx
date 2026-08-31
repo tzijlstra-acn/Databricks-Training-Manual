@@ -47,7 +47,7 @@ export default function TroubleshootingPage() {
                 : "text-gray-500 hover:text-gray-700"
             )}
           >
-            {tab === "scenarios" ? "Decision Trees" : "FAQ — 20 Questions"}
+            {tab === "scenarios" ? "Decision Trees" : "FAQ: 20 Questions"}
           </button>
         ))}
       </div>
@@ -92,7 +92,7 @@ export default function TroubleshootingPage() {
                           : "bg-gray-100 text-gray-500"
                       )}
                     >
-                      {isActive ? "Active — click to close" : "Click to explore"}
+                      {isActive ? "Active. Click to close." : "Click to explore"}
                     </span>
                   </div>
                 </button>
@@ -140,7 +140,7 @@ export default function TroubleshootingPage() {
       {pageTab === "faq" && (
         <div className="space-y-4">
           <p className="text-sm text-gray-500">
-            20 frequently asked questions — covering platform basics, the
+            20 frequently asked questions covering platform basics, the
             Medallion architecture, the FINMA pipeline, and analytics tools.
             Filter by topic using the chips below.
           </p>

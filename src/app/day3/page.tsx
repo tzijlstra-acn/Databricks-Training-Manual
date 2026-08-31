@@ -142,7 +142,7 @@ dbutils.fs.cp("source/path/file.csv", "dest/path/file.csv")
           </div>
         </AdvancedSection>
 
-        <AdvancedSection title="Spark Execution Model — DAG, Stages & Tasks" badge="Engineering">
+        <AdvancedSection title="Spark Execution Model: DAG, Stages & Tasks" badge="Engineering">
           <div className="space-y-4 text-sm text-gray-700">
             <p>
               Spark uses <strong>lazy evaluation</strong>: transformations (<code className="bg-gray-100 px-1 rounded">.filter()</code>,

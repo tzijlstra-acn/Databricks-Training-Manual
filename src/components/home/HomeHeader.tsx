@@ -27,7 +27,7 @@ export function HomeHeader() {
           <span className="text-[#F47920]">Learning Journey</span>
         </h1>
         <p className="text-lg text-[#6B7280] mt-3 max-w-xl">
-          From raw data to trusted business insight — in 5 days.
+          From raw data to trusted business insight, in 5 days.
         </p>
         <div className="flex gap-3 mt-4">
           {[

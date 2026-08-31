@@ -31,21 +31,21 @@ const DIFFICULTIES: {
     key: "beginner",
     label: "Beginner",
     description:
-      "Conceptual — what each tool does and how it maps to Howden's insurance workflow",
+      "Conceptual: what each tool does and how it maps to Howden's insurance workflow",
     dot: "bg-green-500",
   },
   {
     key: "standard",
     label: "Standard",
     description:
-      "Applied — choosing the right tool, interpreting results, working with the FINMA scenario",
+      "Applied: choosing the right tool, interpreting results, working with the FINMA scenario",
     dot: "bg-blue-500",
   },
   {
     key: "pro",
     label: "Pro",
     description:
-      "Technical — SQL, PySpark, DQX rule logic, architecture decisions, FINMA edge cases",
+      "Technical: SQL, PySpark, DQX rule logic, architecture decisions, FINMA edge cases",
     dot: "bg-purple-500",
   },
 ];
@@ -70,19 +70,19 @@ function getScoreTier(pct: number): {
     return {
       label: "Expert",
       color: "text-purple-600",
-      desc: "Outstanding — ready to lead the Databricks conversation",
+      desc: "Outstanding. Ready to lead the Databricks conversation.",
     };
   if (pct >= 75)
     return {
       label: "Strong",
       color: "text-blue-600",
-      desc: "Solid understanding — review a few areas and you're there",
+      desc: "Solid understanding. Review a few areas and you are there.",
     };
   if (pct >= 50)
     return {
       label: "Developing",
       color: "text-yellow-600",
-      desc: "Good foundation — review the explanations and retry",
+      desc: "Good foundation. Review the explanations and retry.",
     };
   return {
     label: "Needs Review",
@@ -301,7 +301,7 @@ export function FullTest() {
                   <div key={day}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm font-medium text-gray-700">
-                        Day {day} — {label}
+                        Day {day}: {label}
                       </span>
                       <span className="text-sm font-bold text-gray-900">
                         {correct}/{total}
@@ -546,8 +546,8 @@ export function FullTest() {
       {/* Unanswered hint on last question */}
       {isLast && unanswered > 0 && (
         <p className="text-center text-xs text-amber-600">
-          {unanswered} question{unanswered !== 1 ? "s" : ""} unanswered — you
-          can go back or submit anyway
+          {unanswered} question{unanswered !== 1 ? "s" : ""} unanswered. You
+          can go back or submit anyway.
         </p>
       )}
     </div>

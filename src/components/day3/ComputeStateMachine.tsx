@@ -147,7 +147,7 @@ export function ComputeStateMachine() {
     setRunning(true);
 
     await new Promise((r) => setTimeout(r, 2800));
-    setRunResult({ status: "success", message: "✓ 3 valid records — CHF 58,900 aggregated to enterprise.gold.commission_by_entity" });
+    setRunResult({ status: "success", message: "✓ 3 valid records. CHF 58,900 aggregated to enterprise.gold.commission_by_entity" });
     setRunning(false);
     startIdleCountdown();
   }, [running, clusterState, attached, clearAll, startDbu, startIdleCountdown]);
@@ -231,7 +231,7 @@ export function ComputeStateMachine() {
                 >
                   <AlertTriangle className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
                   <p className="text-[10px] text-orange-700">
-                    Idle — auto-terminating in <strong>{idleCountdown}s</strong>. Run a cell to reset.
+                    Idle. Auto-terminating in <strong>{idleCountdown}s</strong>. Run a cell to reset.
                   </p>
                 </motion.div>
               )}
@@ -296,7 +296,7 @@ export function ComputeStateMachine() {
             {/* Code cell */}
             <div className="rounded-xl border border-gray-200 overflow-hidden">
               <div className="bg-[#1F2144] px-3 py-2 flex items-center justify-between">
-                <span className="text-[10px] text-gray-400 font-mono">Cell 1 — Aggregate by entity</span>
+                <span className="text-[10px] text-gray-400 font-mono">Cell 1: Aggregate by entity</span>
                 <motion.button
                   onClick={handleRun}
                   disabled={running}

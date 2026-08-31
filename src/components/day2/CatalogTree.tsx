@@ -224,7 +224,7 @@ export function CatalogTree() {
                   <div key={type} className="flex items-center gap-2 text-sm text-gray-600">
                     <span className="text-gray-400">{analogyIcon[type]}</span>
                     <span>
-                      <strong>{label}</strong> — {desc}
+                      <strong>{label}</strong>: {desc}
                     </span>
                   </div>
                 ))}

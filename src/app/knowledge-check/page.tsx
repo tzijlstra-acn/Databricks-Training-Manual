@@ -36,7 +36,7 @@ export default function KnowledgeCheckPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Full Assessment</h1>
           <p className="text-sm text-gray-500 mt-1">
-            40 questions across all 5 days and 3 difficulty levels — grounded
+            40 questions across all 5 days and 3 difficulty levels, grounded
             in the Howden FINMA scenario. Pick a level, optionally filter to a
             single day, and submit at the end to see your score with
             explanations.

@@ -151,7 +151,7 @@ export function PipelineVisualizer() {
       {/* Header bar */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="font-semibold text-gray-900">Commission Pipeline — Daily Run</h3>
+          <h3 className="font-semibold text-gray-900">Commission Pipeline: Daily Run</h3>
           <p className="text-xs text-gray-500 mt-0.5">Scheduled: 02:00 UTC · Last run: 2024-01-22 02:09</p>
         </div>
         <button
@@ -205,7 +205,7 @@ export function PipelineVisualizer() {
           <div className="flex items-start gap-3">
             <span className="text-2xl flex-shrink-0">🚨</span>
             <div className="flex-1">
-              <p className="font-bold text-red-800 text-sm">{selectedFailedTask.name} — Error Details</p>
+              <p className="font-bold text-red-800 text-sm">{selectedFailedTask.name}: Error Details</p>
               <p className="text-sm text-red-700 mt-2 font-mono leading-relaxed bg-red-100 rounded-xl p-3">
                 {selectedFailedTask.errorMessage}
               </p>
@@ -215,9 +215,9 @@ export function PipelineVisualizer() {
                 <ol className="space-y-1.5">
                   {[
                     "Query Silver table for null commission_amount records: SELECT COUNT(*) FROM enterprise.silver.commissions WHERE commission_amount IS NULL",
-                    "Investigate the source system for the batch that loaded today — check for ETL errors upstream",
+                    "Investigate the source system for the batch that loaded today. Check for data loading errors upstream.",
                     "If data is expected to be partially null, adjust the DQX threshold rule from 2% to 5%",
-                    "Re-run the pipeline from task 3 after resolving — use 'Repair run' in the Jobs UI",
+                    "Re-run the pipeline from task 3 after resolving. Use 'Repair run' in the Jobs UI.",
                   ].map((step, i) => (
                     <li key={i} className="flex items-start gap-2 text-xs text-red-700">
                       <span className="font-bold text-red-500 flex-shrink-0">{i + 1}.</span>

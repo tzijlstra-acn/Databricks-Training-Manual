@@ -188,7 +188,7 @@ export function GenieDemo() {
               className="flex items-center gap-2 text-xs font-semibold text-gray-600 hover:text-gray-900 mb-2 group"
             >
               <span className="group-hover:text-primary-700">⌨️ Generated SQL</span>
-              <span className="text-gray-400">— click to {showSQL ? "collapse" : "expand"}</span>
+              <span className="text-gray-400">({showSQL ? "collapse" : "expand"})</span>
             </button>
             {showSQL && (
               <pre className="bg-gray-950 text-green-300 text-xs font-mono p-4 rounded-xl overflow-x-auto leading-relaxed">

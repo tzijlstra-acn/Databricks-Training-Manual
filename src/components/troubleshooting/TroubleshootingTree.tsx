@@ -298,7 +298,7 @@ export function TroubleshootingTree({ scenario }: TroubleshootingTreeProps) {
       {/* ── Visual flowchart ── */}
       <div className="bg-gray-50 rounded-2xl border border-gray-100 p-5">
         <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-6">
-          Full decision tree — highlighted nodes show your current path
+          Full decision tree. Highlighted nodes show your current path.
         </p>
         <div className="overflow-x-auto pb-2">
           <div className="inline-flex justify-center min-w-full py-2">

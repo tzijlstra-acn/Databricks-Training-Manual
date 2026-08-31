@@ -4,7 +4,7 @@ import { AlertTriangle, CheckCircle2, Target, Shield } from "lucide-react";
 
 // 5 real entities — each needs its own FINMA submission by 31 May
 const ENTITIES = [
-  { id: 1, name: "Howden Schweiz AG",        crm: "BAYO + IBS Alabus", note: "Dual CRM — BAYO shared with SWIBRO" },
+  { id: 1, name: "Howden Schweiz AG",        crm: "BAYO + IBS Alabus", note: "Dual CRM (BAYO shared with SWIBRO)" },
   { id: 2, name: "Howden Broker Services AG", crm: "MAX",               note: "" },
   { id: 3, name: "SWIBRO AG",                 crm: "BAYO",              note: "Shares BAYO extract with Howden Schweiz" },
   { id: 4, name: "Perennial AG",              crm: "KETL",              note: "" },
@@ -41,11 +41,11 @@ export function ScenarioIntro() {
             </span>
           </div>
           <h2 className="text-xl font-bold mb-2">
-            FINMA Intermediary Reporting — 5 Entities, 5 CRM Systems, 1 Deadline
+            FINMA Intermediary Reporting: 5 Entities, 5 CRM Systems, 1 Deadline
           </h2>
           <p className="text-sm text-blue-100 leading-relaxed max-w-3xl">
             Under Article 190b of the Insurance Supervision Ordinance (ISO), every Howden Swiss entity must
-            submit an annual intermediary report to FINMA by <strong className="text-white">31 May</strong> —
+            submit an annual intermediary report to FINMA by <strong className="text-white">31 May</strong>,
             covering commissions, sales structures, and client data. Each entity uses a different CRM system.
             Data stewards extract the files manually and deliver them as Excel exports. This week you will
             learn how Databricks turns those raw extracts into 5 validated, submission-ready reports.
@@ -89,7 +89,7 @@ export function ScenarioIntro() {
           </div>
           <p className="text-xs text-red-700 mb-3 leading-relaxed">
             Each CRM exports a different field name for the commission amount. Worse: BAYO is shared by
-            Howden Schweiz AG and SWIBRO AG — a single export contains rows for both entities mixed
+            Howden Schweiz AG and SWIBRO AG: a single export contains rows for both entities mixed
             together, and they must be correctly separated before any report can be built.
           </p>
           <div className="space-y-1.5">
@@ -143,7 +143,7 @@ export function ScenarioIntro() {
         <div className="mt-5 pt-4 border-t border-orange-200 flex items-start gap-2">
           <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
           <p className="text-sm text-gray-700 leading-relaxed">
-            <strong>End state:</strong> 5 entity-attributed commission datasets in Gold — field-standardised,
+            <strong>End state:</strong> 5 entity-attributed commission datasets in Gold, field-standardised,
             entity-correctly-split (including BAYO), reconciled against Abacus, traceable to the original
             CRM extract, and ready for FINMA submission by 31 May.
           </p>

@@ -90,7 +90,7 @@ export default function WorkspaceMapPage() {
 
         {/* Footer note */}
         <p className="text-xs text-gray-400 mt-6 text-center">
-          This is a visual simulation of the Databricks interface — not the live system.
+          This is a visual simulation of the Databricks interface, not the live system.
           Open the real workspace at your organisation&apos;s Databricks URL.
         </p>
       </div>

@@ -39,7 +39,7 @@ const stages: DataStage[] = [
     changedFields: [],
     tags: ["Raw", "Source-aligned", "Unvalidated"],
     description:
-      "Extracted from BAYO CRM. Amounts arrive as strings, insured is lowercase, inception is YYYYMMDD — not yet typed, normalised, or attributed.",
+      "Extracted from BAYO CRM. Amounts arrive as strings, insured is lowercase, inception is YYYYMMDD. Not yet typed, normalised, or attributed.",
   },
   {
     id: "silver",
@@ -90,7 +90,7 @@ const stages: DataStage[] = [
     },
     changedFields: ["period", "commission_chf", "deal_count", "finma_ready"],
     fieldNotes: {
-      commission_chf: "aggregated — 2 deals",
+      commission_chf: "aggregated (2 deals)",
       deal_count:     "COUNT(deal_id) per entity",
       finma_ready:    "Abacus delta < CHF 10k / 5%",
     },
@@ -136,7 +136,7 @@ export function FollowTheData() {
         <div>
           <h2 className="text-2xl font-bold text-[#1F2144]">Follow The Record</h2>
           <p className="text-gray-500 mt-1">
-            Watch deal <span className="font-mono font-semibold text-gray-700">BAYO-2025-441</span> transform through all three layers — field by field.
+            Watch deal <span className="font-mono font-semibold text-gray-700">BAYO-2025-441</span> transform through all three layers, field by field.
           </p>
         </div>
         <div className="flex gap-2">
@@ -305,7 +305,7 @@ export function FollowTheData() {
           className="mt-4 rounded-xl bg-green-50 border border-green-200 p-4 text-sm text-green-800"
         >
           <strong>BAYO-2025-441 journey complete.</strong> Raw string amount cast to{" "}
-          <span className="font-mono">DOUBLE</span>, entity attributed, dates normalised — now
+          <span className="font-mono">DOUBLE</span>, entity attributed, dates normalised. Now
           aggregated into the Gold table ready for the FINMA Article 190b submission.
         </motion.div>
       )}

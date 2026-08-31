@@ -361,7 +361,7 @@ export function WriteYourOwnRule() {
               </p>
               <div className="rounded-xl bg-[#1F2144] overflow-hidden">
                 <div className="px-4 py-2 border-b border-white/10">
-                  <span className="text-xs text-white/50 font-mono">Silver notebook — quality gate cell</span>
+                  <span className="text-xs text-white/50 font-mono">Silver notebook: quality gate cell</span>
                 </div>
                 <pre className="px-4 py-3 text-xs font-mono text-green-400 overflow-x-auto whitespace-pre-wrap">{`rules = [
     is_not_null("entity_id"),

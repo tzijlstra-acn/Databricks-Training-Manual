@@ -52,7 +52,7 @@ export default function GlossaryPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Glossary</h1>
         <p className="text-sm text-gray-500 mt-1">
-          {glossaryTerms.length} terms — click any related term chip to jump to it
+          {glossaryTerms.length} terms. Click any related term chip to jump to it.
         </p>
       </div>
 

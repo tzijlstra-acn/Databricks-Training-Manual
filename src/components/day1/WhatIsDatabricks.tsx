@@ -53,7 +53,7 @@ const PILLARS = [
     bg: "#ECFEFF",
     border: "#A5F3FC",
     title: "Built for collaboration",
-    body: "Analysts, engineers, and business users all work from the same platform. Notebooks, dashboards, and tables are shared — not siloed.",
+    body: "Analysts, engineers, and business users all work from the same platform. Notebooks, dashboards, and tables are shared, not siloed.",
   },
   {
     icon: ShieldCheck,
@@ -69,7 +69,7 @@ const PILLARS = [
     bg: "#F5F3FF",
     border: "#DDD6FE",
     title: "Scales with the data",
-    body: "Whether you are processing 100 rows or 100 million, the same code works. Databricks allocates the compute you need — and shuts it down when you are done.",
+    body: "Whether you are processing 100 rows or 100 million, the same code works. Databricks allocates the compute you need and shuts it down when you are done.",
   },
 ];
 
@@ -79,13 +79,13 @@ const DAY1_PATH = [
   {
     step: "1",
     title: "What Databricks is",
-    desc: "The platform in plain language — and why Howden is using it",
+    desc: "The platform in plain language, and why Howden is using it",
     done: true,
   },
   {
     step: "2",
     title: "The Workspace",
-    desc: "Navigate the interface — where notebooks, data, and jobs live",
+    desc: "Navigate the interface: where notebooks, data, and jobs live",
     done: false,
   },
   {
@@ -117,8 +117,8 @@ export function WhatIsDatabricks() {
             Databricks is a <span className="text-[#F47920]">data intelligence platform</span>.
           </h2>
           <p className="text-white/80 text-base leading-relaxed max-w-3xl">
-            It is the place where raw data — arriving from your CRM systems, financial feeds, and other
-            sources — is cleaned, validated, and turned into the trusted numbers your business runs on.
+            It is the place where raw data (from your CRM systems, financial feeds, and other sources)
+            is cleaned, validated, and turned into the trusted numbers your business runs on.
             Think of it as the factory floor between your source systems and your reports.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -142,7 +142,7 @@ export function WhatIsDatabricks() {
       {/* ── 2. Four pillars ────────────────────────────────────────────────── */}
       <section>
         <h3 className="text-lg font-bold text-gray-900 mb-4">
-          What it actually does — four things worth knowing
+          What it actually does: four things worth knowing
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {PILLARS.map(({ icon: Icon, color, bg, border, title, body }) => (
@@ -184,11 +184,11 @@ export function WhatIsDatabricks() {
           <div className="grid grid-cols-2 divide-x divide-gray-200">
             <div className="flex items-center gap-2 px-5 py-3 bg-red-50 border-b border-gray-200">
               <FileSpreadsheet className="w-4 h-4 text-red-500" />
-              <span className="text-xs font-bold text-red-700 uppercase tracking-wide">Today — without Databricks</span>
+              <span className="text-xs font-bold text-red-700 uppercase tracking-wide">Today, without Databricks</span>
             </div>
             <div className="flex items-center gap-2 px-5 py-3 bg-green-50 border-b border-gray-200">
               <CheckCircle2 className="w-4 h-4 text-green-500" />
-              <span className="text-xs font-bold text-green-700 uppercase tracking-wide">After — with Databricks</span>
+              <span className="text-xs font-bold text-green-700 uppercase tracking-wide">After, with Databricks</span>
             </div>
           </div>
 
@@ -218,7 +218,7 @@ export function WhatIsDatabricks() {
       <section>
         <h3 className="text-lg font-bold text-gray-900 mb-2">What you will cover today</h3>
         <p className="text-sm text-gray-500 mb-5">
-          Day 1 is about orientation — no code required. By the end you will know where everything is
+          Day 1 is about orientation. No code required. By the end you will know where everything is
           and what it does.
         </p>
 

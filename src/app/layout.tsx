@@ -11,7 +11,7 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 
 export const metadata: Metadata = {
   title: "Databricks Learning Platform",
-  description: "5-day interactive guide to Databricks — from raw data to trusted business insight",
+  description: "5-day interactive guide to Databricks: from raw data to trusted business insight.",
 };
 
 export default function RootLayout({

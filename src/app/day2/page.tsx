@@ -227,7 +227,7 @@ ADD COLUMN loyalty_tier STRING;`}
         {/* Medallion Playground */}
         <section className="mb-14">
           <div className="mb-5">
-            <h3 className="text-lg font-semibold text-gray-900">Playground — Watch Records Transform</h3>
+            <h3 className="text-lg font-semibold text-gray-900">Playground: Watch Records Transform</h3>
             <p className="text-sm text-gray-500 mt-1">
               Four real BAYO extracts, three transformation stages. Click through to see which records pass,
               which get quarantined, and what the Gold layer looks like for the FINMA submission.
@@ -305,7 +305,7 @@ LOCATION 'abfss://raw@storageaccount.dfs.core.windows.net/policies/';`}
             </div>
           </AdvancedSection>
 
-          <AdvancedSection title="Unity Catalog Governance — Row & Column Security" badge="Governance">
+          <AdvancedSection title="Unity Catalog Governance: Row & Column Security" badge="Governance">
             <div className="space-y-4 text-sm text-gray-700">
               <p>
                 Unity Catalog lets you enforce fine-grained access at the row and column level, without changing
