@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { markDayVisited } from "@/lib/progress";
-import { PipelineVisualizer } from "@/components/day4/PipelineVisualizer";
+import { PipelineSimulator } from "@/components/day4/PipelineSimulator";
 import { DQXFlow } from "@/components/day4/DQXFlow";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
@@ -72,14 +72,15 @@ export default function Day4Page() {
         through to the 31 May submission.
       </HowdenContext>
 
-      {/* Pipeline Visualizer */}
+      {/* Pipeline Simulator */}
       <div>
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Pipeline Visualizer</h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Pipeline Dependency Graph</h2>
         <p className="text-sm text-gray-500 mb-4">
-          Click <strong>Run Now</strong> to simulate the pipeline. Watch tasks activate in sequence — and see what happens when a quality gate fails.
+          Choose a failure scenario, then click <strong>Run Scenario</strong> to watch tasks execute in sequence.
+          See how a failure upstream blocks all downstream tasks — and why the FINMA Gold tables are protected.
         </p>
         <div className="rounded-2xl border border-gray-200 bg-white p-5">
-          <PipelineVisualizer />
+          <PipelineSimulator />
         </div>
 
         <AdvancedSection title="Multi-Task Job Orchestration" badge="Engineering">

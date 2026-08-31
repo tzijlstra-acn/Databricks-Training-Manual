@@ -24,10 +24,10 @@ const layers = [
       inception_dt: "20240101",
       expiry_dt: "",
       broker_fee_pct: "10",
-      source_system: "ZUR_PORTAL_V2",
+      source_system: "BAYO_CRM_V2",
     },
-    issues: ["Insured name in lowercase", "LoB code not human-readable", "Dates in YYYYMMDD not ISO", "Expiry date missing", "Premium stored as string"],
-    description: "Exact copy of what arrived from the Zurich carrier portal. No changes. Preserves the original — warts and all.",
+    issues: ["Insured name in lowercase", "LoB code not human-readable", "Dates in YYYYMMDD not ISO", "Expiry date missing", "Commission amount stored as string"],
+    description: "Exact copy of what arrived from the BAYO CRM export. No changes. Preserves the original — warts and all.",
   },
   {
     id: "silver",
@@ -248,12 +248,12 @@ export function MedallionFlow() {
                 {
                   emoji: "🐛",
                   title: "Dirty data",
-                  body: "Bronze contains exactly what arrived from the carrier portal — lowercase insured names, missing expiry dates, premium amounts stored as strings. Reporting on it means your commission dashboard reflects those errors.",
+                  body: "Bronze contains exactly what arrived from the CRM export — lowercase insured names, missing expiry dates, commission amounts stored as strings. Reporting on it means your commission dashboard reflects those errors.",
                 },
                 {
                   emoji: "📐",
                   title: "No standards",
-                  body: "The Zurich portal sends YYYYMMDD dates; the Lloyd's feed sends DD/MM/YYYY. Without Silver's standardisation, a JOIN between two Bronze tables would silently drop or double-count policies.",
+                  body: "BAYO exports dates as YYYYMMDD; IBS Alabus exports DD/MM/YYYY. Without Silver&apos;s standardisation, a JOIN between two Bronze tables would silently drop or double-count commission records.",
                 },
                 {
                   emoji: "🔢",

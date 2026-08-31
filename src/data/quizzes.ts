@@ -75,9 +75,9 @@ export const quizQuestions: QuizQuestion[] = [
 export const layerAssignmentQuiz = [
   {
     id: "record-1",
-    description: "POL-2024-77821,helvetica ag,PROP,485000,CHF,20240101,,10,ZUR_PORTAL_V2",
+    description: "POL-2024-77821,helvetica ag,PROP,485000,CHF,20240101,,10,BAYO_CRM_V2",
     correct: "bronze",
-    hint: "Lowercase insured name, LoB code not decoded, date not ISO, expiry missing — this is raw carrier data exactly as received.",
+    hint: "Lowercase insured name, LoB code not decoded, date not ISO, expiry missing — this is raw CRM data exactly as received.",
   },
   {
     id: "record-2",

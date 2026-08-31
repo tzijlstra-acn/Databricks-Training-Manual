@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { markDayVisited } from "@/lib/progress";
 import { NotebookSimulator } from "@/components/day3/NotebookSimulator";
 import { ComputeExplainer } from "@/components/day3/ComputeExplainer";
+import { ComputeStateMachine } from "@/components/day3/ComputeStateMachine";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 import { cn } from "@/lib/utils";
@@ -186,8 +187,15 @@ print(df.rdd.getNumPartitions())
 
       {/* Compute Explainer */}
       <div>
-        <h2 className="text-lg font-bold text-gray-900 mb-3">Understanding Compute</h2>
-        <ComputeExplainer />
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Understanding Compute</h2>
+        <p className="text-sm text-gray-500 mb-4">
+          Compute is what actually executes your code. Without it, your notebook is just a text file.
+          Walk through the cluster lifecycle — start, attach, run, idle, terminate — before reading the reference cards below.
+        </p>
+        <ComputeStateMachine />
+        <div className="mt-5">
+          <ComputeExplainer />
+        </div>
 
         <AdvancedSection title="Cluster Configuration & Optimization" badge="Engineering">
           <div className="space-y-4 text-sm text-gray-700">

@@ -37,9 +37,10 @@ export default function Day1Page() {
         </div>
 
         <HowdenContext>
-          Today, policy data arrives as CSV files — downloaded manually from Zurich, Lloyd&apos;s, or other carrier
-          portals, then uploaded or emailed around the team. Everyone has a slightly different copy; nobody is sure
-          which version is current. Databricks is the shared engine that changes this: once a CSV lands, the{" "}
+          Today, CRM data and commission records arrive as CSV or Excel exports — extracted manually from BAYO,
+          IBS Alabus, MAX, KETL, and the Vorsorge Partner CRM by data stewards, then uploaded or emailed around the
+          team. Everyone has a slightly different copy; nobody is sure which version is current. Databricks is the
+          shared engine that changes this: once an export lands, the{" "}
           <strong>Workspace</strong> holds the scripts that process it consistently for everyone, and the{" "}
           <strong>Catalog</strong> becomes the single governed place where the result lives — no more spreadsheets
           flying around in email.

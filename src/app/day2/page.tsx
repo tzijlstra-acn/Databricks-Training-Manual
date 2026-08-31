@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { markDayVisited } from "@/lib/progress";
 import { CatalogTree } from "@/components/day2/CatalogTree";
 import { MedallionFlow } from "@/components/day2/MedallionFlow";
+import { MedallionPlayground } from "@/components/day2/MedallionPlayground";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 
@@ -271,6 +272,19 @@ SET TBLPROPERTIES ('delta.columnMapping.mode' = 'name');`}
                 ))}
               </tbody>
             </table>
+          </div>
+        </section>
+
+        {/* Medallion Playground */}
+        <section className="mb-14">
+          <div className="mb-5">
+            <h2 className="text-xl font-bold text-gray-900">Medallion Playground — Watch Records Transform</h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Four real BAYO extracts, three transformation stages. Click through to see which records pass, which get quarantined, and what the Gold layer looks like for the FINMA submission.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-gray-200 bg-white p-6">
+            <MedallionPlayground />
           </div>
         </section>
       </div>
