@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { Database, Folder, FileText, Table2, Lock, ArrowRight } from "lucide-react";
 import { markDayVisited } from "@/lib/progress";
+import { WhatIsDatabricks } from "@/components/day1/WhatIsDatabricks";
 import { WorkspaceExplorer } from "@/components/day1/WorkspaceExplorer";
 import { FirstTenMinutes } from "@/components/day1/FirstTenMinutes";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
@@ -37,14 +38,21 @@ export default function Day1Page() {
         </div>
 
         <HowdenContext>
-          Today, CRM data and commission records arrive as CSV or Excel exports — extracted manually from BAYO,
-          IBS Alabus, MAX, KETL, and the Vorsorge Partner CRM by data stewards, then uploaded or emailed around the
-          team. Everyone has a slightly different copy; nobody is sure which version is current. Databricks is the
-          shared engine that changes this: once an export lands, the{" "}
-          <strong>Workspace</strong> holds the scripts that process it consistently for everyone, and the{" "}
-          <strong>Catalog</strong> becomes the single governed place where the result lives — no more spreadsheets
-          flying around in email.
+          Three types of source data feed the pipeline. First: commission exports extracted manually from five CRMs —
+          BAYO, IBS Alabus, MAX, KETL, and the Vorsorge Partner CRM — uploaded or emailed by data stewards. Second: a{" "}
+          <strong>product type mapping table</strong> that links CRM product codes to the FINMA intermediary product
+          categories required for regulatory submission. Third: an <strong>insurer name mapping table</strong> that
+          resolves the insurer names recorded in each CRM to the FINMA-registered entity names. Both reference tables
+          arrive as dedicated database uploads, separate from the CRM extracts. Databricks is the shared engine that
+          brings all three together: the <strong>Workspace</strong> holds the scripts that join and validate them
+          consistently, and the <strong>Catalog</strong> becomes the single governed place where the result lives —
+          no more spreadsheets flying around in email.
         </HowdenContext>
+
+        {/* What is Databricks */}
+        <section className="mb-14">
+          <WhatIsDatabricks />
+        </section>
 
         {/* Workspace Explorer */}
         <section className="mb-14">

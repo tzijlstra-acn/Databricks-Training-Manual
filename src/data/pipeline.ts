@@ -3,16 +3,16 @@ import { PipelineTask } from "@/lib/types";
 export const pipelineTasks: PipelineTask[] = [
   {
     id: "task-1",
-    name: "CRM Extract Ingestion",
-    description: "Load raw extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM into Bronze tables — untouched, exactly as delivered by the data stewards.",
+    name: "Bronze Ingestion",
+    description: "Load three source types into Bronze: (1) raw commission extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM — untouched as delivered; (2) product type mapping table (CRM codes → FINMA intermediary product categories); (3) insurer name mapping table (CRM insurer names → FINMA-registered entity names). Reference tables arrive as dedicated database uploads, not CRM exports.",
     status: "success",
     duration: "2m 14s",
     type: "ingestion",
   },
   {
     id: "task-2",
-    name: "Entity Attribution & Standardisation",
-    description: "Resolve BAYO rows to Howden Schweiz AG or SWIBRO AG using deal-level identifiers. Rename all commission field variants (brokerage_fee, comm_amt, fee_earned…) to a single canonical commission_chf field.",
+    name: "Entity Attribution & FINMA Mapping",
+    description: "Resolve BAYO rows to Howden Schweiz AG or SWIBRO AG using deal-level identifiers. Rename commission field variants to a single canonical commission_chf field. Join each record against the product type mapping table to derive the FINMA product category code, and against the insurer name mapping to resolve CRM insurer names to FINMA-registered entity names.",
     status: "running",
     duration: "1m 32s",
     type: "transform",
@@ -43,16 +43,16 @@ export const pipelineTasks: PipelineTask[] = [
 export const failedPipelineTasks: PipelineTask[] = [
   {
     id: "task-1",
-    name: "CRM Extract Ingestion",
-    description: "Load raw extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM into Bronze tables — untouched, exactly as delivered by the data stewards.",
+    name: "Bronze Ingestion",
+    description: "Load three source types into Bronze: (1) raw commission extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM — untouched as delivered; (2) product type mapping table (CRM codes → FINMA intermediary product categories); (3) insurer name mapping table (CRM insurer names → FINMA-registered entity names). Reference tables arrive as dedicated database uploads, not CRM exports.",
     status: "success",
     duration: "2m 14s",
     type: "ingestion",
   },
   {
     id: "task-2",
-    name: "Entity Attribution & Standardisation",
-    description: "Resolve BAYO rows to Howden Schweiz AG or SWIBRO AG using deal-level identifiers. Rename all commission field variants to a single canonical commission_chf field.",
+    name: "Entity Attribution & FINMA Mapping",
+    description: "Resolve BAYO rows to Howden Schweiz AG or SWIBRO AG using deal-level identifiers. Rename commission field variants to a single canonical commission_chf field. Join each record against the product type mapping table to derive the FINMA product category code, and against the insurer name mapping to resolve CRM insurer names to FINMA-registered entity names.",
     status: "success",
     duration: "3m 48s",
     type: "transform",
