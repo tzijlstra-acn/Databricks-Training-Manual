@@ -5,6 +5,7 @@ import { Database, Folder, FileText, Table2, Lock, ArrowRight } from "lucide-rea
 import { markDayVisited } from "@/lib/progress";
 import { WhatIsDatabricks } from "@/components/day1/WhatIsDatabricks";
 import { WorkspaceExplorer } from "@/components/day1/WorkspaceExplorer";
+import { UIWalkthrough } from "@/components/day1/UIWalkthrough";
 import { FirstTenMinutes } from "@/components/day1/FirstTenMinutes";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
@@ -166,6 +167,18 @@ FROM \`temp-contractor@company.com\`;`}
               </pre>
             </div>
           </AdvancedSection>
+        </section>
+
+        {/* Animated UI Walkthrough */}
+        <section className="mb-14">
+          <div className="mb-5">
+            <h2 className="text-xl font-bold text-gray-900">See It In Action</h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Three guided walkthroughs — watch how the common interactions actually look and where to click.
+              Step through manually or press Play to let it run.
+            </p>
+          </div>
+          <UIWalkthrough />
         </section>
 
         {/* First 10 Minutes */}
