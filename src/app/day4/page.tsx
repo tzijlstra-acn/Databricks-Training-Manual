@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { markDayVisited } from "@/lib/progress";
 import { PipelineSimulator } from "@/components/day4/PipelineSimulator";
 import { DQXFlow } from "@/components/day4/DQXFlow";
+import { WriteYourOwnRule } from "@/components/day4/WriteYourOwnRule";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 import { recentRuns } from "@/data/pipeline";
@@ -223,6 +224,15 @@ bad_df.write.mode("append").saveAsTable("enterprise.bronze.quarantine")`}
             </p>
           </div>
         </AdvancedSection>
+      </div>
+
+      {/* Write your own rule */}
+      <div>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Write Your Own Rules — with a Little AI Help</h2>
+        <p className="text-sm text-gray-500 mb-5">
+          You do not need to know Python to add a rule. Describe the data problem in plain English and let an AI tool write the code.
+        </p>
+        <WriteYourOwnRule />
       </div>
 
       {/* Monitoring section */}
