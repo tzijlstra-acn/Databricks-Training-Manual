@@ -67,37 +67,37 @@ const categoryConfig: Record<
 
 const TOUR_STEPS = [
   {
-    title: "1. The Workspace — Your Front Door",
-    desc: "Every session begins at the Workspace. It is the Databricks web interface that gives you access to every other component — compute, data, jobs, and dashboards all start here.",
+    title: "1. The Workspace: Your Front Door",
+    desc: "Every session begins at the Workspace. It is the Databricks web interface that gives you access to every other component: compute, data, jobs, and dashboards all start here.",
     nodeIds: ["workspace"],
     color: "#1F2144",
   },
   {
-    title: "2. Compute — The Engine Room",
+    title: "2. Compute: The Engine Room",
     desc: "Nothing runs without compute. General-Purpose Clusters power notebooks and jobs. SQL Warehouses are optimised for analytics queries. Both must be running before you can execute any code.",
     nodeIds: ["compute", "sql-warehouse"],
     color: "#059669",
   },
   {
-    title: "3. Governance — Unity Catalog",
+    title: "3. Governance: Unity Catalog",
     desc: "Unity Catalog is the single source of truth for permissions, data discovery, and lineage. Every table, file, and model is registered here. Without it, the Medallion architecture has no foundation.",
     nodeIds: ["unity-catalog"],
     color: "#0891B2",
   },
   {
-    title: "4. Where You Work — Notebooks & SQL Editor",
-    desc: "Notebooks combine code (Python/SQL/Scala) with inline results — perfect for ETL development and exploration. The SQL Editor is a dedicated interface with auto-complete, query history, and saved queries.",
+    title: "4. Where You Work: Notebooks & SQL Editor",
+    desc: "Notebooks combine code (Python/SQL/Scala) with inline results. They are ideal for data transformation development and exploration. The SQL Editor is a dedicated interface with auto-complete, query history, and saved queries.",
     nodeIds: ["notebooks", "sql-editor"],
     color: "#7C3AED",
   },
   {
-    title: "5. Automation — Jobs, Pipelines & Alerts",
-    desc: "Jobs & Workflows schedule and orchestrate runs. DLT Pipelines build the Medallion layers with built-in data quality rules. Alerts fire when thresholds are breached — the FINMA pipeline runs here every night.",
+    title: "5. Automation: Jobs, Pipelines & Alerts",
+    desc: "Jobs & Workflows schedule and orchestrate runs. DLT Pipelines build the Medallion layers with built-in data quality rules. Alerts fire when thresholds are breached. The FINMA pipeline runs here every night.",
     nodeIds: ["jobs", "pipelines", "alerts"],
     color: "#D97706",
   },
   {
-    title: "6. Insights — Dashboards & Genie AI",
+    title: "6. Insights: Dashboards & Genie AI",
     desc: "Dashboards turn Gold data into executive KPIs. Genie AI lets business users ask questions in plain English without writing SQL. Together they power the FINMA commission reporting view.",
     nodeIds: ["dashboards", "genie"],
     color: "#7C3AED",

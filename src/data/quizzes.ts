@@ -6,7 +6,7 @@ export const quizQuestions: QuizQuestion[] = [
     question: "Where does raw data from a source system first land in Databricks?",
     options: ["Gold Layer", "Silver Layer", "Bronze Layer", "Unity Catalog"],
     correct: 2,
-    explanation: "The Bronze layer is the landing zone — data arrives here exactly as it was sent, with no transformation. Think of it as your inbox.",
+    explanation: "The Bronze layer is the landing zone: data arrives here exactly as it was sent, with no transformation. Think of it as your inbox.",
   },
   {
     id: "q2",
@@ -32,7 +32,7 @@ export const quizQuestions: QuizQuestion[] = [
       "Visualising dashboards",
     ],
     correct: 1,
-    explanation: "Unity Catalog is the governance layer — it organises all data assets (tables, views, models), manages permissions, and tracks lineage.",
+    explanation: "Unity Catalog is where all data assets are organised and controlled. It manages who can see what, tracks where data came from, and keeps a record of every change.",
   },
   {
     id: "q5",
@@ -68,7 +68,7 @@ export const quizQuestions: QuizQuestion[] = [
       "Abacus — the accounting system resolves entity attribution",
     ],
     correct: 1,
-    explanation: "Bronze stores the BAYO extract exactly as received — all entities mixed together. Silver is where the attribution logic runs: rows are assigned to Howden Schweiz AG or SWIBRO AG based on deal-level identifiers, then validated before the data moves to Gold.",
+    explanation: "Bronze stores the BAYO extract exactly as received, with all entities mixed together. Silver is where the attribution logic runs: rows are assigned to Howden Schweiz AG or SWIBRO AG based on deal reference numbers, then validated before the data moves to Gold.",
   },
 ];
 

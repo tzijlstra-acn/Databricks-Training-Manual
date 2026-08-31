@@ -20,7 +20,7 @@ const BASE_TASKS = [
     name: "CRM Ingestion",
     fullName: "CRM Extract Ingestion",
     description:
-      "Load raw extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM into Bronze tables — untouched, exactly as delivered.",
+      "Load raw extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM into Bronze tables, untouched and exactly as delivered.",
     type: "ingestion" as const,
     emoji: "📥",
     typeColor: "#3B82F6",
@@ -32,7 +32,7 @@ const BASE_TASKS = [
     name: "Entity Attribution",
     fullName: "Entity Attribution & Standardisation",
     description:
-      "Resolve BAYO rows to Howden Schweiz AG or SWIBRO AG using deal-level identifiers. Rename all commission field variants to canonical commission_chf.",
+      "Assign each BAYO row to Howden Schweiz AG or SWIBRO AG using deal reference numbers. Standardise all commission field variants to a single commission_chf column.",
     type: "transform" as const,
     emoji: "🔄",
     typeColor: "#64748B",
@@ -56,7 +56,7 @@ const BASE_TASKS = [
     name: "Report Build",
     fullName: "FINMA Report Build",
     description:
-      "Aggregate validated Silver data into 5 entity-level Gold datasets — one per entity — ready for FINMA intermediary submission by 31 May.",
+      "Aggregate validated Silver data into 5 entity-level Gold datasets (one per entity), ready for FINMA intermediary submission by 31 May.",
     type: "build" as const,
     emoji: "🏗️",
     typeColor: "#B45309",
@@ -111,7 +111,7 @@ const SCENARIOS: Scenario[] = [
     bg: "#ECFDF5",
     border: "#A7F3D0",
     summary:
-      "All 5 tasks completed. 48,421 records attributed across 5 entities. CHF 12.4M reconciled — Abacus variance CHF 4,200 (within threshold).",
+      "All 5 tasks completed. 48,421 records attributed across 5 entities. CHF 12.4M reconciled. Abacus variance CHF 4,200 (within threshold).",
     tasks: [
       {
         state: "success",
@@ -121,12 +121,12 @@ const SCENARIOS: Scenario[] = [
       {
         state: "success",
         duration: "3m 48s",
-        successNote: "100% attribution — all BAYO rows assigned",
+        successNote: "100% attribution, all BAYO rows assigned",
       },
       {
         state: "success",
         duration: "1m 05s",
-        successNote: "All DQX rules passed — 0 records quarantined",
+        successNote: "All DQX rules passed, 0 records quarantined",
       },
       {
         state: "success",
@@ -136,7 +136,7 @@ const SCENARIOS: Scenario[] = [
       {
         state: "success",
         duration: "1m 43s",
-        successNote: "Variance CHF 4,200 (0.03%) — within CHF 10,000 threshold",
+        successNote: "Variance CHF 4,200 (0.03%), within CHF 10,000 threshold",
       },
     ],
   },
@@ -148,7 +148,7 @@ const SCENARIOS: Scenario[] = [
     bg: "#FEF2F2",
     border: "#FECACA",
     summary:
-      "218 BAYO rows could not be attributed. Attribution rate 99.55% — below the 100% threshold. Tasks 4 and 5 are blocked to protect Gold.",
+      "218 BAYO rows could not be attributed. Attribution rate 99.55%, below the 100% threshold. Tasks 4 and 5 are blocked to protect Gold.",
     tasks: [
       { state: "success", duration: "2m 14s", successNote: "48,421 records loaded" },
       { state: "success", duration: "3m 48s", successNote: "Standardisation complete" },
@@ -156,17 +156,17 @@ const SCENARIOS: Scenario[] = [
         state: "failed",
         duration: "0m 22s",
         errorMessage:
-          "DQX rule failed: 218 BAYO rows could not be attributed to a single entity (neither Howden Schweiz AG nor SWIBRO AG deal-level identifier matched). Attribution rate: 99.55% — below the required 100% threshold. Pipeline stopped to prevent unattributed records reaching FINMA Gold tables.",
+          "DQX rule failed: 218 BAYO rows could not be attributed to a single entity (neither Howden Schweiz AG nor SWIBRO AG deal reference number matched). Attribution rate: 99.55%, below the required 100% threshold. Pipeline stopped to prevent unattributed records reaching FINMA Gold tables.",
       },
       {
         state: "blocked",
         blockReason:
-          "Blocked — DQ Gate (task 3) failed. Cannot build Gold tables from unvalidated Silver data.",
+          "Blocked: DQ Gate (task 3) failed. Cannot build Gold tables from unvalidated Silver data.",
       },
       {
         state: "blocked",
         blockReason:
-          "Blocked — FINMA Report Build (task 4) did not complete. No Gold tables to reconcile.",
+          "Blocked: FINMA Report Build (task 4) did not complete. No Gold tables to reconcile.",
       },
     ],
   },
@@ -178,7 +178,7 @@ const SCENARIOS: Scenario[] = [
     bg: "#F5F3FF",
     border: "#DDD6FE",
     summary:
-      "Job cluster failed to start after 3 retries. All tasks blocked — check cluster configuration or select an alternative instance type.",
+      "Job cluster failed to start after 3 retries. All tasks blocked. Check cluster configuration or select an alternative instance type.",
     tasks: [
       {
         state: "failed",
@@ -186,10 +186,10 @@ const SCENARIOS: Scenario[] = [
         errorMessage:
           "Job cluster 'finma-pipeline-cluster' failed to start after 3 retries. Azure instance type Standard_DS3_v2 is currently unavailable in the Switzerland North region. Fix: select an alternative instance type, or switch to on-demand pricing in the cluster policy.",
       },
-      { state: "blocked", blockReason: "Blocked — no cluster available for transformation." },
-      { state: "blocked", blockReason: "Blocked — no cluster available for DQX checks." },
-      { state: "blocked", blockReason: "Blocked — no cluster available." },
-      { state: "blocked", blockReason: "Blocked — no cluster available." },
+      { state: "blocked", blockReason: "Blocked: no cluster available for transformation." },
+      { state: "blocked", blockReason: "Blocked: no cluster available for DQX checks." },
+      { state: "blocked", blockReason: "Blocked: no cluster available." },
+      { state: "blocked", blockReason: "Blocked: no cluster available." },
     ],
   },
   {
@@ -208,10 +208,10 @@ const SCENARIOS: Scenario[] = [
         errorMessage:
           "ACCESS_DENIED: Service principal 'finma-pipeline-sp' (ID: sp-8844) does not have SELECT privilege on enterprise.bronze.bayo_crm_extract. Fix: Catalog → enterprise → bronze → bayo_crm_extract → Permissions → Add → READ.",
       },
-      { state: "blocked", blockReason: "Blocked — Bronze data was not ingested." },
-      { state: "blocked", blockReason: "Blocked — no Silver data to validate." },
-      { state: "blocked", blockReason: "Blocked — no validated Silver data." },
-      { state: "blocked", blockReason: "Blocked — no Gold tables to reconcile." },
+      { state: "blocked", blockReason: "Blocked: Bronze data was not ingested." },
+      { state: "blocked", blockReason: "Blocked: no Silver data to validate." },
+      { state: "blocked", blockReason: "Blocked: no validated Silver data." },
+      { state: "blocked", blockReason: "Blocked: no Gold tables to reconcile." },
     ],
   },
   {
@@ -222,7 +222,7 @@ const SCENARIOS: Scenario[] = [
     bg: "#F9FAFB",
     border: "#E5E7EB",
     summary:
-      "BAYO CRM extract not delivered. Contact the BAYO data steward — file should arrive by 01:00 UTC. Pipeline will retry on next schedule.",
+      "BAYO CRM extract not delivered. Contact the BAYO data steward. File should arrive by 01:00 UTC. Pipeline will retry on next schedule.",
     tasks: [
       {
         state: "failed",
@@ -230,10 +230,10 @@ const SCENARIOS: Scenario[] = [
         errorMessage:
           "FileNotFoundException: /mnt/bayo/crm_extract_20250323.csv was not found. Expected delivery by 01:00 UTC. Contact bayo-data-team@howden.com to request manual upload or a re-run.",
       },
-      { state: "blocked", blockReason: "Blocked — source file not available." },
-      { state: "blocked", blockReason: "Blocked — no Bronze data to validate." },
-      { state: "blocked", blockReason: "Blocked — no Silver data." },
-      { state: "blocked", blockReason: "Blocked — no Gold tables." },
+      { state: "blocked", blockReason: "Blocked: source file not available." },
+      { state: "blocked", blockReason: "Blocked: no Bronze data to validate." },
+      { state: "blocked", blockReason: "Blocked: no Silver data." },
+      { state: "blocked", blockReason: "Blocked: no Gold tables." },
     ],
   },
 ];
@@ -807,7 +807,7 @@ export function PipelineSimulator() {
             ? "Select a scenario then click Run"
             : phase === "running"
             ? "Tasks executing in sequence…"
-            : "Run complete — click a task for details"}
+            : "Run complete. Click a task for details."}
         </p>
       </div>
     </div>

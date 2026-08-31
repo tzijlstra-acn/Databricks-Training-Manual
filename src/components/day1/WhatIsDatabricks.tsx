@@ -16,23 +16,23 @@ import {
 const BEFORE_AFTER = [
   {
     before: "Commission data extracted manually from 5 different CRMs, emailed as Excel",
-    after: "One automated pipeline ingests all 5 CRM exports — same logic every time",
+    after: "One automated pipeline ingests all 5 CRM exports, using the same logic every time.",
   },
   {
-    before: "Each analyst has their own copy; nobody knows which version is correct",
-    after: "One governed Gold table — everyone queries the same number",
+    before: "Each analyst has their own copy. Nobody knows which version is correct.",
+    after: "One governed Gold table that everyone queries. No conflicting versions.",
   },
   {
-    before: "FINMA report built by hand in a spreadsheet — error-prone, weeks of work",
-    after: "Report generated automatically when the pipeline completes",
+    before: "FINMA report built by hand in a spreadsheet. Error-prone and takes weeks.",
+    after: "Report generated automatically when the pipeline completes.",
   },
   {
-    before: "Data quality issues discovered after submission",
-    after: "DQX validation catches issues before the data ever reaches Gold",
+    before: "Data quality issues discovered only after the submission has gone out.",
+    after: "DQX catches data quality issues before they ever reach the Gold layer.",
   },
   {
-    before: "CRM product codes and insurer names don't match FINMA's taxonomy — mappings kept manually in a shared spreadsheet",
-    after: "Reference tables loaded in Bronze; Silver joins automatically map every record to FINMA product categories and registered entity names",
+    before: "CRM product codes and insurer names don't match FINMA's taxonomy. Mappings are maintained manually in a shared spreadsheet.",
+    after: "Reference tables loaded in Bronze. Silver joins automatically assign every record the correct FINMA product category and registered insurer name.",
   },
 ];
 
@@ -45,7 +45,7 @@ const PILLARS = [
     bg: "#E8E9F0",
     border: "#D0D2E1",
     title: "A unified data platform",
-    body: "Databricks brings storage, compute, and governance together in one place — instead of stitching together five separate tools.",
+    body: "Databricks brings storage, compute, and governance together in one place, rather than stitching together five separate tools.",
   },
   {
     icon: Users,
@@ -61,7 +61,7 @@ const PILLARS = [
     bg: "#ECFDF5",
     border: "#A7F3D0",
     title: "Governed by design",
-    body: "Unity Catalog tracks who can see what, where data came from, and what changed. Compliance reporting becomes auditable by default.",
+    body: "Unity Catalog tracks who can see what, where data came from, and what changed. Compliance reports have a clear audit trail with no extra work required.",
   },
   {
     icon: Zap,
@@ -210,7 +210,7 @@ export function WhatIsDatabricks() {
         </div>
 
         <p className="text-xs text-gray-400 mt-3 text-right">
-          The 5-day programme takes you from today&apos;s state to the Databricks state — step by step.
+          This 5-day programme takes you from where things are today to how they will work with Databricks, one step at a time.
         </p>
       </section>
 

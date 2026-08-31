@@ -26,7 +26,7 @@ export default function Day1Page() {
             </div>
             <div>
               <p className="text-xs font-semibold text-primary-600 uppercase tracking-widest">Day 1</p>
-              <h1 className="text-3xl font-bold text-gray-900">Foundations — Meet the Platform</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Foundations: Meet the Platform</h1>
             </div>
           </div>
           <p className="text-lg text-gray-500 max-w-2xl mt-2">
@@ -39,15 +39,15 @@ export default function Day1Page() {
         </div>
 
         <HowdenContext>
-          Three types of source data feed the pipeline. First: commission exports extracted manually from five CRMs —
-          BAYO, IBS Alabus, MAX, KETL, and the Vorsorge Partner CRM — uploaded or emailed by data stewards. Second: a{" "}
+          Three types of source data feed the pipeline. First: commission exports extracted manually from five CRMs
+          (BAYO, IBS Alabus, MAX, KETL, and the Vorsorge Partner CRM), uploaded or emailed by data stewards. Second: a{" "}
           <strong>product type mapping table</strong> that links CRM product codes to the FINMA intermediary product
           categories required for regulatory submission. Third: an <strong>insurer name mapping table</strong> that
           resolves the insurer names recorded in each CRM to the FINMA-registered entity names. Both reference tables
           arrive as dedicated database uploads, separate from the CRM extracts. Databricks is the shared engine that
           brings all three together: the <strong>Workspace</strong> holds the scripts that join and validate them
-          consistently, and the <strong>Catalog</strong> becomes the single governed place where the result lives —
-          no more spreadsheets flying around in email.
+          consistently, and the <strong>Catalog</strong> becomes the single governed place where the result lives.
+          No more spreadsheets flying around in email.
         </HowdenContext>
 
         {/* What is Databricks */}
@@ -83,12 +83,12 @@ export default function Day1Page() {
                 <p className="text-yellow-400 pl-8">└── 00000000000000000010.checkpoint.parquet</p>
               </div>
               <ul className="list-disc list-inside space-y-1.5">
-                <li><strong>ACID transactions</strong> — concurrent reads/writes without corruption</li>
-                <li><strong>Scalable metadata</strong> — billions of files handled efficiently</li>
-                <li><strong>Schema enforcement</strong> — rejects writes that break the schema</li>
-                <li><strong>Time Travel</strong> — query any historical version of a table</li>
+                <li><strong>ACID transactions</strong>: concurrent reads and writes without data corruption.</li>
+                <li><strong>Scalable metadata</strong>: handles billions of files efficiently.</li>
+                <li><strong>Schema enforcement</strong>: rejects any write that would break the table schema.</li>
+                <li><strong>Time Travel</strong>: query any historical version of a table by date or version number.</li>
               </ul>
-              <p className="italic text-gray-500">Think of it as: a database engine built on top of files</p>
+              <p className="italic text-gray-500">Think of it as a database engine built on top of files.</p>
               <p className="font-medium text-gray-800">Time Travel example:</p>
               <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
 {`SELECT * FROM enterprise.gold.customer_summary
@@ -103,7 +103,7 @@ SELECT * FROM enterprise.gold.customer_summary VERSION AS OF 42;`}
           <AdvancedSection title="Apache Spark — The Compute Engine" badge="Engineering">
             <div className="space-y-4 text-sm text-gray-700">
               <p>
-                Spark is a <strong>distributed computing engine</strong> — it splits work across many machines so a
+                Spark is a <strong>distributed computing engine</strong>. It splits work across many machines so a
                 query that would take hours on a single server completes in minutes. Databricks is the managed,
                 performance-optimised platform built by the creators of Spark.
               </p>
@@ -113,9 +113,9 @@ SELECT * FROM enterprise.gold.customer_summary VERSION AS OF 42;`}
                 <p className="text-gray-400 mt-2">{"// Driver plans the query. Executors do the work in parallel."}</p>
               </div>
               <ul className="list-disc list-inside space-y-1.5">
-                <li><strong>DataFrames</strong> — the primary API for structured data (like a distributed table)</li>
-                <li><strong>Lazy evaluation</strong> — transformations are planned, not executed until an action (e.g. <code className="bg-gray-100 px-1 rounded">.count()</code>) is called</li>
-                <li><strong>Photon engine</strong> — Databricks-built C++ vectorised query engine; accelerates SQL and batch ETL by 2–10×</li>
+                <li><strong>DataFrames</strong>: the primary way to work with structured data in Spark, similar to a table but distributed across many machines.</li>
+                <li><strong>Lazy evaluation</strong>: transformations are planned but not executed until you trigger an action such as <code className="bg-gray-100 px-1 rounded">.count()</code>.</li>
+                <li><strong>Photon engine</strong>: a Databricks-built query engine that accelerates SQL and batch processing by 2 to 10 times compared to standard Spark.</li>
               </ul>
               <p className="font-medium text-gray-800">When Spark matters vs. when it does not:</p>
               <div className="grid grid-cols-2 gap-3">
@@ -139,10 +139,10 @@ SELECT * FROM enterprise.gold.customer_summary VERSION AS OF 42;`}
                 &quot;I can&apos;t see the table&quot; support tickets.
               </p>
               <ul className="list-disc list-inside space-y-1.5">
-                <li><strong>Users</strong> — individual humans, identified by email</li>
-                <li><strong>Service Principals</strong> — machine identities for pipelines and CI/CD (no human login)</li>
-                <li><strong>Groups</strong> — collections of users/SPs; assign permissions once at group level</li>
-                <li><strong>Personal Access Tokens (PATs)</strong> — long-lived API keys; use only for tooling, rotate regularly</li>
+                <li><strong>Users</strong>: individual people, identified by their email address.</li>
+                <li><strong>Service Principals</strong>: machine identities used for automated pipelines, with no human login required.</li>
+                <li><strong>Groups</strong>: collections of users or service principals. Assign permissions once at the group level rather than user by user.</li>
+                <li><strong>Personal Access Tokens (PATs)</strong>: long-lived API keys for tooling integrations. Rotate them regularly.</li>
               </ul>
               <p className="font-medium text-gray-800">Unity Catalog permission hierarchy:</p>
               <div className="bg-gray-800 rounded-xl p-4 font-mono text-xs text-green-400">
@@ -174,7 +174,7 @@ FROM \`temp-contractor@company.com\`;`}
           <div className="mb-5">
             <h2 className="text-xl font-bold text-gray-900">See It In Action</h2>
             <p className="text-sm text-gray-500 mt-1">
-              Three guided walkthroughs — watch how the common interactions actually look and where to click.
+              Three guided walkthroughs showing how the common interactions actually look and where to click.
               Step through manually or press Play to let it run.
             </p>
           </div>
@@ -189,7 +189,7 @@ FROM \`temp-contractor@company.com\`;`}
         {/* Workspace vs Catalog comparison */}
         <section>
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Workspace vs Catalog — What is the Difference?</h2>
+            <h2 className="text-xl font-bold text-gray-900">Workspace vs Catalog: What is the Difference?</h2>
             <p className="text-sm text-gray-500 mt-1">
               New Databricks users often confuse these two. Here is the essential distinction.
             </p>
@@ -208,7 +208,7 @@ FROM \`temp-contractor@company.com\`;`}
                 </div>
               </div>
               <p className="text-sm text-blue-800 leading-relaxed mb-4">
-                Think of the Workspace as your <strong>file system</strong> — it holds the code and development artefacts that you and your team create.
+                Think of the Workspace as your <strong>file system</strong>. It holds the code and working files that you and your team create.
               </p>
               <ul className="space-y-2.5">
                 {[
@@ -246,7 +246,7 @@ FROM \`temp-contractor@company.com\`;`}
                 </div>
               </div>
               <p className="text-sm text-green-800 leading-relaxed mb-4">
-                Think of the Catalog as your <strong>data library</strong> — it holds all the tables, schemas, and data with access control and lineage.
+                Think of the Catalog as your <strong>data library</strong>. It holds all the tables and data assets with access control and a full history of where data came from.
               </p>
               <ul className="space-y-2.5">
                 {[

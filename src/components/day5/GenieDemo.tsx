@@ -90,7 +90,7 @@ export function GenieDemo() {
       <div className="flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-primary-800 to-primary-600 text-white">
         <span className="text-2xl">✨</span>
         <div>
-          <p className="font-bold text-sm">Genie — Databricks AI/BI</p>
+          <p className="font-bold text-sm">Genie (Databricks AI/BI)</p>
           <p className="text-xs text-blue-200">Ask your data questions in plain English</p>
         </div>
         <div className="ml-auto flex items-center gap-1.5 text-blue-200 text-xs">
@@ -202,7 +202,7 @@ export function GenieDemo() {
         {showResult && activeQuestion === suggestedQuestions[0] && (
           <div className="animate-in slide-in-from-bottom-2 duration-500">
             <p className="text-xs font-semibold text-gray-600 mb-3">
-              Commission by Line of Business — Current Quarter (CHF)
+              Commission by Line of Business, Current Quarter (CHF)
             </p>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={chartData} margin={{ top: 4, right: 12, left: 12, bottom: 4 }}>

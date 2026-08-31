@@ -52,9 +52,9 @@ export default function Day5Page() {
 
       <HowdenContext>
         Today, getting total commission by line of business means someone assembles the CSVs, runs the pivot in
-        Excel, and sends a report — maybe a day later, maybe with last week&apos;s data. Once the CSVs are flowing
+        Excel, and sends a report, sometimes a day later and sometimes with last week&apos;s data. Once the CSVs are flowing
         through Databricks, that same question becomes a 10-second <strong>Genie</strong> query:{" "}
-        &ldquo;What is our total commission for Swiss property this quarter?&rdquo; — answered live, from a
+        &ldquo;What is our total commission for Swiss property this quarter?&rdquo; Answered live, from a
         dashboard, by anyone. And if a number looks wrong, you can click it to trace it all the way back to the
         exact row in the original CSV that generated it.
       </HowdenContext>
@@ -62,7 +62,7 @@ export default function Day5Page() {
       {/* Dashboard Lineage */}
       <section className="mb-14">
         <div className="mb-5">
-          <h2 className="text-xl font-bold text-gray-900">Dashboard Lineage — Where Does This Number Come From?</h2>
+          <h2 className="text-xl font-bold text-gray-900">Dashboard Lineage: Where Does This Number Come From?</h2>
           <p className="text-sm text-gray-500 mt-1">Click any KPI card to trace its origin back to the source.</p>
         </div>
         <DashboardLineage />
@@ -70,8 +70,8 @@ export default function Day5Page() {
         <AdvancedSection title="Lakeview Dashboard Architecture" badge="Architecture">
           <div className="space-y-4 text-sm text-gray-700">
             <p>
-              Lakeview (AI/BI Dashboards) is Databricks&apos; next-generation dashboarding tool — it replaces the
-              legacy &quot;Databricks SQL Dashboards&quot; and is designed from the ground up for performance and
+              Lakeview (AI/BI Dashboards) is Databricks&apos; newer dashboarding tool, replacing the
+              legacy &quot;Databricks SQL Dashboards&quot;. It is designed for performance and
               governed data sharing.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -106,9 +106,9 @@ CREATE TABLE enterprise.dev.commission_kpi_clone
 CLONE enterprise.gold.commission_reporting;`}
             </pre>
             <p className="text-sm text-gray-600">
-              <strong>Serverless SQL Warehouse:</strong> instant start (no warm-up time), per-query billing.
-              Ideal for dashboards with unpredictable query patterns. Query result cache TTL is 10 minutes by
-              default — identical queries within that window are served instantly.
+              <strong>Serverless SQL Warehouse:</strong> starts instantly with no warm-up time and charges per query.
+              Good for dashboards with unpredictable usage. Identical queries within 10 minutes are served from
+              cache automatically.
             </p>
           </div>
         </AdvancedSection>
@@ -120,10 +120,10 @@ CLONE enterprise.gold.commission_reporting;`}
               eliminate the most common causes of slow dashboards.
             </p>
             <ul className="list-disc list-inside space-y-2">
-              <li><strong>Materialized views</strong> — pre-aggregate expensive GROUP BYs on a schedule so dashboard queries hit a small pre-computed table</li>
-              <li><strong>Query result cache</strong> — identical queries within 10 min are free; use parameterised queries to share cache across users</li>
-              <li><strong>Serverless warehouses</strong> — instant start, auto-suspend, per-query billing; best for bursty dashboard traffic</li>
-              <li><strong>Predictive IO</strong> — Databricks pre-fetches data based on query history (enabled by default on Delta tables)</li>
+              <li><strong>Materialized views:</strong> pre-aggregate expensive calculations on a schedule so dashboard queries hit a small pre-computed table.</li>
+              <li><strong>Query result cache:</strong> identical queries within 10 minutes are answered instantly from cache. Use parameterised queries to share the cache across users.</li>
+              <li><strong>Serverless warehouses:</strong> start instantly, suspend automatically, and charge per query. Best for dashboards with variable traffic.</li>
+              <li><strong>Predictive IO:</strong> Databricks pre-fetches data based on recent query history. Enabled by default on Delta tables.</li>
             </ul>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
 {`-- Bad: scanning full table every dashboard load
@@ -148,7 +148,7 @@ FROM enterprise.gold.commission_kpi_mv;`}
       {/* Genie Demo */}
       <section className="mb-14">
         <div className="mb-5">
-          <h2 className="text-xl font-bold text-gray-900">Genie — Ask Your Data Anything</h2>
+          <h2 className="text-xl font-bold text-gray-900">Genie: Ask Your Data Anything</h2>
           <p className="text-sm text-gray-500 mt-1">Natural language queries powered by AI. No SQL knowledge required.</p>
         </div>
         <GenieDemo />
@@ -156,11 +156,11 @@ FROM enterprise.gold.commission_kpi_mv;`}
         <AdvancedSection title="Genie Semantic Layer Configuration" badge="Architecture">
           <div className="space-y-4 text-sm text-gray-700">
             <p>
-              Genie&apos;s quality is directly proportional to the quality of your metadata. A Genie Space with
-              well-annotated Gold tables and trusted assets will answer complex business questions reliably;
-              one pointed at raw Bronze data will hallucinate.
+              Genie works best when your data is well-described. A Genie Space built on well-annotated Gold tables
+              will answer complex business questions reliably. One pointed at raw Bronze data with no descriptions
+              will give unreliable answers.
             </p>
-            <p className="font-medium text-gray-800">Column annotations — the most impactful thing you can do:</p>
+            <p className="font-medium text-gray-800">Column annotations (the most impactful thing you can do):</p>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
 {`-- Add business-friendly descriptions to columns
 -- Genie reads these to understand what the column means
@@ -174,7 +174,7 @@ IS 'Business unit responsible for the policy. Use this to filter by team or divi
 COMMENT ON TABLE enterprise.gold.commission_reporting
 IS 'Primary fact table for commission reporting. Updated daily at 06:00 CET. Use for all commission KPIs.';`}
             </pre>
-            <p className="font-medium text-gray-800">Trusted assets — pre-approved SQL Genie can reference:</p>
+            <p className="font-medium text-gray-800">Trusted assets (pre-approved SQL that Genie can reference):</p>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
 {`-- Save this query as a "Trusted Asset" in the Genie Space
 -- Genie will use it verbatim when users ask about DACH commissions
@@ -193,9 +193,9 @@ ORDER BY total_commission_chf DESC;`}
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-3">
               <p className="text-xs font-bold text-amber-700 mb-1">Genie limitations to know</p>
               <ul className="text-xs text-amber-900 space-y-1 list-disc list-inside">
-                <li>Works best on Gold layer — point at pre-aggregated, well-named tables</li>
-                <li>Struggles with 4+ table JOINs — use views to pre-join complex relationships</li>
-                <li>Does not write data — read-only by design</li>
+                <li>Works best on the Gold layer. Point it at pre-aggregated, well-named tables.</li>
+                <li>Struggles with queries that join 4 or more tables. Use views to pre-join complex relationships.</li>
+                <li>Does not write data. It is read-only by design.</li>
                 <li>Instruction sets (natural language hints) help it handle domain-specific terminology</li>
               </ul>
             </div>
@@ -230,7 +230,7 @@ WHERE ingest_date = current_date()
               <li><strong>Alert destinations:</strong> Email, Slack, PagerDuty, Teams, generic webhook</li>
               <li><strong>Muting:</strong> schedule maintenance windows to silence alerts during planned downtime</li>
               <li><strong>Alert-to-Job:</strong> Databricks REST API allows alerts to trigger job runs via webhook</li>
-              <li><strong>SOAR integration:</strong> use webhooks to feed Splunk SOAR or similar platforms for regulated environments</li>
+              <li><strong>Automation platform integration:</strong> use webhooks to connect alerts to Splunk or similar tools used in regulated environments</li>
             </ul>
           </div>
         </AdvancedSection>

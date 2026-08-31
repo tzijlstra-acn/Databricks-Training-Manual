@@ -213,7 +213,7 @@ export function DQXFlow() {
         <MetricCard
           title="Duplicate Failures"
           value={dupFails}
-          subtitle="by composite key"
+          subtitle="duplicate records"
           icon={Copy}
           color="red"
         />
@@ -225,7 +225,7 @@ export function DQXFlow() {
           color={schemaFails > 0 ? "red" : "default"}
         />
         <MetricCard
-          title="Freshness SLA"
+          title="Data Freshness"
           value={`${qualityMetrics.freshnessSLA}%`}
           subtitle="last 30 days"
           icon={Clock}

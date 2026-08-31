@@ -29,7 +29,7 @@ const steps = [
     id: "step-find-workspace",
     number: 2,
     label: "Find Workspace",
-    detail: "Locate the Workspace section in the left sidebar — this is your home for notebooks and files.",
+    detail: "Locate the Workspace section in the left sidebar. This is your home for notebooks and files.",
     icon: Layout,
     color: "#0891B2",
   },
@@ -130,7 +130,7 @@ export function FirstTenMinutes() {
         {completedCount === steps.length && (
           <p className="text-xs text-green-600 font-medium mt-2 flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5" />
-            All steps complete — you know your way around!
+            All steps complete. You know your way around!
           </p>
         )}
       </div>

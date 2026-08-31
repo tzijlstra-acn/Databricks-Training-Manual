@@ -16,7 +16,7 @@ const kpis = [
     subtitle: "2025 YTD · All 5 entities",
     icon: DollarSign,
     color: "gold" as const,
-    description: "SUM(commission_chf) from enterprise.gold.finma_commission_summary — total FINMA-reportable commission across all 5 Howden Swiss entities for the 2025 reporting cycle.",
+    description: "SUM(commission_chf) from enterprise.gold.finma_commission_summary. Total FINMA-reportable commission across all 5 Howden Swiss entities for the 2025 reporting cycle.",
     highlightNode: "gold",
   },
   {
@@ -70,7 +70,7 @@ const lineageNodes = [
     color: "#92400E",
     bg: "#FEF3C7",
     border: "#FDE68A",
-    description: "enterprise.bronze.bayo_raw, ibs_raw, max_raw, ketl_raw, vp_raw — raw CRM extracts stored exactly as delivered by the data stewards. No transformations. Always recoverable.",
+    description: "enterprise.bronze.bayo_raw, ibs_raw, max_raw, ketl_raw, vp_raw. Raw CRM extracts stored exactly as delivered by the data stewards. No transformations. Always recoverable.",
   },
   {
     id: "silver",
@@ -80,7 +80,7 @@ const lineageNodes = [
     color: "#475569",
     bg: "#F1F5F9",
     border: "#CBD5E1",
-    description: "enterprise.silver.commissions_clean — all 5 CRM extracts merged, commission field standardised to commission_chf, every row attributed to exactly one entity code. DQX rules applied.",
+    description: "enterprise.silver.commissions_clean. All 5 CRM extracts merged, commission field standardised to commission_chf, every row attributed to exactly one entity code. DQX rules applied.",
   },
   {
     id: "gold",
@@ -90,7 +90,7 @@ const lineageNodes = [
     color: "#B45309",
     bg: "#FFFBEB",
     border: "#FDE68A",
-    description: "enterprise.gold.finma_commission_summary — 5 rows, one per entity, with FINMA-reportable totals. Built by aggregating all validated Silver records and reconciling against Abacus.",
+    description: "enterprise.gold.finma_commission_summary. Five rows, one per entity, with FINMA-reportable totals. Built by aggregating all validated Silver records and reconciling against Abacus.",
   },
   {
     id: "query",
@@ -154,7 +154,7 @@ export function DashboardLineage() {
       {/* KPI Cards */}
       <div>
         <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
-          Executive Dashboard KPIs — click to trace lineage
+          Executive Dashboard KPIs: click to trace lineage
         </h3>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {kpis.map((kpi) => (
@@ -266,7 +266,7 @@ export function DashboardLineage() {
             >
               <div className="px-5 py-4 bg-violet-50">
                 <p className="text-xs font-bold text-violet-800 mb-1">
-                  {activeKpi.title} — where does &ldquo;{activeKpi.value}&rdquo; come from?
+                  {activeKpi.title}: where does &ldquo;{activeKpi.value}&rdquo; come from?
                 </p>
                 <p className="text-xs text-violet-700 leading-relaxed">{activeKpi.description}</p>
               </div>
@@ -302,7 +302,7 @@ export function DashboardLineage() {
         {!isActive && (
           <div className="border-t border-gray-100 px-5 py-3 text-center">
             <p className="text-xs text-gray-400">
-              Click a KPI card above — the lineage chain activates and shows the data flow from source to dashboard.
+              Click a KPI card above. The lineage chain activates and shows the data flow from source to dashboard.
             </p>
           </div>
         )}

@@ -7,7 +7,7 @@ const analogies = [
     label: "Notebook",
     icon: "🚗",
     analogy: "Driver",
-    description: "You write the instructions — the notebook is your steering wheel, deciding where to go.",
+    description: "You write the instructions. The notebook is your steering wheel.",
     color: "bg-blue-50 border-blue-200",
     iconBg: "bg-blue-100",
   },
@@ -31,7 +31,7 @@ const analogies = [
     label: "Result",
     icon: "🏁",
     analogy: "Destination",
-    description: "The output — a dashboard, a Gold table, a chart — is where your journey ends.",
+    description: "The output (a dashboard, a Gold table, or a chart) is where your journey ends.",
     color: "bg-purple-50 border-purple-200",
     iconBg: "bg-purple-100",
   },
@@ -55,7 +55,7 @@ const allPurposeFeatures = {
     "Starts in ~2–5 minutes",
     "Full Spark cluster",
   ],
-  cost: "Higher cost — always-on while attached. Auto-terminates after idle timeout (default: 2 hours).",
+  cost: "Higher cost: it runs continuously while you are working and shuts off automatically after 2 hours of inactivity.",
 };
 
 const jobComputeFeatures = {
@@ -66,7 +66,7 @@ const jobComputeFeatures = {
   titleColor: "text-gold-text",
   bestFor: [
     "Scheduled pipeline runs",
-    "Automated ETL workflows",
+    "Automated data transformation jobs",
     "Production jobs",
     "Dashboard refresh triggers",
   ],
@@ -76,7 +76,7 @@ const jobComputeFeatures = {
     "Auto-terminates on completion",
     "Isolated environment",
   ],
-  cost: "Lower cost — pay only for runtime. Optimal for production workloads that run predictably.",
+  cost: "Lower cost: you only pay while the job is actually running. Best for scheduled tasks that run at a predictable time each day.",
 };
 
 export function ComputeExplainer() {
@@ -177,10 +177,10 @@ export function ComputeExplainer() {
         <div className="mt-4 rounded-xl border border-primary-100 bg-primary-50 p-4 flex gap-3">
           <span className="text-xl flex-shrink-0">⚡</span>
           <div>
-            <p className="text-sm font-semibold text-primary-800">SQL Warehouse — for Pure SQL & Dashboards</p>
+            <p className="text-sm font-semibold text-primary-800">SQL Warehouse: for Pure SQL and Dashboards</p>
             <p className="text-xs text-primary-700 mt-1 leading-relaxed">
               When running SQL from the SQL Editor, Genie, or refreshing dashboards, use a <strong>SQL Warehouse</strong> instead.
-              It is optimised for analytical queries — faster, cheaper, and auto-scales. No Spark overhead.
+              It is built for SQL queries: faster and cheaper for analytics, with no need to manage a full Spark cluster.
             </p>
           </div>
         </div>

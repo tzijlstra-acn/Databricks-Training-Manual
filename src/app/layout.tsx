@@ -5,6 +5,7 @@ import { AppSidebar } from "@/components/layout/AppSidebar";
 import { TopNavigation } from "@/components/layout/TopNavigation";
 import { BeginnerModeProvider } from "@/context/BeginnerModeContext";
 import { PresentationProvider } from "@/context/PresentationContext";
+import { AudioReader } from "@/components/shared/AudioReader";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
                 <main className="flex-1 overflow-y-auto p-6">
                   {children}
                 </main>
+                <AudioReader />
               </div>
             </div>
           </PresentationProvider>

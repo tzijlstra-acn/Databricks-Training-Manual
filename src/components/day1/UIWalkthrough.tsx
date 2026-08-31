@@ -54,7 +54,7 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
         hl: R.wsItem,
       },
       {
-        caption: "Click Workspace — folder tree appears",
+        caption: "Click Workspace: folder tree appears",
         sub: "You'll see shared and personal folders. Look for a team or training folder.",
         ui: "ws-tree",
         hl: R.fileRow(0),
@@ -67,7 +67,7 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
       },
       {
         caption: "Click a notebook to open it",
-        sub: "The notebook opens in the main area. Cells are ready — but you need compute before running.",
+        sub: "The notebook opens in the main area. Cells are ready, but you need compute before running.",
         ui: "notebook-detached",
         hl: R.cell(0),
       },
@@ -79,25 +79,25 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
     emoji: "⚡",
     steps: [
       {
-        caption: "Notebook is open — compute shows 'Detached'",
+        caption: "Notebook is open. Compute shows 'Detached'",
         sub: "Before you can run any cell, you must connect to a compute cluster.",
         ui: "notebook-detached",
         hl: R.computeBtn,
       },
       {
-        caption: "Click the compute button — dropdown opens",
+        caption: "Click the compute button: dropdown opens",
         sub: "Any clusters already running are listed here. Starting a stopped cluster takes 2–5 minutes.",
         ui: "compute-dropdown",
         hl: R.cluster(0),
       },
       {
         caption: "Select a running cluster",
-        sub: "A green dot means it's already running — no wait. Grey means it needs to start.",
+        sub: "A green dot means it is already running. Grey means it needs to start.",
         ui: "compute-connecting",
         hl: R.computeBtn,
       },
       {
-        caption: "Cluster attached — you can now run cells",
+        caption: "Cluster attached. You can now run cells.",
         sub: "The compute button turns green. Every cell in this notebook now has access to that cluster.",
         ui: "compute-connected",
         hl: R.cell(0),
@@ -111,7 +111,7 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
     steps: [
       {
         caption: "Click Catalog in the sidebar",
-        sub: "Catalog is where all governed tables live — Bronze, Silver, and Gold layers are all here.",
+        sub: "Catalog is where all governed tables live. Bronze, Silver, and Gold layers are all here.",
         ui: "idle",
         hl: R.catItem,
       },
@@ -129,12 +129,12 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
       },
       {
         caption: "Click a table to inspect it",
-        sub: "Every column, its type, nullability, and description — all in one view.",
+        sub: "Every column, its type, nullability, and description, all in one view.",
         ui: "catalog-tables",
         hl: R.catRow(4),
       },
       {
-        caption: "Schema, sample data, and lineage — all here",
+        caption: "Schema, sample data, and lineage: all here",
         sub: "You can preview rows without writing any code. Lineage shows which notebook wrote this table.",
         ui: "catalog-detail",
         hl: R.colRow(1),
@@ -351,7 +351,7 @@ function ContentPane({ ui }: { ui: string }) {
           </div>
         </div>
         <div className="flex-1 bg-white p-4 flex items-center justify-center">
-          <p className="text-xs text-gray-400">Cluster is starting — this may take 2–5 minutes for a stopped cluster</p>
+          <p className="text-xs text-gray-400">Cluster is starting. This may take 2–5 minutes for a stopped cluster.</p>
         </div>
       </div>
     );

@@ -80,7 +80,7 @@ export default function Day3Page() {
       <HowdenContext>
         Today, if someone wants to calculate the loss ratio across the Swiss property portfolio, they assemble the
         CSVs manually, run formulas in Excel, and hope nothing breaks on the large files. That analysis lives only
-        on their laptop — nobody else can reproduce it or build on it. A Databricks <strong>notebook</strong> is
+        on their laptop, which means nobody else can reproduce it or build on it. A Databricks <strong>notebook</strong> is
         the replacement: the logic is written once, runs on the same shared data everyone uses, and can handle the
         full dataset without crashing. Anyone on the team can open it and re-run it tomorrow.
       </HowdenContext>
@@ -89,7 +89,7 @@ export default function Day3Page() {
       <div>
         <h2 className="text-lg font-bold text-gray-900 mb-3">Interactive Notebook</h2>
         <p className="text-sm text-gray-500 mb-4">
-          Click <strong>▶ Run</strong> on each cell to execute it and see the output — just like a real Databricks notebook.
+          Click <strong>▶ Run</strong> on each cell to execute it and see the output, just like a real Databricks notebook.
         </p>
         <NotebookSimulator />
 
@@ -117,7 +117,7 @@ export default function Day3Page() {
                 </tbody>
               </table>
             </div>
-            <p className="font-medium text-gray-800">Widget parameters — create interactive inputs:</p>
+            <p className="font-medium text-gray-800">Widget parameters: create interactive dropdown menus and text inputs.</p>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
 {`# Create a text widget with a default value
 dbutils.widgets.text("region", "DACH", "Select Region")
@@ -160,11 +160,11 @@ dbutils.fs.cp("source/path/file.csv", "dest/path/file.csv")
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-green-50 border border-green-200 rounded-xl p-3">
                 <p className="text-xs font-bold text-green-700 mb-1">Narrow transformation (fast)</p>
-                <p className="text-xs text-green-900"><code>.filter()</code>, <code>.map()</code> — data stays on same partition, no network shuffle</p>
+                <p className="text-xs text-green-900"><code>.filter()</code>, <code>.map()</code>: data stays on the same partition with no network shuffle.</p>
               </div>
               <div className="bg-orange-50 border border-orange-200 rounded-xl p-3">
                 <p className="text-xs font-bold text-orange-700 mb-1">Wide transformation (slow)</p>
-                <p className="text-xs text-orange-900"><code>.groupBy()</code>, <code>.join()</code> — triggers shuffle across all executors</p>
+                <p className="text-xs text-orange-900"><code>.groupBy()</code>, <code>.join()</code>: triggers a shuffle across all executors.</p>
               </div>
             </div>
             <p className="font-medium text-gray-800">Controlling partitions:</p>
@@ -190,7 +190,7 @@ print(df.rdd.getNumPartitions())
         <h2 className="text-lg font-bold text-gray-900 mb-1">Understanding Compute</h2>
         <p className="text-sm text-gray-500 mb-4">
           Compute is what actually executes your code. Without it, your notebook is just a text file.
-          Walk through the cluster lifecycle — start, attach, run, idle, terminate — before reading the reference cards below.
+          Walk through the cluster lifecycle (start, attach, run, idle, terminate) before reading the reference cards below.
         </p>
         <ComputeStateMachine />
         <div className="mt-5">
@@ -240,7 +240,7 @@ print(df.rdd.getNumPartitions())
           <div className="space-y-4 text-sm text-gray-700">
             <p>
               Before spending hours optimising a query, read the explain plan. Databricks shows you exactly how
-              Spark will execute your SQL — including which optimisations it applied automatically.
+              Spark will execute your SQL, including which optimisations it applied automatically.
             </p>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
 {`-- See the full query plan (logical + physical)
@@ -252,9 +252,9 @@ GROUP BY reporting_unit;
 -- Look for: FileScan (with PartitionFilters), HashAggregate, Sort`}
             </pre>
             <ul className="list-disc list-inside space-y-1.5">
-              <li><strong>Predicate pushdown</strong> — Databricks automatically pushes <code className="bg-gray-100 px-1 rounded">WHERE</code> filters to the storage scan, skipping irrelevant Parquet files</li>
-              <li><strong>Z-ordering</strong> — co-locate related data in the same files; speeds up filtered reads dramatically</li>
-              <li><strong>Liquid Clustering</strong> — newer adaptive approach; no need to pick Z-order columns upfront</li>
+              <li><strong>Predicate pushdown:</strong> Databricks automatically pushes <code className="bg-gray-100 px-1 rounded">WHERE</code> filters to the storage scan, skipping irrelevant Parquet files.</li>
+              <li><strong>Z-ordering:</strong> co-locates related data in the same files, which speeds up filtered reads significantly.</li>
+              <li><strong>Liquid Clustering:</strong> a newer adaptive approach where you do not need to pick Z-order columns upfront.</li>
             </ul>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
 {`-- Z-order by your most common filter columns
@@ -275,7 +275,7 @@ AS SELECT * FROM enterprise.silver.policies_raw;`}
 
       {/* SQL Editor vs Notebook Decision Tree */}
       <div className="rounded-2xl border border-gray-200 bg-white p-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-1">SQL Editor vs Notebook — When to Use Which?</h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">SQL Editor vs Notebook: When to Use Which?</h2>
         <p className="text-sm text-gray-500 mb-5">Use this decision tree to pick the right tool for your task.</p>
 
         <div className="space-y-4">

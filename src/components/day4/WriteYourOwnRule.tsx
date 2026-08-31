@@ -20,7 +20,7 @@ const STEPS = [
     number: "1",
     title: "State what must be true",
     desc: "Describe your rule as a plain-English sentence. Focus on the data problem you want to catch, not how to code it.",
-    example: '"Every commission record must have a valid FINMA product code — no blank or unknown values."',
+    example: '"Every commission record must have a valid FINMA product code, with no blank or unknown values."',
     color: "#1F2144",
     bg: "#E8E9F0",
     border: "#C8CAD8",
@@ -37,7 +37,7 @@ const STEPS = [
   {
     number: "3",
     title: "Review the code it writes",
-    desc: "The AI returns a DQX rule in Python. Read it — does it match what you described? If not, correct the prompt and try again.",
+    desc: "The AI returns a DQX rule in Python. Read it: does it match what you described? If not, correct the prompt and try again.",
     example: "You do not need to understand every line. You need to confirm it captures your intent.",
     color: "#0891B2",
     bg: "#ECFEFF",
@@ -61,7 +61,7 @@ What it should contain: [DESCRIPTION]
 Rule: [YOUR PLAIN-ENGLISH RULE]
 
 Write a DQX rule using DQXRule or a built-in helper (is_not_null, is_in_list, is_in_range).
-Return only the Python snippet — no explanation needed.`;
+Return only the Python snippet, no explanation needed.`;
 
 const WORKED_EXAMPLE = {
   rule: "Every commission record must have a FINMA product code. The column is finma_product_code and it should never be null, empty, or the placeholder string 'UNKNOWN'.",
@@ -72,7 +72,7 @@ What it should contain: FINMA intermediary product category code, e.g. "I_PROP_N
 Rule: The value must never be null, an empty string, or the placeholder "UNKNOWN"
 
 Write a DQX rule using DQXRule or a built-in helper (is_not_null, is_in_list, is_in_range).
-Return only the Python snippet — no explanation needed.`,
+Return only the Python snippet, no explanation needed.`,
   code: `from databricks.labs.dqx.engine import DQXRule
 
 DQXRule(
@@ -85,10 +85,10 @@ DQXRule(
     criticality="error",   # stops the pipeline — FINMA submission requires this field
 )`,
   explanation: [
-    "IS NOT NULL — catches missing values",
-    "TRIM(...) != '' — catches blank strings (spaces only)",
-    "!= 'UNKNOWN' — catches placeholder values left by incomplete reference table joins",
-    "criticality='error' — any row failing this rule goes to quarantine and is blocked from Gold",
+    "IS NOT NULL: catches missing values",
+    "TRIM(...) != '': catches blank strings (spaces only)",
+    "!= 'UNKNOWN': catches placeholder values left by incomplete reference table joins",
+    "criticality='error': any row failing this rule goes to quarantine and is blocked from Gold",
   ],
 };
 
@@ -216,7 +216,7 @@ export function WriteYourOwnRule() {
             You do not need to be a developer to write rules
           </h3>
           <p className="text-sm text-gray-600 leading-relaxed max-w-3xl">
-            DQX rules are short Python snippets — but you do not have to write them from scratch.
+            DQX rules are short Python snippets, but you do not have to write them from scratch.
             Your job is to <strong>describe the data problem in plain English</strong>. An AI tool
             (Databricks Copilot, Claude, ChatGPT) translates it into working code. You review, paste,
             and run. That is the whole workflow.
@@ -264,7 +264,7 @@ export function WriteYourOwnRule() {
           <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
             <div className="flex items-center gap-2">
               <Sparkles size={14} className="text-[#F47920]" />
-              <span className="text-xs font-semibold text-white/70">Prompt template — paste into Copilot, Claude, or ChatGPT</span>
+              <span className="text-xs font-semibold text-white/70">Prompt template: paste into Copilot, Claude, or ChatGPT</span>
             </div>
             <CopyButton text={PROMPT_TEMPLATE} />
           </div>
@@ -285,7 +285,7 @@ export function WriteYourOwnRule() {
               <ArrowRight size={14} className="text-white" />
             </div>
             <div>
-              <p className="font-semibold text-gray-800 text-sm">Worked example — FINMA product code rule</p>
+              <p className="font-semibold text-gray-800 text-sm">Worked example: FINMA product code rule</p>
               <p className="text-xs text-gray-500">See the full journey from plain-English rule to running code</p>
             </div>
           </div>
@@ -302,7 +302,7 @@ export function WriteYourOwnRule() {
             {/* Step 1: The business rule */}
             <div>
               <p className="text-xs font-bold text-[#1F2144] uppercase tracking-widest mb-2">
-                Step 1 — The rule in plain English
+                Step 1: The rule in plain English
               </p>
               <div className="rounded-xl bg-[#E8E9F0] border border-[#C8CAD8] px-4 py-3">
                 <p className="text-sm text-[#1F2144] italic leading-relaxed">
@@ -314,7 +314,7 @@ export function WriteYourOwnRule() {
             {/* Step 2: The prompt */}
             <div>
               <p className="text-xs font-bold text-purple-700 uppercase tracking-widest mb-2">
-                Step 2 — The prompt you give the AI
+                Step 2: The prompt you give the AI
               </p>
               <div className="rounded-xl bg-[#1F2144] overflow-hidden">
                 <div className="flex items-center justify-between px-4 py-2 border-b border-white/10">
@@ -330,7 +330,7 @@ export function WriteYourOwnRule() {
             {/* Step 3: The code */}
             <div>
               <p className="text-xs font-bold text-cyan-700 uppercase tracking-widest mb-2">
-                Step 3 — What the AI returns
+                Step 3: What the AI returns
               </p>
               <div className="rounded-xl bg-[#1F2144] overflow-hidden">
                 <div className="flex items-center justify-between px-4 py-2 border-b border-white/10">
@@ -357,7 +357,7 @@ export function WriteYourOwnRule() {
             {/* Step 4: Where to put it */}
             <div>
               <p className="text-xs font-bold text-green-700 uppercase tracking-widest mb-2">
-                Step 4 — Add it to your rules list
+                Step 4: Add it to your rules list
               </p>
               <div className="rounded-xl bg-[#1F2144] overflow-hidden">
                 <div className="px-4 py-2 border-b border-white/10">
@@ -411,10 +411,10 @@ good_df, bad_df = engine.apply_checks_and_split(df, rules)`}</pre>
       <div className="rounded-2xl bg-gray-50 border border-gray-200 p-5 flex items-start gap-4">
         <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-sm font-semibold text-gray-800 mb-1">The real skill is spotting the problem — not writing the code</p>
+          <p className="text-sm font-semibold text-gray-800 mb-1">The real skill is spotting the problem, not writing the code</p>
           <p className="text-sm text-gray-600 leading-relaxed">
             A developer can turn any rule into code in seconds. What is harder to learn is knowing
-            <em> which rules matter</em> — what data quality issues would break the FINMA submission, cause an
+            <em> which rules matter</em>: what data quality issues would break the FINMA submission, cause an
             incorrect commission payment, or silently produce wrong KPIs. That domain knowledge is yours.
             The AI handles the syntax.
           </p>

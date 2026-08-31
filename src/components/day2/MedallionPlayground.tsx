@@ -180,8 +180,8 @@ const RENAMES: Record<string, string> = {
   commission_chf: "← brokerage_fee / comm_amt",
   currency: "← ccy",
   coverage_start: "← inception",
-  coverage_end: "new — derived",
-  is_valid: "new — DQX result",
+  coverage_end: "new (derived)",
+  is_valid: "new (DQX result)",
 };
 
 // ─── Main component ───────────────────────────────────────────────────────────
@@ -258,7 +258,7 @@ export function MedallionPlayground() {
       <div className="text-xs text-gray-500 flex items-center gap-2">
         <Layers className="w-3.5 h-3.5" />
         {isBronze &&
-          "Raw BAYO extracts — exactly as delivered. Notice the mixed field names, string amounts, and lowercase values."}
+          "Raw BAYO extracts, exactly as delivered. Notice the mixed field names, string amounts, and lowercase values."}
         {isSilver &&
           "After Silver transformation: entity resolved, fields renamed, amounts cast to float, dates normalised. One record quarantined."}
         {isGold &&
@@ -387,7 +387,7 @@ export function MedallionPlayground() {
                     </div>
                     <p className="text-[10px] text-red-700 font-mono leading-relaxed">
                       DQX rule failed: entity_ref &apos;???&apos; could not be resolved to a registered entity.
-                      Record written to enterprise.bronze.quarantine — not promoted to Silver.
+                      Record written to enterprise.bronze.quarantine. Not promoted to Silver.
                     </p>
                   </div>
                 </div>
@@ -475,7 +475,7 @@ export function MedallionPlayground() {
               <Lock className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
               <p className="text-[10px] text-gray-500">
                 <span className="font-semibold">BAYO-2025-449 excluded from Gold.</span> Quarantined
-                in enterprise.bronze.quarantine — awaiting entity attribution fix from the BAYO data steward.
+                in enterprise.bronze.quarantine, awaiting entity attribution fix from the BAYO data steward.
               </p>
             </div>
           </motion.div>
@@ -511,7 +511,7 @@ export function MedallionPlayground() {
           <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2 rounded-xl">
             <span>🥇</span>
             <span className="font-semibold">
-              Gold layer complete. CHF 58,900 total — ready for Abacus reconciliation.
+              Gold layer complete. CHF 58,900 total, ready for Abacus reconciliation.
             </span>
           </div>
         )}

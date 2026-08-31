@@ -26,8 +26,8 @@ const layers = [
       broker_fee_pct: "10",
       source_system: "BAYO_CRM_V2",
     },
-    issues: ["Insured name in lowercase", "LoB code not human-readable", "Dates in YYYYMMDD not ISO", "Expiry date missing", "Commission amount stored as string"],
-    description: "Exact copy of what arrived from the BAYO CRM export. No changes. Preserves the original — warts and all.",
+    issues: ["Insured name in lowercase", "Line of Business code is a raw abbreviation, not a readable label", "Dates in YYYYMMDD format, not the standard 2024-01-01 format", "Expiry date missing", "Commission amount stored as text rather than a number"],
+    description: "Exact copy of what arrived from the BAYO CRM export. No changes. Preserves the original, warts and all.",
   },
   {
     id: "silver",
@@ -50,8 +50,8 @@ const layers = [
       commission_rate: 0.10,
       is_valid: true,
     },
-    fixes: ["Insured name title-cased", "LoB code decoded via product type mapping table → FINMA product category", "Insurer name resolved to FINMA-registered entity via insurer name mapping table", "Dates converted to ISO 8601", "Coverage end date derived (inception + 12 months)", "Premium cast to decimal"],
-    description: "Cleaned, validated, and standardised. Reference table joins add FINMA product codes and registered insurer names. Safe to use for analysis. Still one row per policy.",
+    fixes: ["Insured name capitalised correctly", "Line of Business code translated to a readable FINMA product category using the reference table", "Insurer name matched to the official FINMA-registered name using the mapping table", "Dates converted to the standard 2024-01-01 format", "Coverage end date calculated (start date plus 12 months)", "Commission amount converted from text to a number"],
+    description: "Cleaned, validated, and standardised. Reference table joins add the FINMA product category and the official insurer name. Safe to use for analysis. Still one row per policy.",
   },
   {
     id: "gold",
@@ -70,7 +70,7 @@ const layers = [
       policy_count: 847,
       renewal_rate_pct: 91.3,
     },
-    additions: ["Aggregated 847 policies into quarterly totals", "Commission calculated (rate × premium)", "Renewal rate derived from policies renewed vs. lapsed", "Optimised for board-level reporting"],
+    additions: ["847 policies aggregated into quarterly totals", "Commission calculated (rate multiplied by premium)", "Renewal rate: the proportion of policies renewed rather than cancelled", "Ready for board dashboards and FINMA reports"],
     description: "Aggregated and enriched for reporting. One row per line of business per quarter. Query this layer for dashboards.",
   },
 ];
@@ -250,17 +250,17 @@ export function MedallionFlow() {
                 {
                   emoji: "🐛",
                   title: "Dirty data",
-                  body: "Bronze contains exactly what arrived from the CRM export — lowercase insured names, missing expiry dates, commission amounts stored as strings. Reporting on it means your commission dashboard reflects those errors.",
+                  body: "Bronze contains exactly what arrived from the CRM export: lowercase insured names, missing expiry dates, commission amounts stored as strings. Reporting on it means your commission dashboard reflects those errors.",
                 },
                 {
                   emoji: "📐",
                   title: "No standards",
-                  body: "BAYO exports dates as YYYYMMDD; IBS Alabus exports DD/MM/YYYY. Without Silver&apos;s standardisation, a JOIN between two Bronze tables would silently drop or double-count commission records.",
+                  body: "BAYO exports dates as YYYYMMDD; IBS Alabus exports DD/MM/YYYY. Without Silver&apos;s standardisation, combining two Bronze tables would silently drop or double-count commission records.",
                 },
                 {
                   emoji: "🔢",
                   title: "Wrong granularity",
-                  body: "Your board wants total commission by line of business for the quarter — not 847 individual policy rows. Bronze has one row per policy. Gold aggregates those into the KPIs your executives actually need.",
+                  body: "Your board wants total commission by line of business for the quarter, not 847 individual policy rows. Bronze has one row per policy. Gold aggregates those into the KPIs your executives actually need.",
                 },
               ].map(({ emoji, title, body }) => (
                 <div key={title} className="rounded-xl bg-amber-50 border border-amber-100 p-4">

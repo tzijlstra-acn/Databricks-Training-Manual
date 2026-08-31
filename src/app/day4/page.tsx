@@ -49,7 +49,7 @@ export default function Day4Page() {
             </div>
             <h1 className="text-2xl font-bold text-gray-900">Automate &amp; Monitor</h1>
             <p className="text-gray-600 mt-1">
-              Build automated pipelines, enforce data quality gates, and monitor your workflows — so bad data never reaches your stakeholders.
+              Build automated pipelines, add data quality checks, and monitor your workflows so that bad data never reaches your stakeholders.
             </p>
             <div className="flex flex-wrap gap-2 mt-3">
               {["Databricks Jobs", "Pipeline DAG", "Data Quality (DQX)", "Monitoring & Alerting"].map((topic) => (
@@ -69,7 +69,7 @@ export default function Day4Page() {
         Abacus. With Databricks <strong>Jobs</strong>, the moment a file lands, automated DQ checks fire:{" "}
         <em>Can every row be attributed to exactly one of the 5 entities? Is the commission field non-null?
         Do the totals match Abacus cashflows within the CHF 10,000 / 5% variance threshold?</em> Rows
-        that fail are quarantined before they reach Silver — and an alert fires immediately so nothing slips
+        that fail are quarantined before they reach Silver. An alert fires immediately so nothing slips
         through to the 31 May submission.
       </HowdenContext>
 
@@ -78,7 +78,7 @@ export default function Day4Page() {
         <h2 className="text-lg font-bold text-gray-900 mb-1">Pipeline Dependency Graph</h2>
         <p className="text-sm text-gray-500 mb-4">
           Choose a failure scenario, then click <strong>Run Scenario</strong> to watch tasks execute in sequence.
-          See how a failure upstream blocks all downstream tasks — and why the FINMA Gold tables are protected.
+          See how a failure upstream blocks all downstream tasks, and why the FINMA Gold tables are protected.
         </p>
         <div className="rounded-2xl border border-gray-200 bg-white p-5">
           <PipelineSimulator />
@@ -88,7 +88,7 @@ export default function Day4Page() {
           <div className="space-y-4 text-sm text-gray-700">
             <p>
               Databricks Jobs can orchestrate complex multi-step workflows with conditional branching, retry logic,
-              and cross-task value passing — no external orchestrator required for most use cases.
+              and cross-task value passing. No external orchestrator is required for most use cases.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               {["Notebook", "Python script", "SQL", "DLT pipeline", "dbt", "Spark JAR"].map((t) => (
@@ -125,7 +125,7 @@ if count == 0:
           </div>
         </AdvancedSection>
 
-        <AdvancedSection title="Delta Live Tables (DLT) — Declarative Pipelines" badge="Architecture">
+        <AdvancedSection title="Delta Live Tables (DLT): Declarative Pipelines" badge="Architecture">
           <div className="space-y-4 text-sm text-gray-700">
             <p>
               DLT flips the orchestration model: instead of writing imperative code that runs tasks in order,
@@ -176,7 +176,7 @@ def gold_commission_summary():
       <div>
         <h2 className="text-lg font-bold text-gray-900 mb-1">Data Quality with DQX</h2>
         <p className="text-sm text-gray-500 mb-4">
-          DQX (Databricks Quality Extension) applies rule-based gates before data reaches Gold. Only records passing all rules flow through.
+          DQX (Databricks Quality Extension) checks every record against a set of rules before it can move to Gold. Records that fail are quarantined automatically.
         </p>
         <DQXFlow />
 
@@ -220,7 +220,7 @@ bad_df.write.mode("append").saveAsTable("enterprise.bronze.quarantine")`}
             </pre>
             <p className="text-sm text-gray-600">
               The quarantine table schema includes the original record plus a <code className="bg-gray-100 px-1 rounded">_errors</code> column
-              listing which rules failed and why — making it easy for data stewards to investigate issues.
+              listing which rules failed and why, making it easy for data stewards to investigate issues.
             </p>
           </div>
         </AdvancedSection>
@@ -228,7 +228,7 @@ bad_df.write.mode("append").saveAsTable("enterprise.bronze.quarantine")`}
 
       {/* Write your own rule */}
       <div>
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Write Your Own Rules — with a Little AI Help</h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Write Your Own Rules, with a Little AI Help</h2>
         <p className="text-sm text-gray-500 mb-5">
           You do not need to know Python to add a rule. Describe the data problem in plain English and let an AI tool write the code.
         </p>
@@ -330,7 +330,7 @@ bad_df.write.mode("append").saveAsTable("enterprise.bronze.quarantine")`}
         <AdvancedSection title="Observability & Monitoring" badge="Operations">
           <div className="space-y-4 text-sm text-gray-700">
             <p>
-              Databricks exposes system telemetry through <strong>system tables</strong> — Delta tables you can
+              Databricks exposes system telemetry through <strong>system tables</strong>, which are Delta tables you can
               query like any other table. No external monitoring tool required for most operational dashboards.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">

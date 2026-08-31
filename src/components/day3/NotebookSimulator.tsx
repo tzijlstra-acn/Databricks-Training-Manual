@@ -24,7 +24,7 @@ const cells: Cell[] = [
   {
     id: 1,
     language: "Markdown",
-    content: `## FINMA 2025 — Entity Attribution Check\nValidating commission totals per entity before FINMA submission.`,
+    content: `## FINMA 2025: Entity Attribution Check\nValidating commission totals per entity before FINMA submission.`,
   },
   {
     id: 2,
@@ -200,7 +200,7 @@ export function NotebookSimulator() {
                   <div className="px-4 pb-4">
                     {cell.id === 1 && (
                       <div className="text-gray-300 text-sm">
-                        <h2 className="text-lg font-bold text-white">FINMA 2025 — Entity Attribution Check</h2>
+                        <h2 className="text-lg font-bold text-white">FINMA 2025: Entity Attribution Check</h2>
                         <p className="text-gray-400 mt-1">Validating commission totals per entity before FINMA submission.</p>
                       </div>
                     )}
@@ -233,7 +233,7 @@ export function NotebookSimulator() {
                             ))}
                           </tbody>
                         </table>
-                        <p className="text-gray-500 text-xs mt-2">5 rows × 3 columns — enterprise.silver.commissions_clean — 0.38s</p>
+                        <p className="text-gray-500 text-xs mt-2">5 rows × 3 columns · enterprise.silver.commissions_clean · 0.38s</p>
                       </div>
                     )}
                     {cell.id === 3 && (
@@ -254,7 +254,7 @@ export function NotebookSimulator() {
                             <Bar dataKey="commission" fill="#3B82F6" radius={[4, 4, 0, 0]} />
                           </BarChart>
                         </ResponsiveContainer>
-                        <p className="text-gray-500 text-xs mt-1">Total commission by entity code — enterprise.silver.commissions_clean — 1.14s</p>
+                        <p className="text-gray-500 text-xs mt-1">Total commission by entity code · enterprise.silver.commissions_clean · 1.14s</p>
                       </div>
                     )}
                   </div>
