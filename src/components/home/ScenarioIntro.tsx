@@ -22,10 +22,10 @@ const SCRAMBLED_ROWS = [
 
 const OBJECTIVES = [
   { day: 1, label: "Navigate the platform",        detail: "Workspace · Catalog · Unity Catalog hierarchy" },
-  { day: 2, label: "Understand Medallion layers",  detail: "Bronze → DQ → Silver → Gold for the 5-entity pipeline" },
+  { day: 2, label: "Understand Medallion layers",  detail: "Bronze → DQ → Silver → Gold. Five pipelines, one per entity." },
   { day: 3, label: "Query and validate",           detail: "SQL to check entity attribution and commission totals" },
   { day: 4, label: "Automate with quality gates",  detail: "Flag attribution errors and field mismatches before Silver" },
-  { day: 5, label: "Produce the 5 FINMA reports",  detail: "Gold datasets validated, reconciled against Abacus, ready for submission" },
+  { day: 5, label: "Produce the 5 FINMA reports",  detail: "Gold tables written per entity, Power BI refreshed, reports ready for submission" },
 ];
 
 export function ScenarioIntro() {

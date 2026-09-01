@@ -186,7 +186,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 2,
     explanation:
-      "Gold is aggregated and business-ready. In the FINMA pipeline it contains exactly 5 rows — one per entity — with FINMA-reportable totals. Dashboards should always query Gold.",
+      "Gold is aggregated and business-ready. In the FINMA pipeline, each entity has its own Gold table containing its FINMA-reportable totals. Each Gold table is only written once the pipeline for that entity completes successfully.",
   },
   {
     id: "d2-b3",
@@ -243,16 +243,16 @@ export const testQuestions: TestQuestion[] = [
     day: 2,
     difficulty: "standard",
     question:
-      "How many rows does enterprise.gold.finma_commission_summary contain, and why?",
+      "How is the Gold layer structured in the Howden FINMA pipeline?",
     options: [
-      "123,536 rows — one per commission deal across all CRM systems",
-      "5 rows — one aggregated total per Howden entity",
-      "48,234 rows — one per BAYO deal requiring attribution",
-      "1 row — a single grand total across all entities",
+      "One shared Gold table with 123,536 rows, one per commission deal",
+      "One Gold table per entity, each containing that entity's FINMA-reportable totals",
+      "A single Gold table with one grand total across all 5 entities",
+      "Gold tables are created in Bronze and promoted to Gold after validation",
     ],
     correctIndex: 1,
     explanation:
-      "Gold is aggregated to business reporting level. The FINMA report needs one row per entity (HW-CH-01 through HW-CH-05) — so the Gold table contains exactly 5 rows.",
+      "Each entity runs its own pipeline that writes its own Gold table. The Gold table is only created after all DQX checks pass. This keeps entity data separate and ensures each FINMA submission is independently validated.",
   },
 
   // ── DAY 2 · PRO ─────────────────────────────────────────────────
@@ -537,7 +537,7 @@ export const testQuestions: TestQuestion[] = [
     day: 4,
     difficulty: "pro",
     question:
-      "The Entity Attribution DQX rule checks 123,536 rows. The Abacus Variance Gate checks only 5 rows (one per entity). What category of DQX rule is the Abacus Variance Gate?",
+      "The Entity Attribution DQX rule checks every individual row. The Abacus Variance Gate checks a single aggregated total for the entity. What category of DQX rule is the Abacus Variance Gate?",
     options: [
       "null — checks that commission_chf is not null or zero",
       "duplicate — identifies repeated deal_id values within an entity",

@@ -85,12 +85,12 @@ const lineageNodes = [
   {
     id: "gold",
     label: "Gold Table",
-    table: "enterprise.gold.finma_commission_summary",
+    table: "enterprise.gold.howden_schweiz_commission",
     icon: "🥇",
     color: "#B45309",
     bg: "#FFFBEB",
     border: "#FDE68A",
-    description: "enterprise.gold.finma_commission_summary. Five rows, one per entity, with FINMA-reportable totals. Built by aggregating all validated Silver records and reconciling against Abacus.",
+    description: "Each entity has its own Gold table written by its own pipeline. This table holds FINMA-reportable totals for Howden Schweiz AG, built by aggregating all validated Silver records for this entity and reconciling against Abacus. Written only after all DQX checks pass.",
   },
   {
     id: "query",

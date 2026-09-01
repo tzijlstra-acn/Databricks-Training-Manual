@@ -66,19 +66,24 @@ export default function Day4Page() {
         Today a data steward manually extracts from each CRM, checks the file looks roughly right, and sends
         it to Accenture. If a BAYO row is attributed to the wrong entity, or the MAX export uses a different
         commission field this year, nobody finds out until the FINMA report totals don&apos;t reconcile against
-        Abacus. With Databricks <strong>Jobs</strong>, the moment a file lands, automated DQ checks fire:{" "}
-        <em>Can every row be attributed to exactly one of the 5 entities? Is the commission field non-null?
+        Abacus. With Databricks <strong>Jobs</strong>, each entity runs its own dedicated pipeline. The moment
+        a CRM file lands, automated DQ checks fire:{" "}
+        <em>Can every row be attributed to this entity? Is the commission field non-null?
         Do the totals match Abacus cashflows within the CHF 10,000 / 5% variance threshold?</em> Rows
-        that fail are quarantined before they reach Silver. An alert fires immediately so nothing slips
-        through to the 31 May submission.
+        that fail are quarantined before they reach Silver. Only when all checks pass does the pipeline write
+        that entity&apos;s Gold table. An alert fires immediately on any failure so nothing slips
+        through to the 31 May submission. Once the Gold table is written, the Power BI report is refreshed
+        to show the new numbers.
       </HowdenContext>
 
       {/* Pipeline Simulator */}
       <div>
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Pipeline Dependency Graph</h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Entity Pipeline: Dependency Graph</h2>
         <p className="text-sm text-gray-500 mb-4">
-          Choose a failure scenario, then click <strong>Run Scenario</strong> to watch tasks execute in sequence.
-          See how a failure upstream blocks all downstream tasks, and why the FINMA Gold tables are protected.
+          Each of the 5 Howden Swiss entities runs its own pipeline following this pattern. Choose a failure
+          scenario, then click <strong>Run Scenario</strong> to watch tasks execute in sequence.
+          See how a failure upstream blocks all downstream tasks, protecting the entity&apos;s Gold table
+          until all checks pass.
         </p>
         <div className="rounded-2xl border border-gray-200 bg-white p-5">
           <PipelineSimulator />

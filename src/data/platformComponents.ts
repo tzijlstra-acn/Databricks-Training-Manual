@@ -215,9 +215,10 @@ export const catalogTree = {
       type: "schema" as const,
       description: "Business-ready reporting tables",
       children: [
-        { name: "finma_commission_summary", type: "table" as const, rows: "5",     description: "One row per entity — FINMA-reportable commission totals for 2025 submission (Art. 190b ISO). Deadline: 31 May.", layer: "gold" as const },
-        { name: "abacus_reconciliation",    type: "table" as const, rows: "5",     description: "Commission totals vs Abacus cashflows by entity. Variance flagged if > CHF 10,000 or > 5% of category total.", layer: "gold" as const },
-        { name: "commission_by_period",     type: "table" as const, rows: "1,248", description: "Monthly commission aggregated by entity and line of business for internal management reporting.", layer: "gold" as const },
+        { name: "howden_schweiz_commission", type: "table" as const, rows: "1", description: "FINMA-reportable commission totals for Howden Schweiz AG (Art. 190b ISO). Written by the Howden Schweiz pipeline after all DQX checks pass. Deadline: 31 May.", layer: "gold" as const },
+        { name: "swibro_commission",         type: "table" as const, rows: "1", description: "FINMA-reportable commission totals for SWIBRO AG. Written by the SWIBRO pipeline after all DQX checks pass. Deadline: 31 May.", layer: "gold" as const },
+        { name: "abacus_reconciliation",     type: "table" as const, rows: "5", description: "Commission totals vs Abacus cashflows by entity. Variance flagged if > CHF 10,000 or > 5% of category total.", layer: "gold" as const },
+        { name: "commission_by_period",      type: "table" as const, rows: "1,248", description: "Monthly commission aggregated by entity and line of business for internal management reporting.", layer: "gold" as const },
       ],
     },
     {

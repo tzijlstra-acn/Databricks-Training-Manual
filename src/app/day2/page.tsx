@@ -77,8 +77,9 @@ export default function Day2Page() {
           delivered, as an untouched audit trail that is always recoverable. <strong>Silver</strong> applies the fixes a data
           steward does manually today: rename all commission field variants to one canonical name, split BAYO rows
           correctly by entity, resolve CRM product codes and insurer names to their FINMA equivalents using the
-          reference tables, and flag anything ambiguous. <strong>Gold</strong> produces 5 separate datasets, one
-          per entity, reconciled against Abacus and ready for FINMA submission by 31 May.
+          reference tables, and flag anything ambiguous. <strong>Gold</strong> is the end result: each entity
+          has its own pipeline that writes its own Gold table once all checks pass. Five pipelines, five Gold tables,
+          all reconciled against Abacus and ready for FINMA submission by 31 May.
         </HowdenContext>
 
         {/* ══════════════════════════════════════════════════════════════════

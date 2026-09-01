@@ -27,7 +27,7 @@ export const pipelineTasks: PipelineTask[] = [
   {
     id: "task-4",
     name: "FINMA Report Build",
-    description: "Aggregate validated Silver data into 5 entity-level Gold datasets — one per entity — ready for FINMA intermediary submission by 31 May.",
+    description: "Aggregate validated Silver data into this entity's Gold table. The Gold table is written only after all upstream tasks complete successfully. Once written, it is registered in Unity Catalog and ready for FINMA intermediary submission by 31 May.",
     status: "waiting",
     type: "build",
   },
@@ -69,7 +69,7 @@ export const failedPipelineTasks: PipelineTask[] = [
   {
     id: "task-4",
     name: "FINMA Report Build",
-    description: "Aggregate validated Silver data into 5 entity-level Gold datasets for FINMA submission.",
+    description: "Aggregate validated Silver data into this entity's Gold table for FINMA submission. The Gold table is written only if all DQX checks pass.",
     status: "waiting",
     type: "build",
   },

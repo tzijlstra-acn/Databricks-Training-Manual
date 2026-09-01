@@ -12,8 +12,8 @@ const capstoneNodes = [
   { id: "source", label: "Source System", color: "#6B7280", bg: "#F9FAFB", desc: "CRM, Mainframe, APIs" },
   { id: "bronze", label: "Bronze", color: "#CD7F32", bg: "#FDF3E7", desc: "Raw ingested data" },
   { id: "silver", label: "Silver", color: "#9CA3AF", bg: "#F3F4F6", desc: "Cleaned & validated" },
-  { id: "gold", label: "Gold", color: "#D97706", bg: "#FFFBEB", desc: "Business-ready" },
-  { id: "sql", label: "SQL / Queries", color: "#0891B2", bg: "#EFF8FB", desc: "Saved queries" },
+  { id: "gold", label: "Gold", color: "#D97706", bg: "#FFFBEB", desc: "Entity table written" },
+  { id: "powerbi", label: "Power BI", color: "#F2C811", bg: "#FFFDE8", desc: "Refresh triggered" },
   { id: "dashboard", label: "Dashboard", color: "#7C3AED", bg: "#F5F3FF", desc: "Visual KPIs" },
   { id: "genie", label: "Genie AI", color: "#DC2626", bg: "#FEF2F2", desc: "Natural language" },
   { id: "decision", label: "Business Decision", color: "#1F2144", bg: "#E8E9F0", desc: "Value created" },
@@ -52,10 +52,12 @@ export default function Day5Page() {
 
       <HowdenContext>
         Today, getting total commission by line of business means someone assembles the CSVs, runs the pivot in
-        Excel, and sends a report, sometimes a day later and sometimes with last week&apos;s data. Once the CSVs are flowing
-        through Databricks, that same question becomes a 10-second <strong>Genie</strong> query:{" "}
-        &ldquo;What is our total commission for Swiss property this quarter?&rdquo; Answered live, from a
-        dashboard, by anyone. And if a number looks wrong, you can click it to trace it all the way back to the
+        Excel, and sends a report, sometimes a day later and sometimes with last week&apos;s data. Once the CSVs are
+        flowing through Databricks, each entity pipeline writes its own Gold table the moment all quality checks pass.
+        Power BI connects directly to those Gold tables: once you trigger a refresh, the report updates immediately
+        with the latest numbers. That same data is also available as a 10-second <strong>Genie</strong> query:{" "}
+        &ldquo;What is our total commission for Swiss property this quarter?&rdquo; Answered live, from the
+        Gold table, by anyone. And if a number looks wrong, you can click it to trace it all the way back to the
         exact row in the original CSV that generated it.
       </HowdenContext>
 
@@ -143,6 +145,78 @@ FROM enterprise.gold.commission_kpi_mv;`}
             </pre>
           </div>
         </AdvancedSection>
+      </section>
+
+      {/* Power BI Refresh */}
+      <section className="mb-14">
+        <div className="mb-5">
+          <h2 className="text-xl font-bold text-gray-900">Power BI: Refreshing After the Pipeline</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Power BI connects to the Databricks Gold tables. When a pipeline completes successfully and
+            writes a new Gold table, Power BI needs to be refreshed to pull in the updated numbers.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-yellow-200 bg-yellow-50 p-6 space-y-5">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">📊</span>
+            <div>
+              <p className="text-sm font-bold text-yellow-900 mb-1">How Power BI connects to Gold</p>
+              <p className="text-sm text-yellow-800 leading-relaxed">
+                Power BI uses the Databricks connector to read directly from Gold tables in Unity Catalog.
+                It does not copy the data: it queries the Gold table each time a refresh runs. This means
+                the report always reflects whatever is in the Gold table at the time of the last refresh.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              {
+                step: "1",
+                title: "Pipeline completes",
+                desc: "All 5 tasks pass. The entity's Gold table is written to Unity Catalog.",
+                color: "#059669",
+                bg: "#ECFDF5",
+                border: "#A7F3D0",
+              },
+              {
+                step: "2",
+                title: "Trigger a refresh",
+                desc: "In Power BI Service, open the dataset and click Refresh now, or wait for the scheduled refresh to run automatically.",
+                color: "#0891B2",
+                bg: "#EFF8FB",
+                border: "#BAE6FD",
+              },
+              {
+                step: "3",
+                title: "Report updates",
+                desc: "Once the refresh completes, all visuals in the report show the latest numbers from the Gold table.",
+                color: "#7C3AED",
+                bg: "#F5F3FF",
+                border: "#DDD6FE",
+              },
+            ].map(({ step, title, desc, color, bg, border }) => (
+              <div key={step} className="rounded-xl border p-4" style={{ backgroundColor: bg, borderColor: border }}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: color }}>{step}</span>
+                  <p className="text-sm font-bold" style={{ color }}>{title}</p>
+                </div>
+                <p className="text-xs leading-relaxed" style={{ color }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-xl bg-white border border-yellow-200 p-4">
+            <p className="text-xs font-bold text-gray-700 mb-2">Important: the report only updates when you refresh</p>
+            <ul className="text-xs text-gray-600 space-y-1.5 list-disc list-inside">
+              <li>If the pipeline ran overnight but no refresh has been triggered, Power BI still shows yesterday&apos;s numbers.</li>
+              <li>You can schedule an automatic refresh in Power BI Service to run shortly after the pipeline is expected to finish.</li>
+              <li>If the pipeline failed, do not refresh: the Gold table was not updated, so the report would show the same data as before.</li>
+              <li>A failed pipeline sends an alert. Wait until the pipeline has been re-run successfully before refreshing.</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       {/* Genie Demo */}

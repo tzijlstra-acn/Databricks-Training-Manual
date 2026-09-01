@@ -56,7 +56,7 @@ const BASE_TASKS = [
     name: "Report Build",
     fullName: "FINMA Report Build",
     description:
-      "Aggregate validated Silver data into 5 entity-level Gold datasets (one per entity), ready for FINMA intermediary submission by 31 May.",
+      "Aggregate validated Silver data into this entity's Gold table. The Gold table is written only once all upstream tasks complete successfully. It is then available in Unity Catalog and ready for FINMA intermediary submission by 31 May.",
     type: "build" as const,
     emoji: "🏗️",
     typeColor: "#B45309",
@@ -111,17 +111,17 @@ const SCENARIOS: Scenario[] = [
     bg: "#ECFDF5",
     border: "#A7F3D0",
     summary:
-      "All 5 tasks completed. 48,421 records attributed across 5 entities. CHF 12.4M reconciled. Abacus variance CHF 4,200 (within threshold).",
+      "All 5 tasks completed. 48,421 records ingested. 100% attributed. CHF 12.4M reconciled. Gold table written and registered in Unity Catalog. Power BI refresh can now be triggered.",
     tasks: [
       {
         state: "success",
         duration: "2m 14s",
-        successNote: "48,421 records loaded from 5 source systems",
+        successNote: "48,421 records loaded from CRM extract into Bronze",
       },
       {
         state: "success",
         duration: "3m 48s",
-        successNote: "100% attribution, all BAYO rows assigned",
+        successNote: "100% attribution, all rows assigned to this entity",
       },
       {
         state: "success",
@@ -131,7 +131,7 @@ const SCENARIOS: Scenario[] = [
       {
         state: "success",
         duration: "4m 22s",
-        successNote: "5 entity Gold tables built and registered in Unity Catalog",
+        successNote: "Gold table written and registered in Unity Catalog",
       },
       {
         state: "success",
