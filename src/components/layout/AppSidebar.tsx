@@ -19,6 +19,7 @@ import {
   ChevronRight,
   CheckCircle,
   Circle,
+  Download,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getProgress } from "@/lib/progress";
@@ -50,6 +51,7 @@ const navItems: NavItem[] = [
   { href: "/glossary", label: "Glossary", icon: <BookOpen size={16} /> },
   { href: "/troubleshooting", label: "Troubleshooting", icon: <Wrench size={16} /> },
   { href: "/knowledge-check", label: "Knowledge Check", icon: <CheckCircle2 size={16} /> },
+  { href: "/booklet", label: "Training Booklet", icon: <Download size={16} /> },
 ];
 
 export function AppSidebar() {
