@@ -102,11 +102,32 @@ export default function BookletPage() {
   const handleDownload = useCallback(async () => {
     setStatus("generating");
     try {
+      // Pre-fetch every screenshot as a data URL so react-pdf never does its own
+      // fetch (which hangs on special-character filenames or CORS edge cases).
+      const resolvedScreenshots: Record<string, string> = {};
+      await Promise.allSettled(
+        Object.entries(SCREENSHOTS).map(async ([key, url]) => {
+          try {
+            const res = await fetch(url);
+            if (!res.ok) return;
+            const blob = await res.blob();
+            resolvedScreenshots[key] = await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result as string);
+              reader.onerror = reject;
+              reader.readAsDataURL(blob);
+            });
+          } catch {
+            // Missing screenshot — ScreenshotBlock renders a placeholder, no crash.
+          }
+        })
+      );
+
       const [{ pdf }, { BookletDocument }] = await Promise.all([
         import("@react-pdf/renderer"),
         import("@/components/booklet/BookletDocument"),
       ]);
-      const blob = await pdf(<BookletDocument screenshots={SCREENSHOTS} />).toBlob();
+      const blob = await pdf(<BookletDocument screenshots={resolvedScreenshots} />).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;

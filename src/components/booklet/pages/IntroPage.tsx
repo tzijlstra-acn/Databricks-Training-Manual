@@ -1,6 +1,52 @@
 import { Page, View, Text } from "@react-pdf/renderer";
 import { COLORS, styles } from "../styles";
-import { PageHeader, PageFooter, CalloutBox, SectionTitle, Body, ScreenshotBlock, TwoColumn, Column, MedallionDiagram } from "../shared";
+import { PageHeader, PageFooter, ScreenshotBlock, MedallionDiagram } from "../shared";
+
+const AGENDA = [
+  {
+    day: "01",
+    title: "Foundations",
+    color: COLORS.day1,
+    bg: "#EFF6FF",
+    items: ["Platform orientation", "7 workspace UI areas", "Workspace vs Catalog"],
+  },
+  {
+    day: "02",
+    title: "Data & Catalog",
+    color: COLORS.day2,
+    bg: "#ECFEFF",
+    items: ["Medallion Architecture", "Unity Catalog", "5 source CRMs"],
+  },
+  {
+    day: "03",
+    title: "Develop & Query",
+    color: COLORS.day3,
+    bg: "#ECFDF5",
+    items: ["Notebooks & SQL Editor", "Compute types", "Query Gold tables"],
+  },
+  {
+    day: "04",
+    title: "Automate & Monitor",
+    color: COLORS.day4,
+    bg: "#FFFBEB",
+    items: ["Databricks Jobs", "DQX data quality", "6-step Alerts"],
+  },
+  {
+    day: "05",
+    title: "Analyze & Apply",
+    color: COLORS.day5,
+    bg: "#F5F3FF",
+    items: ["Genie AI Spaces", "Lakeview Dashboards", "End-to-end FINMA flow"],
+  },
+];
+
+const ENTITIES = [
+  { name: "Howden Schweiz AG", crm: "BAYO + IBS Alabus" },
+  { name: "SWIBRO AG", crm: "BAYO (split in Silver)" },
+  { name: "Howden Broker Services AG", crm: "MAX CRM" },
+  { name: "Perennial AG", crm: "KETL" },
+  { name: "KETL AG", crm: "Vorsorge Partner CRM" },
+];
 
 export function IntroPage({ screenshots }: { screenshots: Record<string, string> }) {
   return (
@@ -9,63 +55,110 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
       <PageFooter />
 
       {/* Title */}
-      <View style={{ marginBottom: 16 }}>
-        <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 20, color: COLORS.navy, marginBottom: 4 }}>
+      <View style={{ marginBottom: 14 }}>
+        <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 22, color: COLORS.navy, marginBottom: 3 }}>
           Introduction
         </Text>
-        <Text style={{ fontSize: 10, color: COLORS.gray500 }}>
-          Platform overview · FINMA context · How to use this booklet
+        <Text style={{ fontSize: 9.5, color: COLORS.gray500 }}>
+          Platform overview · FINMA context · 5-day agenda
         </Text>
       </View>
-
-      {/* What is Databricks */}
-      <SectionTitle>What is Databricks?</SectionTitle>
-      <Body>
-        Databricks is a unified data and AI platform built on Apache Spark, running on Azure cloud infrastructure. It brings together data storage, compute, governance, and analytics into a single workspace — removing the need to manage multiple separate tools for ingestion, transformation, reporting, and machine learning.
-      </Body>
-      <Body>
-        At Howden, Databricks serves as the central engine for the FINMA Commission Reporting pipeline: raw commission data from five CRM systems flows in, is validated and transformed, and emerges as a FINMA-ready Gold dataset ready for regulatory submission by 31 May each year.
-      </Body>
-
-      {/* FINMA context */}
-      <CalloutBox title="The Howden FINMA Context">
-        {"FINMA Article 190b ISO requires Swiss insurance intermediaries to submit annual commission reports per legal entity by 31 May. Howden Switzerland operates five entities: Howden Schweiz AG, SWIBRO AG, Howden Broker Services AG, Perennial AG, and KETL AG. Each entity's commission data is extracted from a different CRM, processed through Databricks, validated against Abacus cashflows, and submitted separately."}
-      </CalloutBox>
 
       {/* Home screenshot */}
       <ScreenshotBlock
         src={screenshots["home"]}
-        caption="The Databricks home page — recently accessed objects, suggested items, and the left navigation panel"
+        caption="The Databricks home page — recently accessed objects, suggested items, and navigation"
         height={155}
       />
 
+      {/* What + why — very brief */}
+      <View style={{ flexDirection: "row", gap: 8, marginBottom: 14 }}>
+        <View style={{ flex: 1, backgroundColor: COLORS.surface, borderRadius: 4, padding: 10, borderWidth: 1, borderColor: COLORS.gray200 }}>
+          <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5, color: COLORS.navy, marginBottom: 4 }}>What is Databricks?</Text>
+          <Text style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5 }}>
+            A unified data + AI platform on Azure. Brings storage, compute, governance, and analytics into one workspace.
+          </Text>
+        </View>
+        <View style={{ flex: 1, backgroundColor: "#FFF3E8", borderRadius: 4, padding: 10, borderWidth: 1, borderColor: "#F47920" }}>
+          <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5, color: "#78350F", marginBottom: 4 }}>Why Howden uses it</Text>
+          <Text style={{ fontSize: 8.5, color: "#78350F", lineHeight: 1.5 }}>
+            FINMA Art. 190b ISO requires annual commission reports per entity by 31 May. Databricks automates the full pipeline — from raw CRM export to validated FINMA submission.
+          </Text>
+        </View>
+      </View>
+
+      {/* The 5 entities */}
+      <View style={{ backgroundColor: COLORS.navy, borderRadius: 5, padding: 12, marginBottom: 14 }}>
+        <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5, color: COLORS.orange, marginBottom: 8 }}>
+          5 Howden Entities — 5 FINMA Submissions
+        </Text>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
+          {ENTITIES.map((e) => (
+            <View
+              key={e.name}
+              style={{
+                backgroundColor: "rgba(255,255,255,0.08)",
+                borderRadius: 4,
+                paddingHorizontal: 8,
+                paddingVertical: 5,
+                borderWidth: 1,
+                borderColor: "rgba(255,255,255,0.15)",
+                flex: 1,
+                minWidth: 130,
+              }}
+            >
+              <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8, color: COLORS.white, marginBottom: 2 }}>{e.name}</Text>
+              <Text style={{ fontSize: 7.5, color: "rgba(255,255,255,0.55)" }}>{e.crm}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
       {/* Medallion */}
-      <SectionTitle>The Medallion Architecture</SectionTitle>
-      <Body>
-        {"All data in this platform follows the Medallion Architecture: a three-layer pattern that progressively refines raw data into trusted, business-ready datasets."}
-      </Body>
+      <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 10.5, color: COLORS.navy, marginBottom: 6 }}>
+        The Medallion Architecture
+      </Text>
       <MedallionDiagram />
 
-      {/* How to use */}
-      <SectionTitle>How to Use This Booklet</SectionTitle>
-      <TwoColumn>
-        <Column>
-          <View style={{ backgroundColor: COLORS.surface, borderRadius: 4, padding: 10, borderWidth: 1, borderColor: COLORS.gray200 }}>
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5, color: COLORS.navy, marginBottom: 5 }}>For New Learners</Text>
-            <Text style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5 }}>
-              {"Read chapters 1–5 in order. Each chapter builds on the previous one and follows the flow of the actual FINMA pipeline: from ingesting raw data (Day 1–2) to automating and monitoring it (Day 4) to presenting insights (Day 5)."}
-            </Text>
+      {/* 5-Day Agenda */}
+      <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 10.5, color: COLORS.navy, marginBottom: 8 }}>
+        5-Day Training Agenda
+      </Text>
+      <View style={{ flexDirection: "row", gap: 5 }}>
+        {AGENDA.map((day) => (
+          <View
+            key={day.day}
+            style={{
+              flex: 1,
+              backgroundColor: day.bg,
+              borderRadius: 5,
+              borderTopWidth: 3,
+              borderTopColor: day.color,
+              padding: 8,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: day.color,
+                borderRadius: 10,
+                width: 22,
+                height: 22,
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: 5,
+              }}
+            >
+              <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8, color: COLORS.white }}>{day.day}</Text>
+            </View>
+            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: COLORS.navy, marginBottom: 4 }}>{day.title}</Text>
+            {day.items.map((item) => (
+              <Text key={item} style={{ fontSize: 7.5, color: COLORS.gray700, marginBottom: 2 }}>
+                · {item}
+              </Text>
+            ))}
           </View>
-        </Column>
-        <Column>
-          <View style={{ backgroundColor: COLORS.surface, borderRadius: 4, padding: 10, borderWidth: 1, borderColor: COLORS.gray200 }}>
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5, color: COLORS.navy, marginBottom: 5 }}>As a Reference</Text>
-            <Text style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5 }}>
-              {"Use Appendix A (Glossary) when you encounter an unfamiliar term. Appendix B (Quick Reference) tells you which Databricks component to open for a given task. Appendix C shows how all platform components connect."}
-            </Text>
-          </View>
-        </Column>
-      </TwoColumn>
+        ))}
+      </View>
     </Page>
   );
 }
