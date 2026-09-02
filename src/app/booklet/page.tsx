@@ -7,74 +7,66 @@ const CHAPTERS = [
   {
     number: "01",
     title: "Foundations",
-    subtitle: "Day 1",
-    icon: <BookOpen size={18} />,
+    label: "Day 1",
+    icon: <BookOpen size={20} />,
     color: "#1E40AF",
-    bg: "#EFF6FF",
-    description: "Databricks workspace orientation: 7 UI areas, the difference between Workspace and Unity Catalog, and how to navigate the platform from day one.",
+    bullets: ["7 workspace UI areas", "Workspace vs Unity Catalog", "Navigation essentials"],
   },
   {
     number: "02",
     title: "Data & Catalog",
-    subtitle: "Day 2",
-    icon: <Layers size={18} />,
+    label: "Day 2",
+    icon: <Layers size={20} />,
     color: "#0891B2",
-    bg: "#ECFEFF",
-    description: "The Medallion Architecture (Bronze → Silver → Gold), Unity Catalog hierarchy, the 5 Howden CRM entities, and how data lineage is tracked.",
+    bullets: ["Medallion Architecture", "Unity Catalog hierarchy", "5 source CRM systems"],
   },
   {
     number: "03",
     title: "Develop & Query",
-    subtitle: "Day 3",
-    icon: <Cpu size={18} />,
+    label: "Day 3",
+    icon: <Cpu size={20} />,
     color: "#059669",
-    bg: "#ECFDF5",
-    description: "Notebooks vs SQL Editor, compute types, magic commands, and writing your first SQL query against the Howden Gold tables.",
+    bullets: ["Notebooks & SQL Editor", "Compute types", "Query Gold tables"],
   },
   {
     number: "04",
     title: "Automate & Monitor",
-    subtitle: "Day 4",
-    icon: <Workflow size={18} />,
+    label: "Day 4",
+    icon: <Workflow size={20} />,
     color: "#D97706",
-    bg: "#FFFBEB",
-    description: "Databricks Jobs, the 5-task FINMA pipeline, DQX data quality rules, and setting up 6-step Alerts for the 31 May submission deadline.",
+    bullets: ["Databricks Jobs", "DQX data quality", "6-step Alerts"],
   },
   {
     number: "05",
     title: "Analyze & Apply",
-    subtitle: "Day 5",
-    icon: <BarChart3 size={18} />,
+    label: "Day 5",
+    icon: <BarChart3 size={20} />,
     color: "#7C3AED",
-    bg: "#F5F3FF",
-    description: "Lakeview Dashboards, the four Howden Genie AI Spaces, natural language analytics, and the full end-to-end FINMA data journey.",
+    bullets: ["Genie AI Spaces", "Lakeview Dashboards", "End-to-end FINMA flow"],
   },
   {
     number: "A",
     title: "Glossary",
-    subtitle: "Appendix",
-    icon: <BookMarked size={18} />,
+    label: "Appendix",
+    icon: <BookMarked size={20} />,
     color: "#374151",
-    bg: "#F9FAFB",
-    description: "32 platform terms grouped by category — each with a plain-English definition and a real-world analogy designed for non-technical readers.",
+    bullets: ["32 key terms", "Plain-English definitions", "Real-world analogies"],
   },
   {
     number: "B",
     title: "Platform Quick Reference",
-    subtitle: "Appendix",
-    icon: <Grid3X3 size={18} />,
+    label: "Appendix",
+    icon: <Grid3X3 size={20} />,
     color: "#374151",
-    bg: "#F9FAFB",
-    description: "All 16 workspace sidebar components: what each does, when to use it, and who at Howden uses it — your go-to cheat sheet for navigating the platform.",
+    bullets: ["All 16 workspace components", "When to use each", "Who at Howden uses it"],
   },
   {
     number: "C",
     title: "Architecture Reference",
-    subtitle: "Appendix",
-    icon: <Network size={18} />,
+    label: "Appendix",
+    icon: <Network size={20} />,
     color: "#374151",
-    bg: "#F9FAFB",
-    description: "All 11 architecture node types with category color coding, key use-cases, and a component connection map showing how the platform holds together.",
+    bullets: ["11 architecture nodes", "Category color coding", "Component connection map"],
   },
 ];
 
@@ -238,39 +230,40 @@ export default function BookletPage() {
           Each chapter maps directly to a training day and draws from the real Howden FINMA platform data.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {CHAPTERS.map((ch) => (
             <div
               key={ch.number}
-              className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md transition-shadow"
-              style={{ borderTop: `3px solid ${ch.color}` }}
+              className="rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 bg-white flex flex-col"
             >
-              <div className="flex items-start gap-3 mb-3">
-                <div
-                  className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: ch.bg, color: ch.color }}
-                >
-                  {ch.icon}
+              {/* Colored header — mini chapter cover */}
+              <div
+                className="px-4 pt-4 pb-5 flex flex-col gap-2"
+                style={{ backgroundColor: ch.color }}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold tracking-widest uppercase text-white/60">
+                    {ch.label}
+                  </span>
+                  <span
+                    className="text-xs font-mono font-bold w-7 h-7 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: "rgba(255,255,255,0.18)", color: "white" }}
+                  >
+                    {ch.number}
+                  </span>
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="text-xs font-bold tracking-widest uppercase"
-                      style={{ color: ch.color }}
-                    >
-                      {ch.subtitle}
-                    </span>
-                    <span
-                      className="text-xs px-1.5 py-0.5 rounded font-mono font-bold"
-                      style={{ backgroundColor: ch.bg, color: ch.color }}
-                    >
-                      {ch.number}
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-gray-900 text-sm mt-0.5">{ch.title}</h3>
-                </div>
+                <div style={{ color: "rgba(255,255,255,0.85)" }}>{ch.icon}</div>
+                <h3 className="font-bold text-white text-sm leading-tight">{ch.title}</h3>
               </div>
-              <p className="text-xs text-gray-500 leading-relaxed">{ch.description}</p>
+              {/* Bullet list */}
+              <div className="px-4 py-3 flex flex-col gap-1.5 flex-1">
+                {ch.bullets.map((b) => (
+                  <div key={b} className="flex items-start gap-1.5">
+                    <span className="mt-[3px] w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: ch.color }} />
+                    <span className="text-[11px] text-gray-600 leading-snug">{b}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>

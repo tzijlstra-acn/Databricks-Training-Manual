@@ -102,23 +102,29 @@ export function CodeBlock({ code }: { code: string }) {
 export function ScreenshotBlock({
   src,
   caption,
-  height = 160,
+  height,
 }: {
   src?: string;
   caption?: string;
+  /** Optional max height in pt. If omitted the image renders at its natural aspect ratio. */
   height?: number;
 }) {
   return (
     <View style={styles.screenshotContainer}>
       {src ? (
-        <Image style={[styles.screenshotImage, { height }]} src={src} />
+        // No forced height — react-pdf scales from the image's natural aspect ratio.
+        // maxHeight caps very tall screenshots without distorting narrower ones.
+        <Image
+          style={[
+            styles.screenshotImage,
+            height ? { maxHeight: height } : {},
+          ]}
+          src={src}
+        />
       ) : (
-        <View style={[styles.screenshotPlaceholder, { height }]}>
+        <View style={[styles.screenshotPlaceholder, height ? { height } : { paddingVertical: 36 }]}>
           <Text style={styles.screenshotPlaceholderText}>
-            {caption ? `Screenshot: ${caption}` : "Screenshot"}
-          </Text>
-          <Text style={[styles.screenshotPlaceholderText, { marginTop: 4 }]}>
-            Place image in public/screenshots/
+            {caption ?? "Screenshot"}
           </Text>
         </View>
       )}
