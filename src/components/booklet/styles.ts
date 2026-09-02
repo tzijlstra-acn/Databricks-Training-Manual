@@ -212,10 +212,9 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   screenshotImage: {
+    // width-only: react-pdf derives height from natural aspect ratio.
+    // No border — react-pdf border on Image can cause sizing inconsistencies.
     width: "100%",
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: COLORS.gray200,
   },
   screenshotPlaceholder: {
     backgroundColor: COLORS.gray100,

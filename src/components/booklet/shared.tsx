@@ -43,27 +43,25 @@ export function ChapterHeader({
 }) {
   return (
     <View
-      style={[
-        styles.chapterHeader,
-        { backgroundColor: color, overflow: "hidden", position: "relative" },
-      ]}
+      wrap={false}
+      style={[styles.chapterHeader, { backgroundColor: color }]}
     >
-      {/* Ghost number watermark */}
+      {/* Left: large decorative number — normal flow, low opacity */}
       <Text
         style={{
-          position: "absolute",
-          right: -4,
-          top: -10,
-          fontSize: 96,
           fontFamily: "Helvetica-Bold",
-          color: "rgba(255,255,255,0.07)",
+          fontSize: 68,
+          color: "rgba(255,255,255,0.18)",
           lineHeight: 1,
+          flexShrink: 0,
+          marginRight: 18,
+          alignSelf: "center",
         }}
       >
         {number}
       </Text>
 
-      {/* Left: labels + title */}
+      {/* Centre: label stack + title */}
       <View style={{ flex: 1 }}>
         <Text
           style={{
@@ -71,7 +69,7 @@ export function ChapterHeader({
             fontFamily: "Helvetica-Bold",
             color: "rgba(255,255,255,0.5)",
             letterSpacing: 2,
-            marginBottom: 6,
+            marginBottom: 5,
           }}
         >
           CHAPTER {number}
@@ -79,33 +77,33 @@ export function ChapterHeader({
         <Text
           style={{
             fontFamily: "Helvetica-Bold",
-            fontSize: 26,
+            fontSize: 22,
             color: COLORS.white,
-            lineHeight: 1.1,
+            lineHeight: 1.15,
             marginBottom: subtitle ? 5 : 0,
           }}
         >
           {title}
         </Text>
         {subtitle && (
-          <Text style={{ fontSize: 9.5, color: "rgba(255,255,255,0.65)" }}>
+          <Text style={{ fontSize: 9, color: "rgba(255,255,255,0.65)" }}>
             {subtitle}
           </Text>
         )}
       </View>
 
-      {/* Right: large number badge */}
+      {/* Right: crisp number badge */}
       <View
         style={{
-          width: 56,
-          height: 56,
-          borderRadius: 28,
-          backgroundColor: "rgba(255,255,255,0.15)",
+          width: 52,
+          height: 52,
+          borderRadius: 26,
+          backgroundColor: "rgba(255,255,255,0.18)",
           justifyContent: "center",
           alignItems: "center",
           flexShrink: 0,
           borderWidth: 1.5,
-          borderColor: "rgba(255,255,255,0.25)",
+          borderColor: "rgba(255,255,255,0.3)",
         }}
       >
         <Text
@@ -140,7 +138,7 @@ export function SubTitle({ children }: { children: string }) {
 
 export function CalloutBox({ title, children }: { title?: string; children: string }) {
   return (
-    <View style={styles.calloutBox}>
+    <View wrap={false} style={styles.calloutBox}>
       {title && <Text style={styles.calloutTitle}>{title}</Text>}
       <Text style={styles.calloutBody}>{children}</Text>
     </View>
@@ -175,10 +173,12 @@ export function ScreenshotBlock({
   caption?: string;
 }) {
   return (
-    <View style={styles.screenshotContainer}>
+    // wrap={false} keeps the image + caption together and prevents the
+    // image from being split across a page break.
+    <View wrap={false} style={styles.screenshotContainer}>
       {src ? (
-        // width:"100%" only — react-pdf derives height from the image's natural
-        // aspect ratio, so the screenshot is never squashed into a fixed box.
+        // No width or height override — react-pdf renders the image at its
+        // natural aspect ratio scaled to the full content width.
         <Image style={styles.screenshotImage} src={src} />
       ) : (
         <View style={[styles.screenshotPlaceholder, { paddingVertical: 36 }]}>
