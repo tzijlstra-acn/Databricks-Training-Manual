@@ -73,7 +73,11 @@ export default function Day4Page() {
         that fail are quarantined before they reach Silver. Only when all checks pass does the pipeline write
         that entity&apos;s Gold table. An alert fires immediately on any failure so nothing slips
         through to the 31 May submission. Once the Gold table is written, the Power BI report is refreshed
-        to show the new numbers.
+        to show the new numbers. In the Databricks workspace, the Vorsorge Partner jobs appear as{" "}
+        <strong>VorsorgePartnerCommission_nondlt</strong>, <strong>VP_kundenliste_nondlt</strong>, and{" "}
+        <strong>VP_nondlt</strong> (owned by Mansi Mansi). Note: jobs currently run under a personal account
+        — the recommended practice is to set <em>Run as</em> to a dedicated service principal, so pipelines
+        keep running if that account is disabled or MFA settings change.
       </HowdenContext>
 
       {/* Pipeline Simulator */}
@@ -331,6 +335,18 @@ bad_df.write.mode("append").saveAsTable("enterprise.bronze.quarantine")`}
             </div>
           </div>
         </div>
+
+        <HowdenContext title="Setting up Alerts for the FINMA pipeline">
+          In the Databricks workspace you can create an alert in 6 steps: (1) <strong>Create Query</strong> — write
+          a SQL query that returns the metric you want to monitor (e.g. the count of failed DQX rows); (2){" "}
+          <strong>Save Query</strong> — give it a descriptive name so the team can find it; (3){" "}
+          <strong>Create Alert</strong> — open Alerts from the SQL sidebar and attach it to your saved query; (4){" "}
+          <strong>Define condition</strong> — set the threshold (e.g. failure_count &gt; 10); (5){" "}
+          <strong>Configure Notification</strong> — choose a destination: email, Slack, PagerDuty, or webhook; (6){" "}
+          <strong>Schedule Evaluation</strong> — decide how often Databricks checks the query (e.g. every 15 minutes,
+          or after each pipeline run). For the FINMA pipeline, a good starting alert is: DQX rejected record count &gt; 0,
+          notifying the data steward immediately so they can resolve attribution issues before the 31 May deadline.
+        </HowdenContext>
 
         <AdvancedSection title="Observability & Monitoring" badge="Operations">
           <div className="space-y-4 text-sm text-gray-700">

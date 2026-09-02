@@ -65,6 +65,31 @@ export default function Day1Page() {
           </div>
           <WorkspaceExplorer />
 
+          <AdvancedSection title="Workspace UI Reference" badge="Navigation">
+            <div className="space-y-3 text-sm text-gray-700">
+              <p>The Databricks workspace UI is divided into 7 areas:</p>
+              <ol className="space-y-2 list-none">
+                {[
+                  ["I", "Top navigation bar", "Workspace name, account switcher, help, notifications, and user profile."],
+                  ["II", "Left navigation panel", "Primary menu — Workspace, Catalog, Jobs, Compute, SQL, AI/ML, and more."],
+                  ["III", "SQL section", "SQL Editor, saved Queries, Dashboards, Genie Spaces, Alerts, Query History, and SQL Warehouses."],
+                  ["IV", "Workspace Explorer panel", "File-tree view of notebooks, folders, repos, and files within the Workspace."],
+                  ["V", "Main content area", "The active notebook, query editor, dashboard, or catalog browser — where all work happens."],
+                  ["VI", "Search & filtering", "Global search bar for finding tables, notebooks, queries, and jobs across the workspace."],
+                  ["VII", "Collaboration & Action controls", "Share, comment, schedule, run, and version controls relevant to the currently open asset."],
+                ].map(([num, label, desc]) => (
+                  <li key={num} className="flex gap-3 items-start">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-100 text-primary-800 text-xs font-bold flex items-center justify-center">{num}</span>
+                    <div>
+                      <span className="font-semibold text-gray-800">{label}</span>
+                      <span className="text-gray-500"> — {desc}</span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </AdvancedSection>
+
           <AdvancedSection title="Delta Lake: The Storage Layer" badge="Architecture">
             <div className="space-y-4 text-sm text-gray-700">
               <p>

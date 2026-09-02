@@ -19,8 +19,6 @@ export function TopNavigation() {
     <header className="h-12 bg-white border-b border-gray-200 flex items-center justify-between px-4 shrink-0 z-10">
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-[#1F2144]">Databricks Learning Platform</span>
-        <span className="text-gray-300">·</span>
-        <span className="text-xs text-[#6B7280]">Pro Re Insurance</span>
       </div>
 
       <div className="flex items-center gap-2">

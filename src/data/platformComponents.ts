@@ -39,7 +39,7 @@ export const workspaceSidebarSections: NavSection[] = [
         id: "jobs",
         label: "Jobs & Pipelines",
         icon: "workflow",
-        description: "Schedule and orchestrate notebooks, scripts, and Delta Live Tables pipelines. Define task dependencies, set retries, and monitor run history.",
+        description: "Schedule and orchestrate notebooks, scripts, and Delta Live Tables pipelines. Define task dependencies, set retries, and monitor run history. In the Howden FINMA project, each reporting unit has its own job (e.g. VorsorgePartnerCommission_nondlt, VP_kundenliste_nondlt, VP_nondlt), with tasks following Bronze → Silver → Gold order.",
         whenToUse: "When you want to automate a workflow or run something on a schedule.",
         whoUses: "Data Engineers, Ops Teams",
         color: "#D97706",
@@ -48,7 +48,7 @@ export const workspaceSidebarSections: NavSection[] = [
         id: "compute",
         label: "Compute",
         icon: "cpu",
-        description: "Create and manage clusters. All-purpose clusters for interactive notebooks, Job clusters for automated runs, SQL Warehouses for SQL queries.",
+        description: "Create and manage clusters. All-purpose clusters for interactive notebooks, Job clusters for automated runs, SQL Warehouses for SQL queries. The FINMA project cluster is adb-cluster-howden-switzerland-groupdatapoc-we (Runtime 17.3). ⚠ Jobs currently run as a personal account — recommended practice is to set 'Run as' to a dedicated service principal so pipelines are not blocked if an account is disabled or MFA changes.",
         whenToUse: "When you need to start or configure your compute engine.",
         whoUses: "Data Engineers, Admins",
         color: "#059669",
@@ -89,7 +89,7 @@ export const workspaceSidebarSections: NavSection[] = [
         id: "dashboards",
         label: "Dashboards",
         icon: "layout-dashboard",
-        description: "AI/BI Dashboards (Lakeview) — visual dashboards built on top of saved queries. Counter, table, bar, line, scatter, map widgets. Auto-refresh supported.",
+        description: "AI/BI Dashboards (Lakeview) — visual dashboards built on top of saved queries. Counter, table, bar, line, scatter, map widgets. Auto-refresh supported. In the Howden FINMA project: DQX_Dashboard_v1 monitors data quality (pass/fail counts, error rows, freshness) and Howden VP Dashboard shows business-ready commission KPIs from the Gold layer.",
         whenToUse: "When you want to visualise KPIs or share a report with business stakeholders.",
         whoUses: "Analysts, Business Users, Executives",
         color: "#7C3AED",
@@ -98,7 +98,7 @@ export const workspaceSidebarSections: NavSection[] = [
         id: "genie",
         label: "Genie Spaces",
         icon: "sparkles",
-        description: "Natural language interface to query data. Ask a question in plain English — Genie generates and runs the SQL, returns a table or chart.",
+        description: "AI-powered conversational analytics — ask questions about data in natural language instead of writing SQL queries. Genie automatically understands the question, converts it to SQL, runs it on Databricks, and returns results, charts, or insights. In the Howden project: VP_Space (commission data), IBS_Space (IBS insurance policies), Max_Genie (MAX CRM data), Perennial_KETL_Space (Perennial & KETL data).",
         whenToUse: "When you do not want to write SQL — just ask a question in plain English.",
         whoUses: "Business Users, Executives",
         color: "#DC2626",
@@ -107,8 +107,8 @@ export const workspaceSidebarSections: NavSection[] = [
         id: "alerts",
         label: "Alerts",
         icon: "bell",
-        description: "Set up notifications triggered when a query result meets a condition (e.g. failure count > 10). Destinations: Email, Slack, PagerDuty, webhook.",
-        whenToUse: "When you want to be notified when data quality drops or a threshold is breached.",
+        description: "Automated notifications triggered when a query result meets a condition (e.g. failure count > 10). Destinations: Email, Slack, PagerDuty, webhook. How to create an alert — 6 steps: (1) Create Query, (2) Save Query, (3) Create Alert, (4) Define condition, (5) Configure Notification, (6) Schedule Evaluation.",
+        whenToUse: "When you want to be notified when data quality drops or a threshold is breached — instead of manually checking dashboards every day.",
         whoUses: "Analysts, Data Engineers, Ops Teams",
         color: "#D97706",
       },
@@ -184,9 +184,9 @@ export const workspaceSidebarSections: NavSection[] = [
 export const workspaceSidebarItems: NavItem[] = workspaceSidebarSections.flatMap((s) => s.items);
 
 export const catalogTree = {
-  name: "enterprise",
+  name: "howden",
   type: "catalog" as const,
-  description: "Main enterprise data catalog — all production data assets",
+  description: "Main Howden data catalog — all production data assets for the FINMA project",
   children: [
     {
       name: "bronze",

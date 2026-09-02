@@ -82,6 +82,27 @@ export const failedPipelineTasks: PipelineTask[] = [
   },
 ];
 
+export const howdenJobsReference = [
+  {
+    name: "VorsorgePartnerCommission_nondlt",
+    owner: "Mansi Mansi",
+    tasks: ["VP_Commission_Bronze_table", "VP_Commission_Silver_table", "VP_Commission_Gold_table"],
+    description: "Processes Vorsorge Partner CRM commission extract through Bronze → Silver → Gold. Each task corresponds to one medallion layer.",
+  },
+  {
+    name: "VP_kundenliste_nondlt",
+    owner: "Mansi Mansi",
+    tasks: [],
+    description: "Processes the Vorsorge Partner customer list (Kundenliste) through the pipeline.",
+  },
+  {
+    name: "VP_nondlt",
+    owner: "Mansi Mansi",
+    tasks: [],
+    description: "Core Vorsorge Partner pipeline job orchestrating the full FINMA reporting flow.",
+  },
+];
+
 export const recentRuns = [
   { id: "run-1", date: "2025-03-22 02:00", status: "success", duration: "9m 12s" },
   { id: "run-2", date: "2025-03-21 02:00", status: "success", duration: "8m 47s" },

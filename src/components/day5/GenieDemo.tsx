@@ -14,10 +14,10 @@ import {
 } from "recharts";
 
 const suggestedQuestions = [
-  "What is our total commission by line of business this quarter?",
-  "Which clients are due for renewal in Q2 with premium over CHF 100k?",
-  "What is our claims ratio for Swiss property risks year-to-date?",
-  "Show the top 10 clients by premium volume in the DACH region",
+  "VP_Space: What is total Vorsorge Partner commission by line of business this quarter?",
+  "IBS_Space: Which IBS clients are due for renewal in Q2 with premium over CHF 100k?",
+  "Max_Genie: Show the top 10 MAX clients by premium volume in the DACH region",
+  "Perennial_KETL_Space: What is the claims ratio for Perennial Swiss property risks year-to-date?",
 ];
 
 const generatedSQL = `SELECT
@@ -42,6 +42,7 @@ const COLORS = ["#1E40AF", "#2563EB", "#3B82F6", "#60A5FA", "#93C5FD"];
 
 const flowSteps = [
   { label: "Natural Language", icon: "💬", color: "bg-purple-100 border-purple-300 text-purple-800" },
+  { label: "Genie Space", icon: "🌐", color: "bg-red-50 border-red-200 text-red-800" },
   { label: "Genie AI", icon: "✨", color: "bg-primary-50 border-primary-200 text-primary-800" },
   { label: "SQL Query", icon: "⌨️", color: "bg-gray-100 border-gray-300 text-gray-800" },
   { label: "SQL Warehouse", icon: "⚡", color: "bg-amber-50 border-amber-200 text-amber-800" },
