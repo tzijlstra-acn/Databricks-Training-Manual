@@ -78,18 +78,20 @@ const CHAPTERS = [
   },
 ];
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const SCREENSHOTS: Record<string, string> = {
-  home: "/screenshots/Opening_page.jpeg",
-  workspace: "/screenshots/Workspace_overview.jpeg",
-  catalog: "/screenshots/Catalog.jpeg",
-  "catalog-tree": "/screenshots/Tables.jpeg",
-  compute: "/screenshots/Compute.jpeg",
-  jobs: "/screenshots/DB_jobs&pipelines.jpeg",
-  "job-detail": "/screenshots/Inside_DB_jobs.jpeg",
-  "dashboard-dqx": "/screenshots/Inside_Dashboard.jpeg",
-  genie: "/screenshots/Genie_space.jpeg",
-  "medallion-arch": "/screenshots/Medallion_architecture.jpeg",
-  "finma-arch": "/screenshots/Finma_architecture.jpeg",
+  home: `${BASE}/screenshots/Opening_page.jpeg`,
+  workspace: `${BASE}/screenshots/Workspace_overview.jpeg`,
+  catalog: `${BASE}/screenshots/Catalog.jpeg`,
+  "catalog-tree": `${BASE}/screenshots/Tables.jpeg`,
+  compute: `${BASE}/screenshots/Compute.jpeg`,
+  jobs: `${BASE}/screenshots/DB_jobs&pipelines.jpeg`,
+  "job-detail": `${BASE}/screenshots/Inside_DB_jobs.jpeg`,
+  "dashboard-dqx": `${BASE}/screenshots/Inside_Dashboard.jpeg`,
+  genie: `${BASE}/screenshots/Genie_space.jpeg`,
+  "medallion-arch": `${BASE}/screenshots/Medallion_architecture.jpeg`,
+  "finma-arch": `${BASE}/screenshots/Finma_architecture.jpeg`,
 };
 
 type Status = "idle" | "generating" | "done" | "error";
