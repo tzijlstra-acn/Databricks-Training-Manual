@@ -8,8 +8,6 @@ import {
   Body,
   CalloutBox,
   ScreenshotBlock,
-  TwoColumn,
-  Column,
 } from "../shared";
 
 const UI_AREAS = [
@@ -154,102 +152,73 @@ export function Chapter1_Foundations({ screenshots }: { screenshots: Record<stri
 
         <SectionTitle color={COLORS.day1}>Workspace vs Unity Catalog: The Essential Distinction</SectionTitle>
 
-        <TwoColumn>
-          <Column>
-            <View
-              style={{
-                backgroundColor: "#EFF6FF",
-                borderWidth: 1,
-                borderColor: "#BFDBFE",
-                borderRadius: 4,
-                padding: 10,
-                flex: 1,
-              }}
+        {/* Stacked full-width blocks — avoids react-pdf column layout issues */}
+        <View style={{ marginBottom: 10 }}>
+          <View
+            style={{
+              backgroundColor: "#EFF6FF",
+              borderLeftWidth: 4,
+              borderLeftColor: "#1E40AF",
+              borderRadius: 4,
+              padding: 10,
+              marginBottom: 8,
+            }}
+          >
+            <Text
+              style={{ fontFamily: "Helvetica-Bold", fontSize: 11, color: "#1E40AF", marginBottom: 2 }}
             >
-              <Text
-                style={{
-                  fontFamily: "Helvetica-Bold",
-                  fontSize: 11,
-                  color: "#1E40AF",
-                  marginBottom: 2,
-                }}
-              >
-                Workspace
-              </Text>
-              <Text
-                style={{
-                  fontSize: 7.5,
-                  color: COLORS.gray500,
-                  marginBottom: 7,
-                  fontFamily: "Helvetica-Bold",
-                }}
-              >
-                WHERE YOU WRITE CODE
-              </Text>
-              {[
-                "Notebooks — SQL/Python/Scala code cells",
-                "Folders — organise by project or team",
-                "Dashboards — visual displays from saved queries",
-                "Repos — Git-connected version control",
-                "Files — uploaded reference data and configs",
-              ].map((b) => (
-                <Text
-                  key={b}
-                  style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5, marginBottom: 2 }}
-                >
-                  · {b}
-                </Text>
-              ))}
-            </View>
-          </Column>
-          <Column>
-            <View
-              style={{
-                backgroundColor: "#F0FDF4",
-                borderWidth: 1,
-                borderColor: "#BBF7D0",
-                borderRadius: 4,
-                padding: 10,
-                flex: 1,
-              }}
+              Workspace
+            </Text>
+            <Text
+              style={{ fontSize: 7.5, color: COLORS.gray500, marginBottom: 7, fontFamily: "Helvetica-Bold" }}
             >
-              <Text
-                style={{
-                  fontFamily: "Helvetica-Bold",
-                  fontSize: 11,
-                  color: "#065F46",
-                  marginBottom: 2,
-                }}
-              >
-                Unity Catalog
+              WHERE YOU WRITE CODE
+            </Text>
+            {[
+              "Notebooks — SQL/Python/Scala code cells",
+              "Folders — organise by project or team",
+              "Dashboards — visual displays from saved queries",
+              "Repos — Git-connected version control",
+              "Files — uploaded reference data and configs",
+            ].map((b) => (
+              <Text key={b} style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5, marginBottom: 2 }}>
+                · {b}
               </Text>
-              <Text
-                style={{
-                  fontSize: 7.5,
-                  color: COLORS.gray500,
-                  marginBottom: 7,
-                  fontFamily: "Helvetica-Bold",
-                }}
-              >
-                WHERE YOU FIND DATA
+            ))}
+          </View>
+
+          <View
+            style={{
+              backgroundColor: "#F0FDF4",
+              borderLeftWidth: 4,
+              borderLeftColor: "#059669",
+              borderRadius: 4,
+              padding: 10,
+            }}
+          >
+            <Text
+              style={{ fontFamily: "Helvetica-Bold", fontSize: 11, color: "#065F46", marginBottom: 2 }}
+            >
+              Unity Catalog
+            </Text>
+            <Text
+              style={{ fontSize: 7.5, color: COLORS.gray500, marginBottom: 7, fontFamily: "Helvetica-Bold" }}
+            >
+              WHERE YOU FIND DATA
+            </Text>
+            {[
+              "Catalogs — top-level namespace: howden",
+              "Schemas — bronze, silver, gold, audit",
+              "Tables — actual data rows and columns",
+              "Volumes — unstructured file storage",
+              "Permissions — who can access what, audited",
+            ].map((b) => (
+              <Text key={b} style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5, marginBottom: 2 }}>
+                · {b}
               </Text>
-              {[
-                "Catalogs — top-level namespace: howden",
-                "Schemas — bronze, silver, gold, audit",
-                "Tables — actual data rows and columns",
-                "Volumes — unstructured file storage",
-                "Permissions — who can access what, audited",
-              ].map((b) => (
-                <Text
-                  key={b}
-                  style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5, marginBottom: 2 }}
-                >
-                  · {b}
-                </Text>
-              ))}
-            </View>
-          </Column>
-        </TwoColumn>
+            ))}
+          </View>
+        </View>
 
         <View
           style={{

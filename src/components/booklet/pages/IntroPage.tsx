@@ -119,42 +119,81 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
       </Text>
       <MedallionDiagram />
 
-      {/* 5-Day Agenda */}
+      {/* 5-Day Agenda — horizontal strip per day */}
       <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 10.5, color: COLORS.navy, marginBottom: 8 }}>
         5-Day Training Agenda
       </Text>
-      <View style={{ flexDirection: "row", gap: 5 }}>
+      <View>
         {AGENDA.map((day) => (
           <View
             key={day.day}
             style={{
-              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
               backgroundColor: day.bg,
               borderRadius: 5,
-              borderTopWidth: 3,
-              borderTopColor: day.color,
-              padding: 8,
+              borderLeftWidth: 4,
+              borderLeftColor: day.color,
+              padding: 9,
+              marginBottom: 5,
+              gap: 10,
             }}
           >
+            {/* Day badge */}
             <View
               style={{
                 backgroundColor: day.color,
-                borderRadius: 10,
-                width: 22,
-                height: 22,
+                borderRadius: 14,
+                width: 28,
+                height: 28,
                 justifyContent: "center",
                 alignItems: "center",
-                marginBottom: 5,
+                flexShrink: 0,
               }}
             >
-              <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8, color: COLORS.white }}>{day.day}</Text>
-            </View>
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: COLORS.navy, marginBottom: 4 }}>{day.title}</Text>
-            {day.items.map((item) => (
-              <Text key={item} style={{ fontSize: 7.5, color: COLORS.gray700, marginBottom: 2 }}>
-                · {item}
+              <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9, color: COLORS.white }}>
+                {day.day}
               </Text>
-            ))}
+            </View>
+
+            {/* Day title — fixed width so chips always have room */}
+            <Text
+              style={{
+                fontFamily: "Helvetica-Bold",
+                fontSize: 9,
+                color: COLORS.navy,
+                width: 92,
+                flexShrink: 0,
+              }}
+            >
+              {day.title}
+            </Text>
+
+            {/* Topic chips — row, no wrap, shrink allowed */}
+            <View style={{ flex: 1, flexDirection: "row", gap: 5 }}>
+              {day.items.map((item) => (
+                <View
+                  key={item}
+                  style={{
+                    backgroundColor: "rgba(0,0,0,0.06)",
+                    borderRadius: 3,
+                    paddingHorizontal: 6,
+                    paddingVertical: 3,
+                    flexShrink: 1,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 7.5,
+                      color: day.color,
+                      fontFamily: "Helvetica-Bold",
+                    }}
+                  >
+                    {item}
+                  </Text>
+                </View>
+              ))}
+            </View>
           </View>
         ))}
       </View>
