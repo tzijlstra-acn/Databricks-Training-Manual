@@ -276,18 +276,7 @@ export default function BookletPage() {
         </div>
       </div>
 
-      {/* ── Screenshots note ─────────────────────── */}
-      <div className="max-w-4xl mx-auto px-8 pb-16">
-        <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 text-sm text-blue-800">
-          <p className="font-semibold mb-1">Screenshots</p>
-          <p className="text-blue-600 leading-relaxed">
-            The PDF embeds real Databricks UI screenshots when available in{" "}
-            <code className="bg-blue-100 px-1 rounded font-mono text-xs">public/screenshots/</code>.
-            Missing screenshots are replaced by labeled placeholder boxes — the PDF always generates
-            successfully regardless.
-          </p>
-        </div>
-      </div>
+      <div className="pb-16" />
     </div>
   );
 }
