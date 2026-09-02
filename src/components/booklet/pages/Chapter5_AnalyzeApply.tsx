@@ -5,37 +5,76 @@ import {
   PageFooter,
   ChapterHeader,
   SectionTitle,
+  Body,
   CalloutBox,
   ScreenshotBlock,
   SimpleTable,
 } from "../shared";
 
 const GENIE_SPACES = [
-  ["VP_Space", "Mansi Mansi", "Vorsorge Partner commission — by line of business, period, segment"],
-  ["IBS_Space", "Rajneesh X Sharma", "IBS insurance policies — renewals, premiums, cashflow"],
-  ["Max_Genie", "Rohitha Vemula", "MAX CRM — top clients by premium, broker performance"],
-  ["Perennial_KETL_Space", "Pankaj Ghatak", "Perennial + KETL — claims ratio, property risks, YTD analytics"],
+  [
+    "VP_Space",
+    "Mansi Mansi",
+    "howden.gold.howden_schweiz_commission",
+    "Commission by LOB, period, segment — ask in plain English",
+  ],
+  [
+    "IBS_Space",
+    "Rajneesh X Sharma",
+    "IBS insurance tables",
+    "Renewals, premiums, cashflow analysis across Howden Schweiz AG",
+  ],
+  [
+    "Max_Genie",
+    "Rohitha Vemula",
+    "MAX CRM Gold tables",
+    "Top clients by premium volume, broker performance in DACH",
+  ],
+  [
+    "Perennial_KETL_Space",
+    "Pankaj Ghatak",
+    "Perennial + KETL Gold tables",
+    "Claims ratio, property risks, year-to-date analytics",
+  ],
 ];
 
 const DASHBOARDS = [
-  ["DQX_Dashboard_v1", "Rajneesh X Sharma", "Data quality KPIs — input vs error vs valid rows per Silver table"],
-  ["Howden VP Dashboard", "Mansi Mansi", "Business VP KPIs from Gold — total commission, LOB breakdown, trend"],
+  [
+    "DQX_Dashboard_v1",
+    "Rajneesh X Sharma",
+    "Data quality KPIs — Input Rows, Error Rows, Warn Rows, Valid Rows per Silver table; DQX run history; freshness indicators",
+  ],
+  [
+    "Howden VP Dashboard",
+    "Mansi Mansi",
+    "Business VP KPIs from Gold — total commission CHF, breakdown by line of business, trend over time; auto-refreshes on pipeline run",
+  ],
 ];
 
-const FLOW_STEPS = [
-  { label: "Source\nCRM", color: COLORS.gray500 },
-  { label: "Bronze\nLayer", color: "#A0522D" },
-  { label: "DQ\nValidation", color: COLORS.day4 },
-  { label: "Silver\nLayer", color: "#4B5563" },
+const END_TO_END = [
+  { label: "Source CRM\n(5 systems)", color: "#374151" },
+  { label: "Bronze\n(raw, immutable)", color: "#A0522D" },
+  { label: "DQX\nValidation", color: "#D97706" },
+  { label: "Silver\n(clean + validated)", color: "#4B5563" },
+  { label: "Gold\n(FINMA-ready)", color: "#B45309" },
+  { label: "Dashboard\n/ Genie AI", color: "#7C3AED" },
+  { label: "FINMA\nSubmission", color: "#1E40AF" },
+];
+
+const GENIE_STEPS = [
+  { label: "User\nQuestion", color: COLORS.day5 },
+  { label: "Genie\nSpace", color: "#DC2626" },
+  { label: "LLM\n(Genie AI)", color: COLORS.day5 },
+  { label: "SQL\nGenerated", color: COLORS.gray500 },
+  { label: "SQL\nWarehouse", color: COLORS.day4 },
   { label: "Gold\nTables", color: "#B45309" },
-  { label: "Dashboard\n/ Genie", color: COLORS.day5 },
-  { label: "FINMA\nSubmission", color: COLORS.day1 },
+  { label: "Answer\n/ Chart", color: COLORS.day3 },
 ];
 
 export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<string, string> }) {
   return (
     <>
-      {/* ── Page 1 ── */}
+      {/* ── PAGE 1 ── ChapterHeader + dashboards + Genie overview */}
       <Page size="A4" style={styles.page}>
         <PageHeader chapter="Chapter 5: Analyze & Apply" />
         <PageFooter />
@@ -43,85 +82,18 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
         <ChapterHeader
           number="05"
           title="Analyze & Apply"
-          subtitle="Ask questions in plain English, trace every number to its source"
+          subtitle="Outcome: Ask questions in plain English and trace every number back to source"
           color={COLORS.day5}
         />
 
-        <ScreenshotBlock
-          src={screenshots["genie"]}
-          caption="Genie Spaces — VP_Space, IBS_Space, Max_Genie, Perennial_KETL_Space, and more"
-          height={210}
-        />
+        <CalloutBox title="Howden Context">
+          {"Before this platform, analysts manually pivoted commission data in Excel — different pivot tables, different filters, sometimes different numbers. Now the Gold table drives both the Howden VP Dashboard (for KPI tracking) and Genie AI Spaces (for ad-hoc questions). A business user can ask 'What is total Vorsorge Partner commission by line of business this quarter?' in plain English and receive an instant, auditable answer backed by the same Gold data that feeds FINMA."}
+        </CalloutBox>
 
-        {/* Key insight cards */}
-        <View style={{ flexDirection: "row", gap: 8, marginTop: 10 }}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#F5F3FF",
-              borderWidth: 1,
-              borderColor: "#7C3AED",
-              borderRadius: 4,
-              padding: 10,
-            }}
-          >
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: "#4C1D95", marginBottom: 3 }}>
-              Genie AI
-            </Text>
-            <Text style={{ fontSize: 8.5, color: "#3B0764", lineHeight: 1.5 }}>
-              Genie AI = natural language SQL — type a question, get a table or chart instantly
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#ECFEFF",
-              borderWidth: 1,
-              borderColor: "#0891B2",
-              borderRadius: 4,
-              padding: 10,
-            }}
-          >
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: "#164E63", marginBottom: 3 }}>
-              Dashboards
-            </Text>
-            <Text style={{ fontSize: 8.5, color: "#0E7490", lineHeight: 1.5 }}>
-              Dashboards show Gold table KPIs — auto-refresh, no SQL needed for business users
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#F0FDF4",
-              borderWidth: 1,
-              borderColor: "#059669",
-              borderRadius: 4,
-              padding: 10,
-            }}
-          >
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: "#064E3B", marginBottom: 3 }}>
-              Data Lineage
-            </Text>
-            <Text style={{ fontSize: 8.5, color: "#065F46", lineHeight: 1.5 }}>
-              Data lineage — every Gold number traces back to Bronze via Unity Catalog
-            </Text>
-          </View>
-        </View>
-      </Page>
-
-      {/* ── Page 2 ── */}
-      <Page size="A4" style={styles.page}>
-        <PageHeader chapter="Chapter 5: Analyze & Apply" />
-        <PageFooter />
-
-        <SectionTitle color={COLORS.day5}>The Four Howden Genie Spaces</SectionTitle>
-        <SimpleTable
-          headers={["Space", "Owner", "Data Covered"]}
-          rows={GENIE_SPACES}
-          colWidths={[1.2, 1.1, 2.7]}
-        />
-
-        <SectionTitle color={COLORS.day5}>Databricks Dashboards</SectionTitle>
+        <SectionTitle color={COLORS.day5}>Databricks AI/BI Dashboards (Lakeview)</SectionTitle>
+        <Body>
+          {"Lakeview dashboards are visual reports built on saved SQL queries. They auto-refresh, support counter/bar/line/table/map widgets, and can be shared with stakeholders without requiring any SQL knowledge."}
+        </Body>
         <SimpleTable
           headers={["Dashboard", "Owner", "What It Shows"]}
           rows={DASHBOARDS}
@@ -130,11 +102,37 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
 
         <ScreenshotBlock
           src={screenshots["dashboard-dqx"]}
-          caption="DQX_Dashboard_v1 — overview of data quality across all Howden Silver tables"
-          height={150}
+          caption="DQX_Dashboard_v1 — data quality overview showing Input Rows, Error Rows, Warn Rows, and Valid Rows per Silver table"
         />
 
-        <SectionTitle color={COLORS.day5}>End-to-End: The FINMA Data Journey</SectionTitle>
+        <SectionTitle color={COLORS.day5}>Genie AI Spaces: Natural Language Analytics</SectionTitle>
+        <Body>
+          {"Each Genie Space is connected to specific Gold tables and a SQL Warehouse. The user types a question; Genie converts it to SQL, runs it, and returns the result as a table or chart — without needing to know the table schema."}
+        </Body>
+
+        <ScreenshotBlock
+          src={screenshots["genie"]}
+          caption="Genie Spaces list — VP_Space, IBS_Space, Max_Genie, Perennial_KETL_Space, IBS Data Quality Monitoring, Customer Overview Analytics"
+        />
+      </Page>
+
+      {/* ── PAGE 2 ── Genie spaces table + end-to-end flow + lineage callout + Genie process flow */}
+      <Page size="A4" style={styles.page}>
+        <PageHeader chapter="Chapter 5: Analyze & Apply" />
+        <PageFooter />
+
+        <SectionTitle color={COLORS.day5}>The Four Howden Genie Spaces</SectionTitle>
+        <SimpleTable
+          headers={["Space", "Owner", "Gold Table", "Questions It Answers"]}
+          rows={GENIE_SPACES}
+          colWidths={[1.1, 1.1, 1.4, 2.4]}
+        />
+
+        <SectionTitle color={COLORS.day5}>End-to-End: The Complete FINMA Data Journey</SectionTitle>
+        <Body>
+          {"Every number in a dashboard or Genie answer traces back through this chain — from the original CRM export to the FINMA regulatory submission."}
+        </Body>
+
         <View
           style={{
             flexDirection: "row",
@@ -142,27 +140,27 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
             alignItems: "center",
             gap: 4,
             backgroundColor: COLORS.surface,
-            borderRadius: 4,
-            padding: 10,
-            marginBottom: 10,
+            borderRadius: 5,
+            padding: 12,
+            marginBottom: 12,
           }}
         >
-          {FLOW_STEPS.map((step, i) => (
+          {END_TO_END.map((step, i) => (
             <View key={step.label} style={{ flexDirection: "row", alignItems: "center" }}>
               <View
                 style={{
                   backgroundColor: step.color,
-                  borderRadius: 3,
+                  borderRadius: 4,
                   paddingHorizontal: 8,
-                  paddingVertical: 6,
+                  paddingVertical: 7,
                   alignItems: "center",
                 }}
               >
                 <Text
                   style={{
+                    fontFamily: "Helvetica-Bold",
                     fontSize: 7.5,
                     color: COLORS.white,
-                    fontFamily: "Helvetica-Bold",
                     textAlign: "center",
                     lineHeight: 1.4,
                   }}
@@ -170,18 +168,60 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
                   {step.label}
                 </Text>
               </View>
-              {i < FLOW_STEPS.length - 1 && (
-                <Text style={{ fontSize: 10, color: COLORS.gray400, marginHorizontal: 2 }}>
-                  {"›"}
-                </Text>
+              {i < END_TO_END.length - 1 && (
+                <Text style={{ fontSize: 11, color: COLORS.gray400, paddingHorizontal: 2 }}>›</Text>
               )}
             </View>
           ))}
         </View>
 
-        <CalloutBox title="Audit Trail">
-          {"Unity Catalog tracks data lineage at the column level. Any commission figure in a Gold table can be traced back through Silver to Bronze to the original CRM export — giving FINMA inspectors a complete audit trail."}
+        <CalloutBox title="Data Lineage — The Audit Trail">
+          {"Unity Catalog tracks lineage automatically at the column level. Any commission figure in howden.gold.howden_schweiz_commission can be traced back through howden.silver.commissions_clean → howden.bronze.bayo_raw (or the relevant CRM Bronze table) → the original CRM export file. FINMA inspectors can follow this trail entirely within the Unity Catalog lineage view."}
         </CalloutBox>
+
+        <SectionTitle color={COLORS.day5}>How Genie Processes a Question</SectionTitle>
+
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: 4,
+            backgroundColor: COLORS.surface,
+            borderRadius: 5,
+            padding: 12,
+            marginBottom: 12,
+          }}
+        >
+          {GENIE_STEPS.map((step, i) => (
+            <View key={step.label} style={{ flexDirection: "row", alignItems: "center" }}>
+              <View
+                style={{
+                  backgroundColor: step.color,
+                  borderRadius: 4,
+                  paddingHorizontal: 8,
+                  paddingVertical: 7,
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Helvetica-Bold",
+                    fontSize: 7.5,
+                    color: COLORS.white,
+                    textAlign: "center",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {step.label}
+                </Text>
+              </View>
+              {i < GENIE_STEPS.length - 1 && (
+                <Text style={{ fontSize: 11, color: COLORS.gray400, paddingHorizontal: 2 }}>›</Text>
+              )}
+            </View>
+          ))}
+        </View>
       </Page>
     </>
   );

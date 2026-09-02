@@ -42,13 +42,81 @@ export function ChapterHeader({
   color: string;
 }) {
   return (
-    <View style={[styles.chapterHeader, { backgroundColor: color }]}>
-      <View style={styles.chapterNumberCircle}>
-        <Text style={styles.chapterNumber}>{number}</Text>
-      </View>
+    <View
+      style={[
+        styles.chapterHeader,
+        { backgroundColor: color, overflow: "hidden", position: "relative" },
+      ]}
+    >
+      {/* Ghost number watermark */}
+      <Text
+        style={{
+          position: "absolute",
+          right: -4,
+          top: -10,
+          fontSize: 96,
+          fontFamily: "Helvetica-Bold",
+          color: "rgba(255,255,255,0.07)",
+          lineHeight: 1,
+        }}
+      >
+        {number}
+      </Text>
+
+      {/* Left: labels + title */}
       <View style={{ flex: 1 }}>
-        <Text style={styles.chapterTitle}>{title}</Text>
-        {subtitle && <Text style={styles.chapterSubtitle}>{subtitle}</Text>}
+        <Text
+          style={{
+            fontSize: 7,
+            fontFamily: "Helvetica-Bold",
+            color: "rgba(255,255,255,0.5)",
+            letterSpacing: 2,
+            marginBottom: 6,
+          }}
+        >
+          CHAPTER {number}
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Helvetica-Bold",
+            fontSize: 26,
+            color: COLORS.white,
+            lineHeight: 1.1,
+            marginBottom: subtitle ? 5 : 0,
+          }}
+        >
+          {title}
+        </Text>
+        {subtitle && (
+          <Text style={{ fontSize: 9.5, color: "rgba(255,255,255,0.65)" }}>
+            {subtitle}
+          </Text>
+        )}
+      </View>
+
+      {/* Right: large number badge */}
+      <View
+        style={{
+          width: 56,
+          height: 56,
+          borderRadius: 28,
+          backgroundColor: "rgba(255,255,255,0.15)",
+          justifyContent: "center",
+          alignItems: "center",
+          flexShrink: 0,
+          borderWidth: 1.5,
+          borderColor: "rgba(255,255,255,0.25)",
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: "Helvetica-Bold",
+            fontSize: 22,
+            color: COLORS.white,
+          }}
+        >
+          {number}
+        </Text>
       </View>
     </View>
   );
@@ -102,30 +170,19 @@ export function CodeBlock({ code }: { code: string }) {
 export function ScreenshotBlock({
   src,
   caption,
-  height,
 }: {
   src?: string;
   caption?: string;
-  /** Optional max height in pt. If omitted the image renders at its natural aspect ratio. */
-  height?: number;
 }) {
   return (
     <View style={styles.screenshotContainer}>
       {src ? (
-        // No forced height — react-pdf scales from the image's natural aspect ratio.
-        // maxHeight caps very tall screenshots without distorting narrower ones.
-        <Image
-          style={[
-            styles.screenshotImage,
-            height ? { maxHeight: height } : {},
-          ]}
-          src={src}
-        />
+        // width:"100%" only — react-pdf derives height from the image's natural
+        // aspect ratio, so the screenshot is never squashed into a fixed box.
+        <Image style={styles.screenshotImage} src={src} />
       ) : (
-        <View style={[styles.screenshotPlaceholder, height ? { height } : { paddingVertical: 36 }]}>
-          <Text style={styles.screenshotPlaceholderText}>
-            {caption ?? "Screenshot"}
-          </Text>
+        <View style={[styles.screenshotPlaceholder, { paddingVertical: 36 }]}>
+          <Text style={styles.screenshotPlaceholderText}>{caption ?? "Screenshot"}</Text>
         </View>
       )}
       {caption && <Text style={styles.screenshotCaption}>{caption}</Text>}

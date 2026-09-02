@@ -100,10 +100,10 @@ export const styles = StyleSheet.create({
     marginLeft: -48,
     marginRight: -48,
     paddingHorizontal: 48,
-    paddingVertical: 14,
+    paddingVertical: 22,
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
+    gap: 16,
   },
   chapterNumberCircle: {
     width: 32,

@@ -1,24 +1,66 @@
 import { Page, View, Text } from "@react-pdf/renderer";
 import { COLORS, styles } from "../styles";
 import {
-  PageHeader, PageFooter, ChapterHeader, SectionTitle,
-  ScreenshotBlock, TwoColumn, Column, SimpleTable,
+  PageHeader,
+  PageFooter,
+  ChapterHeader,
+  SectionTitle,
+  Body,
+  CalloutBox,
+  ScreenshotBlock,
+  TwoColumn,
+  Column,
 } from "../shared";
 
-const UI_AREA_ROWS = [
-  ["I – Top Nav", "Workspace name, global search (Ctrl+P), account switcher"],
-  ["II – Left Panel", "Primary menu: Workspace, Catalog, Jobs, Compute, SQL tools"],
-  ["III – SQL Section", "SQL Editor, Queries, Dashboards, Genie Spaces, Alerts"],
-  ["IV – Workspace Explorer", "Notebook/folder file-tree: Home, Shared, Favorites, Trash"],
-  ["V – Main Content", "Active notebook, query, dashboard — changes with selection"],
-  ["VI – Search & Filter", "Cross-workspace search for tables, notebooks, queries, jobs"],
-  ["VII – Action Controls", "Share, schedule, run — context-sensitive per asset type"],
+const UI_AREAS = [
+  {
+    numeral: "I",
+    name: "Top Navigation Bar",
+    description:
+      "Workspace name (ADB-GDL-GROUPDATA-POC-WE), account switcher, global search (Ctrl+P), notifications, user profile",
+  },
+  {
+    numeral: "II",
+    name: "Left Navigation Panel",
+    description:
+      "Primary menu: Workspace, Recents, Catalog, Jobs & Pipelines, Compute, Marketplace",
+  },
+  {
+    numeral: "III",
+    name: "SQL Section",
+    description:
+      "SQL Editor, saved Queries, Dashboards, Genie Spaces, Alerts, Query History, SQL Warehouses",
+  },
+  {
+    numeral: "IV",
+    name: "Workspace Explorer",
+    description:
+      "File-tree view: Home, Shared with me, Workspace folder, Favorites, Trash — your notebooks and files",
+  },
+  {
+    numeral: "V",
+    name: "Main Content Area",
+    description:
+      "Active notebook, query editor, dashboard, or catalog browser — changes based on left panel selection",
+  },
+  {
+    numeral: "VI",
+    name: "Search & Filtering",
+    description:
+      "Global search (Ctrl+P) for tables, notebooks, queries, and jobs; filter controls within list views",
+  },
+  {
+    numeral: "VII",
+    name: "Collaboration Controls",
+    description:
+      "Share, comment, schedule, run, and version controls — context-sensitive to the currently open asset",
+  },
 ];
 
 export function Chapter1_Foundations({ screenshots }: { screenshots: Record<string, string> }) {
   return (
     <>
-      {/* ── PAGE 1 ── ChapterHeader + hero screenshot + 3 key insight cards */}
+      {/* ── Page 1 ── */}
       <Page size="A4" style={styles.page}>
         <PageHeader chapter="Chapter 1: Foundations" />
         <PageFooter />
@@ -26,137 +68,221 @@ export function Chapter1_Foundations({ screenshots }: { screenshots: Record<stri
         <ChapterHeader
           number="01"
           title="Foundations: Meet the Platform"
-          subtitle="Navigate the workspace with confidence"
+          subtitle="Outcome: Navigate the workspace with confidence from day one"
           color={COLORS.day1}
         />
 
+        <CalloutBox title="Howden Context">
+          {"Three data types feed the FINMA pipeline: (1) commission exports from five CRMs — BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner — uploaded by data stewards; (2) a product type mapping table linking CRM codes to FINMA intermediary categories; (3) an insurer name mapping resolving CRM names to FINMA-registered entities. Databricks is the shared engine that processes all three consistently and on time for the 31 May FINMA deadline."}
+        </CalloutBox>
+
+        <SectionTitle color={COLORS.day1}>The 7 Areas of the Databricks Workspace UI</SectionTitle>
+
+        <Body>
+          {"The UI is consistently structured across all screens. Knowing these 7 zones eliminates the most common confusion for new users."}
+        </Body>
+
+        <View style={{ marginBottom: 10 }}>
+          {UI_AREAS.map((area) => (
+            <View
+              key={area.numeral}
+              style={{ flexDirection: "row", alignItems: "flex-start", gap: 7, marginBottom: 5 }}
+            >
+              <View
+                style={{
+                  backgroundColor: COLORS.day1,
+                  width: 20,
+                  height: 20,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexShrink: 0,
+                  marginTop: 1,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Helvetica-Bold",
+                    fontSize: 8,
+                    color: COLORS.white,
+                    lineHeight: 1,
+                  }}
+                >
+                  {area.numeral}
+                </Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text
+                  style={{
+                    fontFamily: "Helvetica-Bold",
+                    fontSize: 9,
+                    color: COLORS.navy,
+                    marginBottom: 1,
+                  }}
+                >
+                  {area.name}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 8.5,
+                    color: COLORS.gray700,
+                    lineHeight: 1.45,
+                  }}
+                >
+                  {area.description}
+                </Text>
+              </View>
+            </View>
+          ))}
+        </View>
+
         <ScreenshotBlock
           src={screenshots["home"]}
-          caption="Databricks home page — recently opened objects and navigation panel"
-          height={220}
+          caption="Databricks home page — recently accessed objects (DQX_Dashboard_v1, VorsorgePartnerCommission_nondlt, bronze schema) and left navigation panel"
         />
-
-        {/* 3 key insight cards in a row */}
-        <View style={{ flexDirection: "row", gap: 8, marginTop: 10 }}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#EFF6FF",
-              borderWidth: 1,
-              borderColor: "#1E40AF",
-              borderRadius: 4,
-              padding: 10,
-            }}
-          >
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: "#1E40AF", marginBottom: 4 }}>
-              7 UI Areas
-            </Text>
-            <Text style={{ fontSize: 8, color: "#1E3A8A", lineHeight: 1.45 }}>
-              Everything in the workspace maps to one of seven fixed zones.
-            </Text>
-          </View>
-
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#F0FDF4",
-              borderWidth: 1,
-              borderColor: "#059669",
-              borderRadius: 4,
-              padding: 10,
-            }}
-          >
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: "#059669", marginBottom: 4 }}>
-              Workspace = code, Catalog = data
-            </Text>
-            <Text style={{ fontSize: 8, color: "#064E3B", lineHeight: 1.45 }}>
-              Never confuse the two — one is where you write, the other is where you find data.
-            </Text>
-          </View>
-
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#FFFBEB",
-              borderWidth: 1,
-              borderColor: "#D97706",
-              borderRadius: 4,
-              padding: 10,
-            }}
-          >
-            <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 8.5, color: "#D97706", marginBottom: 4 }}>
-              Unity Catalog
-            </Text>
-            <Text style={{ fontSize: 8, color: "#78350F", lineHeight: 1.45 }}>
-              Governs all tables, permissions, and lineage in one place.
-            </Text>
-          </View>
-        </View>
       </Page>
 
-      {/* ── PAGE 2 ── Tables, diagrams, smaller screenshot, golden rule */}
+      {/* ── Page 2 ── */}
       <Page size="A4" style={styles.page}>
         <PageHeader chapter="Chapter 1: Foundations" />
         <PageFooter />
 
-        <SectionTitle color={COLORS.day1}>The 7 Workspace UI Areas</SectionTitle>
-        <SimpleTable
-          headers={["Area", "What It Is"]}
-          rows={UI_AREA_ROWS}
-          colWidths={[1.2, 3]}
-        />
-
         <ScreenshotBlock
           src={screenshots["workspace"]}
-          caption="Workspace UI — left panel (II) gives access to all platform tools"
-          height={160}
+          caption="Workspace UI — left panel (area II) gives access to all platform tools; SQL section below the separator"
         />
 
-        <SectionTitle color={COLORS.day1}>Workspace vs Unity Catalog</SectionTitle>
+        <SectionTitle color={COLORS.day1}>Workspace vs Unity Catalog: The Essential Distinction</SectionTitle>
+
         <TwoColumn>
           <Column>
-            <View style={{ backgroundColor: "#EFF6FF", borderRadius: 4, padding: 10, borderWidth: 1, borderColor: "#BFDBFE" }}>
-              <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 10, color: "#1E40AF", marginBottom: 5 }}>Workspace</Text>
-              <Text style={{ fontSize: 8, color: COLORS.gray500, fontFamily: "Helvetica-Bold", marginBottom: 4 }}>WHERE YOU WRITE CODE</Text>
-              {["Notebooks — code cells (SQL/Python/Scala)", "Folders — organise by project or team", "Dashboards — visual displays from queries"].map((item) => (
-                <Text key={item} style={{ fontSize: 8.5, color: "#1E3A8A", marginBottom: 2 }}>· {item}</Text>
+            <View
+              style={{
+                backgroundColor: "#EFF6FF",
+                borderWidth: 1,
+                borderColor: "#BFDBFE",
+                borderRadius: 4,
+                padding: 10,
+                flex: 1,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Helvetica-Bold",
+                  fontSize: 11,
+                  color: "#1E40AF",
+                  marginBottom: 2,
+                }}
+              >
+                Workspace
+              </Text>
+              <Text
+                style={{
+                  fontSize: 7.5,
+                  color: COLORS.gray500,
+                  marginBottom: 7,
+                  fontFamily: "Helvetica-Bold",
+                }}
+              >
+                WHERE YOU WRITE CODE
+              </Text>
+              {[
+                "Notebooks — SQL/Python/Scala code cells",
+                "Folders — organise by project or team",
+                "Dashboards — visual displays from saved queries",
+                "Repos — Git-connected version control",
+                "Files — uploaded reference data and configs",
+              ].map((b) => (
+                <Text
+                  key={b}
+                  style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5, marginBottom: 2 }}
+                >
+                  · {b}
+                </Text>
               ))}
             </View>
           </Column>
           <Column>
-            <View style={{ backgroundColor: "#F0FDF4", borderRadius: 4, padding: 10, borderWidth: 1, borderColor: "#BBF7D0" }}>
-              <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 10, color: "#065F46", marginBottom: 5 }}>Catalog</Text>
-              <Text style={{ fontSize: 8, color: COLORS.gray500, fontFamily: "Helvetica-Bold", marginBottom: 4 }}>WHERE YOU FIND DATA</Text>
-              {["Catalogs — top-level namespace (howden)", "Schemas — bronze, silver, gold layers", "Tables — actual data rows and columns"].map((item) => (
-                <Text key={item} style={{ fontSize: 8.5, color: "#064E3B", marginBottom: 2 }}>· {item}</Text>
+            <View
+              style={{
+                backgroundColor: "#F0FDF4",
+                borderWidth: 1,
+                borderColor: "#BBF7D0",
+                borderRadius: 4,
+                padding: 10,
+                flex: 1,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Helvetica-Bold",
+                  fontSize: 11,
+                  color: "#065F46",
+                  marginBottom: 2,
+                }}
+              >
+                Unity Catalog
+              </Text>
+              <Text
+                style={{
+                  fontSize: 7.5,
+                  color: COLORS.gray500,
+                  marginBottom: 7,
+                  fontFamily: "Helvetica-Bold",
+                }}
+              >
+                WHERE YOU FIND DATA
+              </Text>
+              {[
+                "Catalogs — top-level namespace: howden",
+                "Schemas — bronze, silver, gold, audit",
+                "Tables — actual data rows and columns",
+                "Volumes — unstructured file storage",
+                "Permissions — who can access what, audited",
+              ].map((b) => (
+                <Text
+                  key={b}
+                  style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5, marginBottom: 2 }}
+                >
+                  · {b}
+                </Text>
               ))}
             </View>
           </Column>
         </TwoColumn>
 
-        <ScreenshotBlock
-          src={screenshots["catalog"]}
-          caption="Unity Catalog — howden catalog with bronze, gold, silver schemas"
-          height={140}
-        />
-
-        {/* Golden rule */}
         <View
           style={{
             backgroundColor: COLORS.navy,
+            borderLeftWidth: 4,
+            borderLeftColor: COLORS.orange,
             borderRadius: 4,
-            padding: 12,
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 10,
+            paddingHorizontal: 14,
+            paddingVertical: 10,
+            marginBottom: 12,
           }}
         >
-          <View style={{ width: 3, height: 30, backgroundColor: COLORS.orange, borderRadius: 2 }} />
-          <Text style={{ fontSize: 9.5, color: COLORS.white, flex: 1, lineHeight: 1.5 }}>
-            <Text style={{ fontFamily: "Helvetica-Bold" }}>The golden rule: </Text>
-            {"Workspace = where you write code. Catalog = where you find data."}
+          <Text
+            style={{
+              fontSize: 9.5,
+              color: COLORS.white,
+              lineHeight: 1.55,
+            }}
+          >
+            {"The golden rule: Workspace is where you write code. Catalog is where you find data. Notebooks in Workspace query tables from the Catalog."}
           </Text>
         </View>
+
+        <SectionTitle color={COLORS.day1}>Recents & Quick Navigation</SectionTitle>
+
+        <Body>
+          {"The Recents section on the home page and in the left panel shows your most recently accessed notebooks, tables, dashboards, and queries. Ctrl+P opens global search from anywhere — the fastest way to jump to any asset."}
+        </Body>
+
+        <ScreenshotBlock
+          src={screenshots["catalog"]}
+          caption="Unity Catalog — suggested tables from howden.gold, left tree showing howden catalog with bronze, gold, silver schemas"
+        />
       </Page>
     </>
   );

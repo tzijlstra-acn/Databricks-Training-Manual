@@ -68,7 +68,6 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
       <ScreenshotBlock
         src={screenshots["home"]}
         caption="The Databricks home page — recently accessed objects, suggested items, and navigation"
-        height={155}
       />
 
       {/* What + why — very brief */}
