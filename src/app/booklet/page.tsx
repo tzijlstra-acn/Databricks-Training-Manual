@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useState, useCallback } from "react";
 import { Download, BookOpen, Loader2, CheckCircle2, FileText, Layers, Cpu, Workflow, BarChart3, BookMarked, Grid3X3, Network } from "lucide-react";
 
@@ -80,23 +79,18 @@ const CHAPTERS = [
 ];
 
 const SCREENSHOTS: Record<string, string> = {
-  home: "/screenshots/home.jpeg",
-  workspace: "/screenshots/workspace.jpeg",
-  catalog: "/screenshots/catalog.jpeg",
-  "catalog-tree": "/screenshots/catalog-tree.jpeg",
-  compute: "/screenshots/compute.jpeg",
-  jobs: "/screenshots/jobs.jpeg",
-  "job-detail": "/screenshots/job-detail.jpeg",
-  "dashboard-dqx": "/screenshots/dashboard-dqx.jpeg",
-  genie: "/screenshots/genie.jpeg",
-  "medallion-arch": "/screenshots/medallion-arch.jpeg",
-  "finma-arch": "/screenshots/finma-arch.jpeg",
+  home: "/screenshots/Opening_page.jpeg",
+  workspace: "/screenshots/Workspace_overview.jpeg",
+  catalog: "/screenshots/Catalog.jpeg",
+  "catalog-tree": "/screenshots/Tables.jpeg",
+  compute: "/screenshots/Compute.jpeg",
+  jobs: "/screenshots/DB_jobs&pipelines.jpeg",
+  "job-detail": "/screenshots/Inside_DB_jobs.jpeg",
+  "dashboard-dqx": "/screenshots/Inside_Dashboard.jpeg",
+  genie: "/screenshots/Genie_space.jpeg",
+  "medallion-arch": "/screenshots/Medallion_architecture.jpeg",
+  "finma-arch": "/screenshots/Finma_architecture.jpeg",
 };
-
-const BookletDocumentLazy = dynamic(
-  () => import("@/components/booklet/BookletDocument").then((m) => ({ default: m.BookletDocument })),
-  { ssr: false }
-);
 
 type Status = "idle" | "generating" | "done" | "error";
 
