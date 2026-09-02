@@ -210,7 +210,7 @@ export default function BookletPage() {
 
       {/* ── Chapter preview cards ─────────────────── */}
       <div className="max-w-4xl mx-auto px-8 py-10">
-        <h2 className="text-lg font-bold text-gray-900 mb-1">What's inside</h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">What&apos;s inside</h2>
         <p className="text-sm text-gray-500 mb-6">
           Each chapter maps directly to a training day and draws from the real Howden FINMA platform data.
         </p>
