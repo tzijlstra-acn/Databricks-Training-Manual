@@ -12,11 +12,11 @@ export interface TestQuestion {
 }
 
 export const DAY_LABELS: Record<DayNumber, string> = {
-  1: "Day 1 — Platform & Workspace",
-  2: "Day 2 — Data & Medallion",
-  3: "Day 3 — Develop & Query",
-  4: "Day 4 — Automate & Monitor",
-  5: "Day 5 — Analyse & Present",
+  1: "Phase 1 — Platform & Workspace",
+  2: "Phase 2 — Data & Medallion",
+  3: "Phase 3 — Develop & Query",
+  4: "Phase 4 — Automate & Monitor",
+  5: "Phase 5 — Analyse & Present",
 };
 
 export const DAY_SHORT: Record<DayNumber, string> = {
@@ -28,7 +28,7 @@ export const DAY_SHORT: Record<DayNumber, string> = {
 };
 
 export const testQuestions: TestQuestion[] = [
-  // ── DAY 1 · BEGINNER ────────────────────────────────────────────
+  // ── PHASE 1 · BEGINNER ────────────────────────────────────────────
   {
     id: "d1-b1",
     day: 1,
@@ -76,7 +76,7 @@ export const testQuestions: TestQuestion[] = [
       "A cluster is compute — the engine that executes code. Without a running cluster attached to your notebook, no code can execute.",
   },
 
-  // ── DAY 1 · STANDARD ────────────────────────────────────────────
+  // ── PHASE 1 · STANDARD ────────────────────────────────────────────
   {
     id: "d1-s1",
     day: 1,
@@ -126,7 +126,7 @@ export const testQuestions: TestQuestion[] = [
       "Job Clusters are ephemeral — they start, execute the task, and shut down automatically. This prevents state leaking between runs and eliminates idle compute cost.",
   },
 
-  // ── DAY 1 · PRO ─────────────────────────────────────────────────
+  // ── PHASE 1 · PRO ─────────────────────────────────────────────────
   {
     id: "d1-p1",
     day: 1,
@@ -160,7 +160,7 @@ export const testQuestions: TestQuestion[] = [
       "Auto-termination measures inactivity, not run time. An actively executing job resets the idle timer continuously. The cluster only terminates 30 minutes after the job finishes.",
   },
 
-  // ── DAY 2 · BEGINNER ────────────────────────────────────────────
+  // ── PHASE 2 · BEGINNER ────────────────────────────────────────────
   {
     id: "d2-b1",
     day: 2,
@@ -205,7 +205,7 @@ export const testQuestions: TestQuestion[] = [
       "BAYO is a shared CRM serving two Howden entities. Its raw extract cannot go straight to Silver — first, every row must be attributed to either Howden Schweiz AG or SWIBRO AG based on deal-level identifiers.",
   },
 
-  // ── DAY 2 · STANDARD ────────────────────────────────────────────
+  // ── PHASE 2 · STANDARD ────────────────────────────────────────────
   {
     id: "d2-s1",
     day: 2,
@@ -255,7 +255,7 @@ export const testQuestions: TestQuestion[] = [
       "Each entity runs its own pipeline that writes its own Gold table. The Gold table is only created after all DQX checks pass. This keeps entity data separate and ensures each FINMA submission is independently validated.",
   },
 
-  // ── DAY 2 · PRO ─────────────────────────────────────────────────
+  // ── PHASE 2 · PRO ─────────────────────────────────────────────────
   {
     id: "d2-p1",
     day: 2,
@@ -289,7 +289,7 @@ export const testQuestions: TestQuestion[] = [
       "VACUUM removes files not referenced by the current table version. With RETAIN 0 HOURS there is no buffer — any job still reading older file versions will encounter missing files and fail. The default 7-day retention exists for exactly this reason.",
   },
 
-  // ── DAY 3 · BEGINNER ────────────────────────────────────────────
+  // ── PHASE 3 · BEGINNER ────────────────────────────────────────────
   {
     id: "d3-b1",
     day: 3,
@@ -332,7 +332,7 @@ export const testQuestions: TestQuestion[] = [
       "The SQL cell groups by entity_code, sums commission_chf, and computes variance against the Abacus baseline — giving the team a per-entity view before Gold is built.",
   },
 
-  // ── DAY 3 · STANDARD ────────────────────────────────────────────
+  // ── PHASE 3 · STANDARD ────────────────────────────────────────────
   {
     id: "d3-s1",
     day: 3,
@@ -382,7 +382,7 @@ export const testQuestions: TestQuestion[] = [
       "Delta tables store min/max statistics per file per column. A WHERE clause lets Delta skip entire data files that cannot contain HW-CH-03 — reading only the relevant subset.",
   },
 
-  // ── DAY 3 · PRO ─────────────────────────────────────────────────
+  // ── PHASE 3 · PRO ─────────────────────────────────────────────────
   {
     id: "d3-p1",
     day: 3,
@@ -416,7 +416,7 @@ export const testQuestions: TestQuestion[] = [
       "groupBy() and agg() are transformations, not actions. Without a subsequent .show(), .count(), display(), or .write(), the computation never runs — Spark only holds the plan in memory.",
   },
 
-  // ── DAY 4 · BEGINNER ────────────────────────────────────────────
+  // ── PHASE 4 · BEGINNER ────────────────────────────────────────────
   {
     id: "d4-b1",
     day: 4,
@@ -465,7 +465,7 @@ export const testQuestions: TestQuestion[] = [
       "Databricks Jobs enforce task dependencies strictly. A failed upstream task blocks all tasks that depend on it — the pipeline stops at the failure point, preserving data integrity.",
   },
 
-  // ── DAY 4 · STANDARD ────────────────────────────────────────────
+  // ── PHASE 4 · STANDARD ────────────────────────────────────────────
   {
     id: "d4-s1",
     day: 4,
@@ -515,7 +515,7 @@ export const testQuestions: TestQuestion[] = [
       "Job Clusters are ephemeral — no stale variables, no cached data from previous runs. They terminate automatically after the job completes, so you pay only for actual execution time.",
   },
 
-  // ── DAY 4 · PRO ─────────────────────────────────────────────────
+  // ── PHASE 4 · PRO ─────────────────────────────────────────────────
   {
     id: "d4-p1",
     day: 4,
@@ -549,7 +549,7 @@ export const testQuestions: TestQuestion[] = [
       "The variance gate compares a computed aggregate (total commission_chf per entity) against fixed numeric limits (CHF 10,000 and 5%). This is a threshold rule — not a row-level null, duplicate, or schema check.",
   },
 
-  // ── DAY 5 · BEGINNER ────────────────────────────────────────────
+  // ── PHASE 5 · BEGINNER ────────────────────────────────────────────
   {
     id: "d5-b1",
     day: 5,
@@ -597,7 +597,7 @@ export const testQuestions: TestQuestion[] = [
       "Lineage shows the full journey of data — Dashboard → Saved Query → Gold → Silver → Bronze → Source CRM. This is essential for audit questions: 'Where does this number come from?'",
   },
 
-  // ── DAY 5 · STANDARD ────────────────────────────────────────────
+  // ── PHASE 5 · STANDARD ────────────────────────────────────────────
   {
     id: "d5-s1",
     day: 5,
@@ -647,7 +647,7 @@ export const testQuestions: TestQuestion[] = [
       "Dashboards run their queries through a SQL Warehouse — the dedicated SQL compute layer. The nightly pipeline Job and dashboard refreshes are independent; they do not share compute.",
   },
 
-  // ── DAY 5 · PRO ─────────────────────────────────────────────────
+  // ── PHASE 5 · PRO ─────────────────────────────────────────────────
   {
     id: "d5-p1",
     day: 5,

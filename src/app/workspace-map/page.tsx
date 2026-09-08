@@ -1,7 +1,7 @@
 "use client";
 
 import { Layout, MousePointerClick, Lightbulb } from "lucide-react";
-import { WorkspaceExplorer } from "@/components/day1/WorkspaceExplorer";
+import { WorkspaceExplorer } from "@/components/phase1/WorkspaceExplorer";
 
 export default function WorkspaceMapPage() {
   return (

@@ -73,9 +73,9 @@ const PILLARS = [
   },
 ];
 
-// ─── Day 1 learning path ──────────────────────────────────────────────────────
+// ─── Phase 1 learning path ──────────────────────────────────────────────────────
 
-const DAY1_PATH = [
+const PHASE1_PATH = [
   {
     step: "1",
     title: "What Databricks is",
@@ -214,11 +214,11 @@ export function WhatIsDatabricks() {
         </p>
       </section>
 
-      {/* ── 4. Day 1 learning path ─────────────────────────────────────────── */}
+      {/* ── 4. Phase 1 learning path ─────────────────────────────────────────── */}
       <section>
         <h3 className="text-lg font-bold text-gray-900 mb-2">What you will cover today</h3>
         <p className="text-sm text-gray-500 mb-5">
-          Day 1 is about orientation. No code required. By the end you will know where everything is
+          Phase 1 is about orientation. No code required. By the end you will know where everything is
           and what it does.
         </p>
 
@@ -227,7 +227,7 @@ export function WhatIsDatabricks() {
           <div className="absolute left-[11px] top-3 bottom-3 w-0.5 bg-gray-200" />
 
           <div className="space-y-4">
-            {DAY1_PATH.map(({ step, title, desc, done }, i) => (
+            {PHASE1_PATH.map(({ step, title, desc, done }, i) => (
               <div key={step} className="flex items-start gap-4 relative">
                 {/* Step dot */}
                 <div
@@ -265,7 +265,7 @@ export function WhatIsDatabricks() {
                   <p className="text-xs text-gray-500 leading-relaxed">{desc}</p>
                 </div>
 
-                {i < DAY1_PATH.length - 1 && (
+                {i < PHASE1_PATH.length - 1 && (
                   <ArrowRight className="w-4 h-4 text-gray-300 flex-shrink-0 mt-3 hidden" />
                 )}
               </div>

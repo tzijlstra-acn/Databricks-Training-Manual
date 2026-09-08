@@ -3,13 +3,13 @@
 import { useEffect } from "react";
 import { ArrowRight, Layers, Database } from "lucide-react";
 import { markDayVisited } from "@/lib/progress";
-import { CatalogTree } from "@/components/day2/CatalogTree";
-import { MedallionFlow } from "@/components/day2/MedallionFlow";
-import { MedallionPlayground } from "@/components/day2/MedallionPlayground";
+import { CatalogTree } from "@/components/phase2/CatalogTree";
+import { MedallionFlow } from "@/components/phase2/MedallionFlow";
+import { MedallionPlayground } from "@/components/phase2/MedallionPlayground";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 
-export default function Day2Page() {
+export default function Phase2Page() {
   useEffect(() => {
     markDayVisited(2);
   }, []);
@@ -22,10 +22,10 @@ export default function Day2Page() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#0891B2" }}>
-              <span className="text-white font-bold text-sm">D2</span>
+              <span className="text-white font-bold text-sm">P2</span>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#0891B2" }}>Day 2</p>
+              <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#0891B2" }}>Phase 2</p>
               <h1 className="text-3xl font-bold text-gray-900">Data & Catalog: Find Your Data</h1>
             </div>
           </div>

@@ -62,13 +62,13 @@ const END_TO_END = [
 ];
 
 const GENIE_STEPS = [
-  { label: "User\nQuestion", color: COLORS.day5 },
+  { label: "User\nQuestion", color: COLORS.phase5 },
   { label: "Genie\nSpace", color: "#DC2626" },
-  { label: "LLM\n(Genie AI)", color: COLORS.day5 },
+  { label: "LLM\n(Genie AI)", color: COLORS.phase5 },
   { label: "SQL\nGenerated", color: COLORS.gray500 },
-  { label: "SQL\nWarehouse", color: COLORS.day4 },
+  { label: "SQL\nWarehouse", color: COLORS.phase4 },
   { label: "Gold\nTables", color: "#B45309" },
-  { label: "Answer\n/ Chart", color: COLORS.day3 },
+  { label: "Answer\n/ Chart", color: COLORS.phase3 },
 ];
 
 export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<string, string> }) {
@@ -83,14 +83,14 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
           number="05"
           title="Analyze & Apply"
           subtitle="Outcome: Ask questions in plain English and trace every number back to source"
-          color={COLORS.day5}
+          color={COLORS.phase5}
         />
 
         <CalloutBox title="Howden Context">
           {"Before this platform, analysts manually pivoted commission data in Excel — different pivot tables, different filters, sometimes different numbers. Now the Gold table drives both the Howden VP Dashboard (for KPI tracking) and Genie AI Spaces (for ad-hoc questions). A business user can ask 'What is total Vorsorge Partner commission by line of business this quarter?' in plain English and receive an instant, auditable answer backed by the same Gold data that feeds FINMA."}
         </CalloutBox>
 
-        <SectionTitle color={COLORS.day5}>Databricks AI/BI Dashboards (Lakeview)</SectionTitle>
+        <SectionTitle color={COLORS.phase5}>Databricks AI/BI Dashboards (Lakeview)</SectionTitle>
         <Body>
           {"Lakeview dashboards are visual reports built on saved SQL queries. They auto-refresh, support counter/bar/line/table/map widgets, and can be shared with stakeholders without requiring any SQL knowledge."}
         </Body>
@@ -105,7 +105,7 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
           caption="DQX_Dashboard_v1 — data quality overview showing Input Rows, Error Rows, Warn Rows, and Valid Rows per Silver table"
         />
 
-        <SectionTitle color={COLORS.day5}>Genie AI Spaces: Natural Language Analytics</SectionTitle>
+        <SectionTitle color={COLORS.phase5}>Genie AI Spaces: Natural Language Analytics</SectionTitle>
         <Body>
           {"Each Genie Space is connected to specific Gold tables and a SQL Warehouse. The user types a question; Genie converts it to SQL, runs it, and returns the result as a table or chart — without needing to know the table schema."}
         </Body>
@@ -121,14 +121,14 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
         <PageHeader chapter="Chapter 5: Analyze & Apply" />
         <PageFooter />
 
-        <SectionTitle color={COLORS.day5}>The Four Howden Genie Spaces</SectionTitle>
+        <SectionTitle color={COLORS.phase5}>The Four Howden Genie Spaces</SectionTitle>
         <SimpleTable
           headers={["Space", "Owner", "Gold Table", "Questions It Answers"]}
           rows={GENIE_SPACES}
           colWidths={[1.1, 1.1, 1.4, 2.4]}
         />
 
-        <SectionTitle color={COLORS.day5}>End-to-End: The Complete FINMA Data Journey</SectionTitle>
+        <SectionTitle color={COLORS.phase5}>End-to-End: The Complete FINMA Data Journey</SectionTitle>
         <Body>
           {"Every number in a dashboard or Genie answer traces back through this chain — from the original CRM export to the FINMA regulatory submission."}
         </Body>
@@ -179,7 +179,7 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
           {"Unity Catalog tracks lineage automatically at the column level. Any commission figure in howden.gold.howden_schweiz_commission can be traced back through howden.silver.commissions_clean → howden.bronze.bayo_raw (or the relevant CRM Bronze table) → the original CRM export file. FINMA inspectors can follow this trail entirely within the Unity Catalog lineage view."}
         </CalloutBox>
 
-        <SectionTitle color={COLORS.day5}>How Genie Processes a Question</SectionTitle>
+        <SectionTitle color={COLORS.phase5}>How Genie Processes a Question</SectionTitle>
 
         <View
           style={{

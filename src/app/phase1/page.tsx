@@ -3,14 +3,14 @@
 import { useEffect } from "react";
 import { Database, Folder, FileText, Table2, Lock, ArrowRight } from "lucide-react";
 import { markDayVisited } from "@/lib/progress";
-import { WhatIsDatabricks } from "@/components/day1/WhatIsDatabricks";
-import { WorkspaceExplorer } from "@/components/day1/WorkspaceExplorer";
-import { UIWalkthrough } from "@/components/day1/UIWalkthrough";
-import { FirstTenMinutes } from "@/components/day1/FirstTenMinutes";
+import { WhatIsDatabricks } from "@/components/phase1/WhatIsDatabricks";
+import { WorkspaceExplorer } from "@/components/phase1/WorkspaceExplorer";
+import { UIWalkthrough } from "@/components/phase1/UIWalkthrough";
+import { FirstTenMinutes } from "@/components/phase1/FirstTenMinutes";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 
-export default function Day1Page() {
+export default function Phase1Page() {
   useEffect(() => {
     markDayVisited(1);
   }, []);
@@ -22,10 +22,10 @@ export default function Day1Page() {
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-primary-800 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">D1</span>
+              <span className="text-white font-bold text-sm">P1</span>
             </div>
             <div>
-              <p className="text-xs font-semibold text-primary-600 uppercase tracking-widest">Day 1</p>
+              <p className="text-xs font-semibold text-primary-600 uppercase tracking-widest">Phase 1</p>
               <h1 className="text-3xl font-bold text-gray-900">Foundations: Meet the Platform</h1>
             </div>
           </div>

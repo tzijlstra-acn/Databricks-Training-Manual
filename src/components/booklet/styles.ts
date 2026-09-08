@@ -20,11 +20,11 @@ export const COLORS = {
   goldBg: "#FFFBEB",
   green: "#4ADE80",
   codeGreen: "#86EFAC",
-  day1: "#1E40AF",
-  day2: "#0891B2",
-  day3: "#059669",
-  day4: "#D97706",
-  day5: "#7C3AED",
+  phase1: "#1E40AF",
+  phase2: "#0891B2",
+  phase3: "#059669",
+  phase4: "#D97706",
+  phase5: "#7C3AED",
 };
 
 export const CATEGORY_COLORS: Record<string, string> = {

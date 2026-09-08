@@ -4,7 +4,7 @@ import { Database, Code2, Cpu, Workflow, ShieldCheck, Sparkles } from "lucide-re
 const quickLinks = [
   {
     question: "Where is my data?",
-    href: "/day2",
+    href: "/phase2",
     icon: <Database size={18} />,
     color: "#0891B2",
     bg: "#EFF8FB",
@@ -12,7 +12,7 @@ const quickLinks = [
   },
   {
     question: "How do I query it?",
-    href: "/day3",
+    href: "/phase3",
     icon: <Code2 size={18} />,
     color: "#059669",
     bg: "#ECFDF5",
@@ -20,7 +20,7 @@ const quickLinks = [
   },
   {
     question: "What runs my code?",
-    href: "/day3",
+    href: "/phase3",
     icon: <Cpu size={18} />,
     color: "#059669",
     bg: "#ECFDF5",
@@ -28,7 +28,7 @@ const quickLinks = [
   },
   {
     question: "How do pipelines work?",
-    href: "/day4",
+    href: "/phase4",
     icon: <Workflow size={18} />,
     color: "#D97706",
     bg: "#FFFBEB",
@@ -36,7 +36,7 @@ const quickLinks = [
   },
   {
     question: "How is quality checked?",
-    href: "/day4",
+    href: "/phase4",
     icon: <ShieldCheck size={18} />,
     color: "#D97706",
     bg: "#FFFBEB",
@@ -44,7 +44,7 @@ const quickLinks = [
   },
   {
     question: "What is Genie?",
-    href: "/day5",
+    href: "/phase5",
     icon: <Sparkles size={18} />,
     color: "#7C3AED",
     bg: "#F5F3FF",

@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { markDayVisited } from "@/lib/progress";
-import { NotebookSimulator } from "@/components/day3/NotebookSimulator";
-import { ComputeExplainer } from "@/components/day3/ComputeExplainer";
-import { ComputeStateMachine } from "@/components/day3/ComputeStateMachine";
+import { NotebookSimulator } from "@/components/phase3/NotebookSimulator";
+import { ComputeExplainer } from "@/components/phase3/ComputeExplainer";
+import { ComputeStateMachine } from "@/components/phase3/ComputeStateMachine";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 import { cn } from "@/lib/utils";
@@ -43,7 +43,7 @@ const magicCommands = [
   { cmd: "%md", desc: "Markdown cell" },
 ];
 
-export default function Day3Page() {
+export default function Phase3Page() {
   useEffect(() => {
     markDayVisited(3);
   }, []);
@@ -59,7 +59,7 @@ export default function Day3Page() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-xs font-semibold text-green-600 uppercase tracking-wide bg-green-100 px-2 py-0.5 rounded-full">
-                Day 3
+                Phase 3
               </span>
             </div>
             <h1 className="text-2xl font-bold text-gray-900">Develop &amp; Query</h1>

@@ -248,8 +248,8 @@ function ContentPane({ ui }: { ui: string }) {
             <span className="text-xs font-semibold text-gray-800">Training</span>
           </div>
           {[
-            { label: "day1_foundations.py",   lang: "PY",  color: "#3B82F6" },
-            { label: "day2_medallion.sql",     lang: "SQL", color: "#059669" },
+            { label: "phase1_foundations.py",   lang: "PY",  color: "#3B82F6" },
+            { label: "phase2_medallion.sql",     lang: "SQL", color: "#059669" },
             { label: "silver_transform.py",    lang: "PY",  color: "#3B82F6" },
             { label: "finma_gold_build.sql",   lang: "SQL", color: "#059669" },
           ].map(({ label, lang, color }) => (
@@ -269,7 +269,7 @@ function ContentPane({ ui }: { ui: string }) {
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
         {/* Notebook header */}
         <div className="flex items-center justify-between px-4 border-b border-gray-100 bg-gray-50" style={{ height: BB, flexShrink: 0 }}>
-          <span className="text-xs font-semibold text-gray-800">day1_foundations.py</span>
+          <span className="text-xs font-semibold text-gray-800">phase1_foundations.py</span>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-xs text-gray-500 cursor-pointer">
               <Cpu size={12} className="text-gray-400" />
@@ -281,7 +281,7 @@ function ContentPane({ ui }: { ui: string }) {
         {/* Cells */}
         <div className="flex-1 overflow-auto bg-white p-4 space-y-3">
           {[
-            { code: "# Day 1 — Databricks Foundations\nprint('Hello, Databricks!')", out: null },
+            { code: "# Phase 1 — Databricks Foundations\nprint('Hello, Databricks!')", out: null },
             { code: "display(spark.sql('SHOW CATALOGS'))", out: null },
           ].map(({ code, out }, i) => (
             <div key={i} className="rounded-lg border border-gray-200 overflow-hidden">
@@ -303,7 +303,7 @@ function ContentPane({ ui }: { ui: string }) {
     return (
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
         <div className="flex items-center justify-between px-4 border-b border-gray-100 bg-gray-50" style={{ height: BB, flexShrink: 0 }}>
-          <span className="text-xs font-semibold text-gray-800">day1_foundations.py</span>
+          <span className="text-xs font-semibold text-gray-800">phase1_foundations.py</span>
           <div className="relative">
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#0891B2] bg-white text-xs cursor-pointer shadow-sm" style={{ color: "#0891B2" }}>
               <Cpu size={12} />
@@ -333,7 +333,7 @@ function ContentPane({ ui }: { ui: string }) {
         </div>
         <div className="flex-1 bg-white p-4 space-y-3">
           <div className="rounded-lg border border-gray-200 overflow-hidden opacity-40">
-            <pre className="px-3 py-2 text-[11px] font-mono text-gray-700 bg-gray-50 whitespace-pre">{"# Day 1 — Databricks Foundations"}</pre>
+            <pre className="px-3 py-2 text-[11px] font-mono text-gray-700 bg-gray-50 whitespace-pre">{"# Phase 1 — Databricks Foundations"}</pre>
           </div>
         </div>
       </div>
@@ -344,7 +344,7 @@ function ContentPane({ ui }: { ui: string }) {
     return (
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
         <div className="flex items-center justify-between px-4 border-b border-gray-100 bg-gray-50" style={{ height: BB, flexShrink: 0 }}>
-          <span className="text-xs font-semibold text-gray-800">day1_foundations.py</span>
+          <span className="text-xs font-semibold text-gray-800">phase1_foundations.py</span>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-amber-200 bg-amber-50 text-xs text-amber-700">
             <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
             <span>Connecting to howden-training-cluster...</span>
@@ -361,7 +361,7 @@ function ContentPane({ ui }: { ui: string }) {
     return (
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
         <div className="flex items-center justify-between px-4 border-b border-gray-100 bg-gray-50" style={{ height: BB, flexShrink: 0 }}>
-          <span className="text-xs font-semibold text-gray-800">day1_foundations.py</span>
+          <span className="text-xs font-semibold text-gray-800">phase1_foundations.py</span>
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-green-200 bg-green-50 text-xs text-green-700">
             <div className="w-2 h-2 rounded-full bg-green-500" />
             <span>howden-training-cluster</span>
@@ -370,7 +370,7 @@ function ContentPane({ ui }: { ui: string }) {
         </div>
         <div className="flex-1 bg-white p-4 space-y-3">
           {[
-            { code: "# Day 1 — Databricks Foundations\nprint('Hello, Databricks!')", out: "Hello, Databricks!" },
+            { code: "# Phase 1 — Databricks Foundations\nprint('Hello, Databricks!')", out: "Hello, Databricks!" },
             { code: "display(spark.sql('SHOW CATALOGS'))", out: null },
           ].map(({ code, out }, i) => (
             <div key={i} className="rounded-lg border border-gray-200 overflow-hidden">

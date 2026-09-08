@@ -388,11 +388,11 @@ export function GlossaryEntry({
   category: string;
 }) {
   const color = {
-    core: COLORS.day1,
-    compute: COLORS.day3,
-    catalog: COLORS.day2,
-    pipeline: COLORS.day4,
-    analytics: COLORS.day5,
+    core: COLORS.phase1,
+    compute: COLORS.phase3,
+    catalog: COLORS.phase2,
+    pipeline: COLORS.phase4,
+    analytics: COLORS.phase5,
     quality: "#DC2626",
   }[category] ?? COLORS.navy;
 

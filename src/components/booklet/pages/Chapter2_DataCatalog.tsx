@@ -54,10 +54,10 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
           number="02"
           title="Data & Catalog"
           subtitle="Outcome: Navigate Unity Catalog and understand how data flows through Medallion layers"
-          color={COLORS.day2}
+          color={COLORS.phase2}
         />
 
-        <SectionTitle color={COLORS.day2}>The Medallion Architecture</SectionTitle>
+        <SectionTitle color={COLORS.phase2}>The Medallion Architecture</SectionTitle>
 
         <Body>
           {"All data follows a three-layer pattern that progressively refines raw data into trusted, FINMA-ready datasets. Nothing in Gold exists unless every upstream check passed."}
@@ -151,7 +151,7 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
           caption="Catalog tree — howden catalog with bronze, gold, silver schemas expanded showing commission tables"
         />
 
-        <SectionTitle color={COLORS.day2}>Five Source CRM Systems</SectionTitle>
+        <SectionTitle color={COLORS.phase2}>Five Source CRM Systems</SectionTitle>
 
         <SimpleTable
           headers={["CRM System", "Howden Entity", "Commission Field in Source", "Bronze Row Count"]}
@@ -165,7 +165,7 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
         <PageHeader chapter="Chapter 2: Data & Catalog" />
         <PageFooter />
 
-        <SectionTitle color={COLORS.day2}>Unity Catalog: The Howden Data Hierarchy</SectionTitle>
+        <SectionTitle color={COLORS.phase2}>Unity Catalog: The Howden Data Hierarchy</SectionTitle>
 
         <Body>
           {"Unity Catalog organises every data asset — tables, volumes, models, functions — in a three-level hierarchy with permissions, lineage tracking, and governance applied automatically."}
@@ -245,7 +245,7 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
           ))}
         </View>
 
-        <SectionTitle color={COLORS.day2}>Key Tables in the Howden Catalog</SectionTitle>
+        <SectionTitle color={COLORS.phase2}>Key Tables in the Howden Catalog</SectionTitle>
 
         <SimpleTable
           headers={["Table (catalog.schema.name)", "What It Contains", "Rows"]}

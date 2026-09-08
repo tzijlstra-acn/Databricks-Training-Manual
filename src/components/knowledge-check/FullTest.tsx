@@ -51,12 +51,12 @@ const DIFFICULTIES: {
 ];
 
 const DAY_FILTERS: { key: DayNumber | "all"; label: string }[] = [
-  { key: "all", label: "All Days" },
-  { key: 1, label: "Day 1" },
-  { key: 2, label: "Day 2" },
-  { key: 3, label: "Day 3" },
-  { key: 4, label: "Day 4" },
-  { key: 5, label: "Day 5" },
+  { key: "all", label: "All Phases" },
+  { key: 1, label: "Phase 1" },
+  { key: 2, label: "Phase 2" },
+  { key: 3, label: "Phase 3" },
+  { key: 4, label: "Phase 4" },
+  { key: 5, label: "Phase 5" },
 ];
 
 const LETTERS = ["A", "B", "C", "D"];

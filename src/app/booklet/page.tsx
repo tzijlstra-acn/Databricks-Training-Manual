@@ -7,7 +7,7 @@ const CHAPTERS = [
   {
     number: "01",
     title: "Foundations",
-    label: "Day 1",
+    label: "Phase 1",
     icon: <BookOpen size={20} />,
     color: "#1E40AF",
     bullets: ["7 workspace UI areas", "Workspace vs Unity Catalog", "Navigation essentials"],
@@ -15,7 +15,7 @@ const CHAPTERS = [
   {
     number: "02",
     title: "Data & Catalog",
-    label: "Day 2",
+    label: "Phase 2",
     icon: <Layers size={20} />,
     color: "#0891B2",
     bullets: ["Medallion Architecture", "Unity Catalog hierarchy", "5 source CRM systems"],
@@ -23,7 +23,7 @@ const CHAPTERS = [
   {
     number: "03",
     title: "Develop & Query",
-    label: "Day 3",
+    label: "Phase 3",
     icon: <Cpu size={20} />,
     color: "#059669",
     bullets: ["Notebooks & SQL Editor", "Compute types", "Query Gold tables"],
@@ -31,7 +31,7 @@ const CHAPTERS = [
   {
     number: "04",
     title: "Automate & Monitor",
-    label: "Day 4",
+    label: "Phase 4",
     icon: <Workflow size={20} />,
     color: "#D97706",
     bullets: ["Databricks Jobs", "DQX data quality", "6-step Alerts"],
@@ -39,7 +39,7 @@ const CHAPTERS = [
   {
     number: "05",
     title: "Analyze & Apply",
-    label: "Day 5",
+    label: "Phase 5",
     icon: <BarChart3 size={20} />,
     color: "#7C3AED",
     bullets: ["Genie AI Spaces", "Lakeview Dashboards", "End-to-end FINMA flow"],
@@ -152,14 +152,14 @@ export default function BookletPage() {
             Databricks Training Booklet
           </h1>
           <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
-            A complete reference for the Howden Databricks FINMA platform — 5 training days, 32
+            A complete reference for the Howden Databricks FINMA platform — 5 training phases, 32
             glossary terms, and every platform component documented in one client-ready PDF.
           </p>
 
           {/* Stats strip */}
           <div className="flex flex-wrap gap-6 mt-8">
             {[
-              { label: "Training Days", value: "5" },
+              { label: "Training Phases", value: "5" },
               { label: "Glossary Terms", value: "32" },
               { label: "Platform Components", value: "16" },
               { label: "Architecture Nodes", value: "11" },

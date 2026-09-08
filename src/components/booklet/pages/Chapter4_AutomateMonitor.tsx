@@ -61,14 +61,14 @@ export function Chapter4_AutomateMonitor({ screenshots }: { screenshots: Record<
           number="04"
           title="Automate & Monitor"
           subtitle="Outcome: Build automated pipelines and catch data quality failures before they reach FINMA"
-          color={COLORS.day4}
+          color={COLORS.phase4}
         />
 
         <CalloutBox title="Howden Context">
           {"Before this platform, a data steward manually checked each CRM export, pivoted in Excel, and sent the file. If a BAYO row was attributed to the wrong entity, nobody found out until the FINMA report totals didn't reconcile with Abacus — sometimes days before the 31 May deadline. With Databricks Jobs, each entity runs its own pipeline. The moment a CRM file lands, automated DQX checks fire. If any check fails, an alert fires immediately — nothing slips through to submission."}
         </CalloutBox>
 
-        <SectionTitle color={COLORS.day4}>Databricks Jobs: Scheduled Automation</SectionTitle>
+        <SectionTitle color={COLORS.phase4}>Databricks Jobs: Scheduled Automation</SectionTitle>
         <Body>
           {"A Job is a DAG of tasks (notebooks, SQL, Python scripts) that run in sequence or parallel, on a schedule or trigger. If task N fails, all downstream tasks are blocked — the Gold table is never written with incomplete data."}
         </Body>
@@ -78,7 +78,7 @@ export function Chapter4_AutomateMonitor({ screenshots }: { screenshots: Record<
           caption="Jobs & Pipelines list — VorsorgePartnerCommission_nondlt, VP_kundenliste_nondlt, VP_nondlt — all owned by Mansi Mansi"
         />
 
-        <SectionTitle color={COLORS.day4}>The Three Howden VP Jobs</SectionTitle>
+        <SectionTitle color={COLORS.phase4}>The Three Howden VP Jobs</SectionTitle>
         <SimpleTable
           headers={["Job Name", "Owner", "Task Chain", "Duration"]}
           rows={HOWDEN_JOBS}
@@ -96,7 +96,7 @@ export function Chapter4_AutomateMonitor({ screenshots }: { screenshots: Record<
           caption="VorsorgePartnerCommission_nondlt detail — three tasks (Bronze, Silver, Gold) all succeeded in 1m 28s with Run now button"
         />
 
-        <SectionTitle color={COLORS.day4}>The FINMA Pipeline: 5 Tasks in Sequence</SectionTitle>
+        <SectionTitle color={COLORS.phase4}>The FINMA Pipeline: 5 Tasks in Sequence</SectionTitle>
         <Body>
           {"Every Howden entity runs this pattern. The pipeline only writes Gold if every upstream task passes — protecting submission integrity."}
         </Body>
@@ -112,7 +112,7 @@ export function Chapter4_AutomateMonitor({ screenshots }: { screenshots: Record<
                   width: 20,
                   height: 20,
                   borderRadius: 10,
-                  backgroundColor: COLORS.day4,
+                  backgroundColor: COLORS.phase4,
                   justifyContent: "center",
                   alignItems: "center",
                   flexShrink: 0,
@@ -148,7 +148,7 @@ export function Chapter4_AutomateMonitor({ screenshots }: { screenshots: Record<
           ))}
         </View>
 
-        <SectionTitle color={COLORS.day4}>Setting Up Alerts: 6-Step Process</SectionTitle>
+        <SectionTitle color={COLORS.phase4}>Setting Up Alerts: 6-Step Process</SectionTitle>
         <SimpleTable
           headers={["Step", "Action / SQL / Configuration"]}
           rows={ALERT_STEPS}

@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { markDayVisited } from "@/lib/progress";
-import { PipelineSimulator } from "@/components/day4/PipelineSimulator";
-import { DQXFlow } from "@/components/day4/DQXFlow";
-import { WriteYourOwnRule } from "@/components/day4/WriteYourOwnRule";
+import { PipelineSimulator } from "@/components/phase4/PipelineSimulator";
+import { DQXFlow } from "@/components/phase4/DQXFlow";
+import { WriteYourOwnRule } from "@/components/phase4/WriteYourOwnRule";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 import { recentRuns } from "@/data/pipeline";
@@ -28,7 +28,7 @@ const donutData = [
 
 const DONUT_COLORS = ["#22C55E", "#EF4444"];
 
-export default function Day4Page() {
+export default function Phase4Page() {
   useEffect(() => {
     markDayVisited(4);
   }, []);
@@ -44,7 +44,7 @@ export default function Day4Page() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-xs font-semibold text-amber-700 uppercase tracking-wide bg-amber-100 px-2 py-0.5 rounded-full">
-                Day 4
+                Phase 4
               </span>
             </div>
             <h1 className="text-2xl font-bold text-gray-900">Automate &amp; Monitor</h1>

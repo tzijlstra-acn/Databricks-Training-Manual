@@ -67,14 +67,14 @@ export function Chapter1_Foundations({ screenshots }: { screenshots: Record<stri
           number="01"
           title="Foundations: Meet the Platform"
           subtitle="Outcome: Navigate the workspace with confidence from day one"
-          color={COLORS.day1}
+          color={COLORS.phase1}
         />
 
         <CalloutBox title="Howden Context">
           {"Three data types feed the FINMA pipeline: (1) commission exports from five CRMs — BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner — uploaded by data stewards; (2) a product type mapping table linking CRM codes to FINMA intermediary categories; (3) an insurer name mapping resolving CRM names to FINMA-registered entities. Databricks is the shared engine that processes all three consistently and on time for the 31 May FINMA deadline."}
         </CalloutBox>
 
-        <SectionTitle color={COLORS.day1}>The 7 Areas of the Databricks Workspace UI</SectionTitle>
+        <SectionTitle color={COLORS.phase1}>The 7 Areas of the Databricks Workspace UI</SectionTitle>
 
         <Body>
           {"The UI is consistently structured across all screens. Knowing these 7 zones eliminates the most common confusion for new users."}
@@ -88,7 +88,7 @@ export function Chapter1_Foundations({ screenshots }: { screenshots: Record<stri
             >
               <View
                 style={{
-                  backgroundColor: COLORS.day1,
+                  backgroundColor: COLORS.phase1,
                   width: 20,
                   height: 20,
                   borderRadius: 10,
@@ -150,7 +150,7 @@ export function Chapter1_Foundations({ screenshots }: { screenshots: Record<stri
           caption="Workspace UI — left panel (area II) gives access to all platform tools; SQL section below the separator"
         />
 
-        <SectionTitle color={COLORS.day1}>Workspace vs Unity Catalog: The Essential Distinction</SectionTitle>
+        <SectionTitle color={COLORS.phase1}>Workspace vs Unity Catalog: The Essential Distinction</SectionTitle>
 
         {/* Stacked full-width blocks — avoids react-pdf column layout issues */}
         <View style={{ marginBottom: 10 }}>
@@ -242,7 +242,7 @@ export function Chapter1_Foundations({ screenshots }: { screenshots: Record<stri
           </Text>
         </View>
 
-        <SectionTitle color={COLORS.day1}>Recents & Quick Navigation</SectionTitle>
+        <SectionTitle color={COLORS.phase1}>Recents & Quick Navigation</SectionTitle>
 
         <Body>
           {"The Recents section on the home page and in the left panel shows your most recently accessed notebooks, tables, dashboards, and queries. Ctrl+P opens global search from anywhere — the fastest way to jump to any asset."}

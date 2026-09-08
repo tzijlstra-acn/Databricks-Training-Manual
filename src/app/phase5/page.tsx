@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { markDayVisited } from "@/lib/progress";
-import { DashboardLineage } from "@/components/day5/DashboardLineage";
-import { GenieDemo } from "@/components/day5/GenieDemo";
+import { DashboardLineage } from "@/components/phase5/DashboardLineage";
+import { GenieDemo } from "@/components/phase5/GenieDemo";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 import { ArrowRight, BarChart3 } from "lucide-react";
@@ -23,7 +23,7 @@ const supportingCapabilities = [
   "Unity Catalog", "Governance", "Compute", "Jobs", "Pipelines", "Data Quality", "Monitoring", "Alerts",
 ];
 
-export default function Day5Page() {
+export default function Phase5Page() {
   useEffect(() => {
     markDayVisited(5);
   }, []);
@@ -37,7 +37,7 @@ export default function Day5Page() {
             <BarChart3 className="w-5 h-5 text-white" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#7C3AED" }}>Day 5</p>
+            <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#7C3AED" }}>Phase 5</p>
             <h1 className="text-3xl font-bold text-gray-900">Analyze &amp; Apply</h1>
           </div>
         </div>

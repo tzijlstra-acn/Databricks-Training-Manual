@@ -73,14 +73,14 @@ export function Chapter3_DevelopQuery({ screenshots }: { screenshots: Record<str
           number="03"
           title="Develop & Query"
           subtitle="Outcome: Write and run SQL and Python code against Howden Gold and Silver tables"
-          color={COLORS.day3}
+          color={COLORS.phase3}
         />
 
         <CalloutBox title="Howden Context">
           {"The primary development surfaces are: (1) Notebooks — for pipeline code (Bronze → Silver → Gold transformation logic); (2) SQL Editor — for ad-hoc queries against Gold tables and building saved queries that power dashboards. The cluster is adb-cluster-howden-switzerland-groupdatapoc-we running Databricks Runtime 17.3. Always start this cluster before running a notebook — attaching to a terminated cluster is a common source of confusion."}
         </CalloutBox>
 
-        <SectionTitle color={COLORS.day3}>Notebook vs SQL Editor: When to Use Which</SectionTitle>
+        <SectionTitle color={COLORS.phase3}>Notebook vs SQL Editor: When to Use Which</SectionTitle>
         <SimpleTable
           headers={["Task", "Use", "Why"]}
           rows={NOTEBOOK_VS_SQL}
@@ -92,7 +92,7 @@ export function Chapter3_DevelopQuery({ screenshots }: { screenshots: Record<str
           caption="Compute page — All-Purpose Cluster (adb-cluster-howden-switzerland-groupdatapoc-we), Job Clusters created by runs, and SQL Warehouse"
         />
 
-        <SectionTitle color={COLORS.day3}>The Three Compute Types</SectionTitle>
+        <SectionTitle color={COLORS.phase3}>The Three Compute Types</SectionTitle>
         <SimpleTable
           headers={["Type", "Billing Model & Behaviour", "Howden Instance"]}
           rows={COMPUTE_TYPES}
@@ -105,7 +105,7 @@ export function Chapter3_DevelopQuery({ screenshots }: { screenshots: Record<str
         <PageHeader chapter="Chapter 3: Develop & Query" />
         <PageFooter />
 
-        <SectionTitle color={COLORS.day3}>Magic Commands</SectionTitle>
+        <SectionTitle color={COLORS.phase3}>Magic Commands</SectionTitle>
         <Body>
           {"Magic commands change the language or behaviour of a single cell. They are essential for mixing SQL queries into Python notebooks — the pattern used throughout the FINMA pipeline."}
         </Body>
@@ -115,7 +115,7 @@ export function Chapter3_DevelopQuery({ screenshots }: { screenshots: Record<str
           colWidths={[0.7, 4.3]}
         />
 
-        <SectionTitle color={COLORS.day3}>Example: Query the Howden Gold Table</SectionTitle>
+        <SectionTitle color={COLORS.phase3}>Example: Query the Howden Gold Table</SectionTitle>
 
         <View
           style={{
