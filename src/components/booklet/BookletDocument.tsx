@@ -12,6 +12,10 @@ import { Chapter5_AnalyzeApply } from "./pages/Chapter5_AnalyzeApply";
 import { AppendixGlossary } from "./pages/AppendixGlossary";
 import { AppendixPlatformRef } from "./pages/AppendixPlatformRef";
 import { AppendixArchitecture } from "./pages/AppendixArchitecture";
+import { AppendixGettingStarted } from "./pages/AppendixGettingStarted";
+import { AppendixWorkingWithDatabricks } from "./pages/AppendixWorkingWithDatabricks";
+import { AppendixBestPractices } from "./pages/AppendixBestPractices";
+import { AppendixTroubleshooting } from "./pages/AppendixTroubleshooting";
 
 export interface BookletScreenshots {
   home?: string;
@@ -52,6 +56,10 @@ export function BookletDocument({ screenshots = {} }: Props) {
       <AppendixGlossary />
       <AppendixPlatformRef />
       <AppendixArchitecture />
+      <AppendixGettingStarted screenshots={ss} />
+      <AppendixWorkingWithDatabricks />
+      <AppendixBestPractices />
+      <AppendixTroubleshooting />
     </Document>
   );
 }

@@ -11,6 +11,10 @@ const TOC_ENTRIES = [
   { num: "A", title: "Appendix A: Glossary", sub: "32 key terms with plain-English definitions and analogies", color: COLORS.gray500, page: 21 },
   { num: "B", title: "Appendix B: Platform Quick Reference", sub: "All 16 workspace components — when to use & who uses them", color: COLORS.gray500, page: 27 },
   { num: "C", title: "Appendix C: Architecture Reference", sub: "11 platform components and their connections", color: COLORS.gray500, page: 30 },
+  { num: "D", title: "Appendix D: Getting Started", sub: "Workspace access, login steps, orientation checklist", color: COLORS.gray500, page: 31 },
+  { num: "E", title: "Appendix E: Working with Databricks", sub: "Create notebooks, execute code, save and share", color: COLORS.gray500, page: 32 },
+  { num: "F", title: "Appendix F: Best Practices", sub: "12 FINMA data practices and upload checklist", color: COLORS.gray500, page: 34 },
+  { num: "G", title: "Appendix G: Troubleshooting & Further Learning", sub: "4 FAQs and official learning resources", color: COLORS.gray500, page: 36 },
 ];
 
 export function TocPage() {
