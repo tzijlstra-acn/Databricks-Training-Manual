@@ -623,10 +623,13 @@ export function UIWalkthrough() {
     });
   }, []);
 
-  // Recompute after step/scenario change (delay for AnimatePresence to settle)
+  // Two passes: 80 ms catches sidebar targets (always in DOM); 400 ms catches
+  // ContentPane targets that only mount after AnimatePresence mode="wait" exit
+  // (250 ms exit animation) has completed.
   useEffect(() => {
-    const t = setTimeout(() => computeHighlight(step.hl), 80);
-    return () => clearTimeout(t);
+    const t1 = setTimeout(() => computeHighlight(step.hl), 80);
+    const t2 = setTimeout(() => computeHighlight(step.hl), 400);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [scenarioIdx, stepIdx, step.hl, computeHighlight]);
 
   // Recompute on container resize
