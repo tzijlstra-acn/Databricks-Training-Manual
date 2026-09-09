@@ -133,10 +133,11 @@ export default function ArchitectureClient() {
     return connected;
   }, [selectedNodeId, tourStep]);
 
-  // Display nodes: merge position state with visual flags
+  // Display nodes: spread posNode (preserving RF-internal width/height/measured
+  // after measurement) and override only the data field with visual state.
   const displayNodes = useMemo(() => {
-    const posMap = Object.fromEntries(posNodes.map((n) => [n.id, n.position]));
-    return architectureNodes.map((n) => {
+    return posNodes.map((pn) => {
+      const n = architectureNodes.find((a) => a.id === pn.id)!;
       const isSelected = tourStep === null && n.id === selectedNodeId;
       const isHighlighted =
         tourStep !== null
@@ -146,9 +147,7 @@ export default function ArchitectureClient() {
       const isDimmed = anyActive && !isSelected && !isHighlighted;
 
       return {
-        id: n.id,
-        type: "customArch" as const,
-        position: posMap[n.id] ?? { x: n.x, y: n.y },
+        ...pn,
         data: {
           nodeId: n.id,
           label: n.label,
@@ -157,7 +156,6 @@ export default function ArchitectureClient() {
           highlighted: isHighlighted,
           dimmed: isDimmed,
         },
-        draggable: true,
       };
     });
   }, [posNodes, selectedNodeId, highlightedNodeIds, tourStep]);
