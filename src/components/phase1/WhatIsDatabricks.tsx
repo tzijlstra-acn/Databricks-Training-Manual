@@ -16,15 +16,15 @@ import {
 const BEFORE_AFTER = [
   {
     before: "Commission data extracted manually from 5 different CRMs, emailed as Excel",
-    after: "One automated pipeline ingests all 5 CRM exports, using the same logic every time.",
+    after: "Each entity has its own dedicated pipeline. Every pipeline applies the same validated logic, so results are consistent and fully traceable regardless of which CRM the data came from.",
   },
   {
     before: "Each analyst has their own copy. Nobody knows which version is correct.",
-    after: "One governed Gold table that everyone queries. No conflicting versions.",
+    after: "Each entity produces its own individual Gold table, registered in Unity Catalog with a clear reference to that entity. No conflicting copies - it is always obvious which table belongs to which entity.",
   },
   {
     before: "FINMA report built by hand in a spreadsheet. Error-prone and takes weeks.",
-    after: "Report generated automatically when the pipeline completes.",
+    after: "The Gold layer is only created once the pipeline has run successfully. Once Gold is ready, the Power BI report is refreshed to pull the latest numbers - the report will not show updated figures until both steps are complete.",
   },
   {
     before: "Data quality issues discovered only after the submission has gone out.",
