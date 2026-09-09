@@ -9,38 +9,17 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// ── Layout constants (mockup = 860 × 460px) ──────────────────────────────────
+// ── Layout constants (used for sidebar/header sizing, still needed by components) ──
 const SW = 200;   // sidebar width
 const TH = 36;    // browser chrome height
 const BB = 44;    // brand bar height
 const NI = 36;    // nav item height
-// Sidebar nav items Y (from top of container)
-const NAV_Y = TH + BB;
 
-const R = {
-  wsItem:     { x: 0,    y: NAV_Y,            w: SW, h: NI },
-  catItem:    { x: 0,    y: NAV_Y + NI,        w: SW, h: NI },
-  cpItem:     { x: 0,    y: NAV_Y + NI * 3,    w: SW, h: NI },
-  content:    { x: SW,   y: TH + BB,           w: 660, h: 380 },
-  // notebook header compute button (right side of content topbar)
-  computeBtn: { x: SW + 380, y: TH + BB + 8,  w: 160, h: 28 },
-  // cluster dropdown rows
-  cluster: (n: number) => ({ x: SW + 380, y: TH + BB + 44 + n * 40, w: 268, h: 36 }),
-  // notebook cells
-  cell: (n: number)    => ({ x: SW + 24,  y: TH + BB + 60 + n * 76, w: 580, h: 68 }),
-  // catalog tree rows
-  catRow: (n: number)  => ({ x: SW + 16,  y: TH + BB + 8 + n * 36,  w: 300, h: 32 }),
-  // table schema columns
-  colRow: (n: number)  => ({ x: SW + 16,  y: TH + BB + 120 + n * 36, w: 620, h: 32 }),
-  // workspace file rows
-  fileRow: (n: number) => ({ x: SW + 16,  y: TH + BB + 56 + n * 40,  w: 620, h: 36 }),
-};
+// ── Types ─────────────────────────────────────────────────────────────────────
+type Box = { x: number; y: number; w: number; h: number };
+type Step = { caption: string; sub: string; ui: string; hl?: string };
 
 // ── Scenario data ─────────────────────────────────────────────────────────────
-
-type Box = { x: number; y: number; w: number; h: number };
-type Step = { caption: string; sub: string; ui: string; hl?: Box };
-
 const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] = [
   {
     id: "notebook",
@@ -51,25 +30,25 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
         caption: "Find Workspace in the sidebar",
         sub: "The sidebar is always on the left. Workspace is where all your code and notebooks live.",
         ui: "idle",
-        hl: R.wsItem,
+        hl: "nav-workspace",
       },
       {
         caption: "Click Workspace: folder tree appears",
         sub: "You'll see shared and personal folders. Look for a team or training folder.",
         ui: "ws-tree",
-        hl: R.fileRow(0),
+        hl: "file-row-0",
       },
       {
         caption: "Expand the Training folder",
         sub: "Notebooks are listed as files inside the folder. You'll recognise them by the language badge.",
         ui: "ws-folder",
-        hl: R.fileRow(1),
+        hl: "folder-row-1",
       },
       {
         caption: "Click a notebook to open it",
         sub: "The notebook opens in the main area. Cells are ready, but you need compute before running.",
         ui: "notebook-detached",
-        hl: R.cell(0),
+        hl: "cell-0",
       },
     ],
   },
@@ -82,25 +61,25 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
         caption: "Notebook is open. Compute shows 'Detached'",
         sub: "Before you can run any cell, you must connect to a compute cluster.",
         ui: "notebook-detached",
-        hl: R.computeBtn,
+        hl: "compute-detached-btn",
       },
       {
         caption: "Click the compute button: dropdown opens",
         sub: "Any clusters already running are listed here. Starting a stopped cluster takes 2-5 minutes.",
         ui: "compute-dropdown",
-        hl: R.cluster(0),
+        hl: "cluster-0",
       },
       {
         caption: "Select a running cluster",
         sub: "A green dot means it is already running. Grey means it needs to start.",
         ui: "compute-connecting",
-        hl: R.computeBtn,
+        hl: "compute-connecting-btn",
       },
       {
         caption: "Cluster attached. You can now run cells.",
         sub: "The compute button turns green. Every cell in this notebook now has access to that cluster.",
         ui: "compute-connected",
-        hl: R.cell(0),
+        hl: "cell-0-connected",
       },
     ],
   },
@@ -113,31 +92,31 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
         caption: "Click Catalog in the sidebar",
         sub: "Catalog is where all governed tables live. Bronze, Silver, and Gold layers are all here.",
         ui: "idle",
-        hl: R.catItem,
+        hl: "nav-catalog",
       },
       {
         caption: "Expand the 'enterprise' catalog",
         sub: "Catalogs are the top-level namespace. Your organisation's data lives under 'enterprise'.",
         ui: "catalog-root",
-        hl: R.catRow(1),
+        hl: "cat-root-0",
       },
       {
         caption: "Open the 'silver' schema",
         sub: "Schemas group tables by Medallion layer. Bronze, Silver, and Gold are all visible here.",
         ui: "catalog-schemas",
-        hl: R.catRow(3),
+        hl: "cat-schema-silver",
       },
       {
         caption: "Click a table to inspect it",
         sub: "Every column, its type, nullability, and description, all in one view.",
         ui: "catalog-tables",
-        hl: R.catRow(4),
+        hl: "cat-table-0",
       },
       {
         caption: "Schema, sample data, and lineage: all here",
         sub: "You can preview rows without writing any code. Lineage shows which notebook wrote this table.",
         ui: "catalog-detail",
-        hl: R.colRow(1),
+        hl: "col-row-1",
       },
     ],
   },
@@ -147,22 +126,20 @@ const SCENARIOS: { id: string; title: string; emoji: string; steps: Step[] }[] =
 
 function Sidebar({ active }: { active: "workspace" | "catalog" | "compute" | "none" }) {
   const items = [
-    { id: "workspace", icon: FolderOpen,  label: "Workspace",  color: "#0891B2" },
-    { id: "catalog",   icon: Database,    label: "Catalog",    color: "#059669" },
-    { id: "recents",   icon: BookOpen,    label: "Recents",    color: "#6B7280" },
-    { id: "compute",   icon: Cpu,         label: "Compute",    color: "#7C3AED" },
-    { id: "jobs",      icon: Layers,      label: "Jobs & Pipelines", color: "#D97706" },
+    { id: "workspace", icon: FolderOpen,  label: "Workspace",       color: "#0891B2", target: "nav-workspace" },
+    { id: "catalog",   icon: Database,    label: "Catalog",          color: "#059669", target: "nav-catalog" },
+    { id: "recents",   icon: BookOpen,    label: "Recents",          color: "#6B7280", target: null },
+    { id: "compute",   icon: Cpu,         label: "Compute",          color: "#7C3AED", target: "nav-compute" },
+    { id: "jobs",      icon: Layers,      label: "Jobs & Pipelines", color: "#D97706", target: null },
   ];
   return (
     <div className="flex flex-col" style={{ width: SW, backgroundColor: "#1A1A2E", minHeight: "100%" }}>
-      {/* Brand bar */}
       <div className="flex items-center gap-2 px-4 border-b border-[#2D2D4E]" style={{ height: BB }}>
         <div className="w-6 h-6 bg-[#FF3621] rounded flex items-center justify-center flex-shrink-0">
           <span className="text-white text-[10px] font-bold">D</span>
         </div>
         <span className="text-white text-sm font-semibold">Databricks</span>
       </div>
-      {/* Nav */}
       <nav className="flex-1 pt-1">
         {items.map((item) => {
           const Icon = item.icon;
@@ -170,6 +147,7 @@ function Sidebar({ active }: { active: "workspace" | "catalog" | "compute" | "no
           return (
             <div
               key={item.id}
+              data-tour-target={item.target ?? undefined}
               className="flex items-center gap-3 px-4 text-xs"
               style={{
                 height: NI,
@@ -224,12 +202,16 @@ function ContentPane({ ui }: { ui: string }) {
         {topbar}
         <div className="flex-1 p-4 space-y-1">
           {[
-            { icon: FolderOpen, label: "Training",   indent: 0, bold: true },
-            { icon: Folder,     label: "Personal",   indent: 0, bold: false },
-            { icon: Folder,     label: "Shared",     indent: 0, bold: false },
-          ].map(({ icon: Icon, label, indent, bold }) => (
-            <div key={label} className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer" style={{ marginLeft: indent * 16 }}>
-              <Icon size={14} className="text-[#0891B2]" />
+            { icon: FolderOpen, label: "Training", bold: true,  color: "#0891B2", target: "file-row-0" },
+            { icon: Folder,     label: "Personal", bold: false, color: "#6B7280", target: "file-row-1" },
+            { icon: Folder,     label: "Shared",   bold: false, color: "#6B7280", target: "file-row-2" },
+          ].map(({ icon: Icon, label, bold, color, target }) => (
+            <div
+              key={label}
+              data-tour-target={target}
+              className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer"
+            >
+              <Icon size={14} style={{ color }} />
               <span className={cn("text-xs", bold ? "font-semibold text-gray-800" : "text-gray-600")}>{label}</span>
             </div>
           ))}
@@ -243,17 +225,21 @@ function ContentPane({ ui }: { ui: string }) {
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
         {topbar}
         <div className="flex-1 p-4 space-y-1">
-          <div className="flex items-center gap-2 px-2 py-2 rounded-lg cursor-pointer">
+          <div data-tour-target="folder-row-0" className="flex items-center gap-2 px-2 py-2 rounded-lg cursor-pointer">
             <FolderOpen size={14} className="text-[#0891B2]" />
             <span className="text-xs font-semibold text-gray-800">Training</span>
           </div>
           {[
-            { label: "phase1_foundations.py",   lang: "PY",  color: "#3B82F6" },
-            { label: "phase2_medallion.sql",     lang: "SQL", color: "#059669" },
-            { label: "silver_transform.py",    lang: "PY",  color: "#3B82F6" },
-            { label: "finma_gold_build.sql",   lang: "SQL", color: "#059669" },
-          ].map(({ label, lang, color }) => (
-            <div key={label} className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer ml-4">
+            { label: "phase1_foundations.py",  lang: "PY",  color: "#3B82F6", target: "folder-row-1" },
+            { label: "phase2_medallion.sql",    lang: "SQL", color: "#059669", target: "folder-row-2" },
+            { label: "silver_transform.py",     lang: "PY",  color: "#3B82F6", target: "folder-row-3" },
+            { label: "finma_gold_build.sql",    lang: "SQL", color: "#059669", target: "folder-row-4" },
+          ].map(({ label, lang, color, target }) => (
+            <div
+              key={label}
+              data-tour-target={target}
+              className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer ml-4"
+            >
               <FileCode size={13} style={{ color }} />
               <span className="text-xs text-gray-700 flex-1">{label}</span>
               <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: color + "18", color }}>{lang}</span>
@@ -267,24 +253,27 @@ function ContentPane({ ui }: { ui: string }) {
   if (ui === "notebook-detached") {
     return (
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
-        {/* Notebook header */}
         <div className="flex items-center justify-between px-4 border-b border-gray-100 bg-gray-50" style={{ height: BB, flexShrink: 0 }}>
           <span className="text-xs font-semibold text-gray-800">phase1_foundations.py</span>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-xs text-gray-500 cursor-pointer">
-              <Cpu size={12} className="text-gray-400" />
-              <span>Detached</span>
-              <ChevronDown size={11} className="text-gray-400" />
-            </div>
+          <div
+            data-tour-target="compute-detached-btn"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-xs text-gray-500 cursor-pointer"
+          >
+            <Cpu size={12} className="text-gray-400" />
+            <span>Detached</span>
+            <ChevronDown size={11} className="text-gray-400" />
           </div>
         </div>
-        {/* Cells */}
         <div className="flex-1 overflow-auto bg-white p-4 space-y-3">
           {[
-            { code: "# Phase 1, Databricks Foundations\nprint('Hello, Databricks!')", out: null },
-            { code: "display(spark.sql('SHOW CATALOGS'))", out: null },
-          ].map(({ code, out }, i) => (
-            <div key={i} className="rounded-lg border border-gray-200 overflow-hidden">
+            "# Phase 1, Databricks Foundations\nprint('Hello, Databricks!')",
+            "display(spark.sql('SHOW CATALOGS'))",
+          ].map((code, i) => (
+            <div
+              key={i}
+              data-tour-target={`cell-${i}`}
+              className="rounded-lg border border-gray-200 overflow-hidden"
+            >
               <div className="bg-gray-50 border-b border-gray-100 px-3 py-1.5 flex items-center gap-2">
                 <div className="w-5 h-5 rounded flex items-center justify-center bg-gray-200">
                   <Play size={9} className="text-gray-500" />
@@ -310,17 +299,20 @@ function ContentPane({ ui }: { ui: string }) {
               <span>Select cluster</span>
               <ChevronDown size={11} />
             </div>
-            {/* Dropdown */}
             <div className="absolute right-0 top-full mt-1 w-72 bg-white rounded-xl border border-gray-200 shadow-xl z-10 overflow-hidden">
               <div className="px-3 py-2 border-b border-gray-100">
                 <p className="text-[11px] font-semibold text-gray-600 uppercase tracking-wide">Available Clusters</p>
               </div>
               {[
-                { name: "howden-training-cluster",  status: "running", nodes: "4 nodes" },
-                { name: "howden-dev-small",          status: "stopped", nodes: "2 nodes" },
-                { name: "howden-prod-pipeline",      status: "running", nodes: "8 nodes" },
-              ].map(({ name, status, nodes }) => (
-                <div key={name} className="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-0">
+                { name: "howden-training-cluster",  status: "running", nodes: "4 nodes", target: "cluster-0" },
+                { name: "howden-dev-small",          status: "stopped", nodes: "2 nodes", target: "cluster-1" },
+                { name: "howden-prod-pipeline",      status: "running", nodes: "8 nodes", target: "cluster-2" },
+              ].map(({ name, status, nodes, target }) => (
+                <div
+                  key={name}
+                  data-tour-target={target}
+                  className="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-0"
+                >
                   <div className={cn("w-2 h-2 rounded-full flex-shrink-0", status === "running" ? "bg-green-500" : "bg-gray-300")} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-gray-800 truncate">{name}</p>
@@ -345,7 +337,10 @@ function ContentPane({ ui }: { ui: string }) {
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
         <div className="flex items-center justify-between px-4 border-b border-gray-100 bg-gray-50" style={{ height: BB, flexShrink: 0 }}>
           <span className="text-xs font-semibold text-gray-800">phase1_foundations.py</span>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-amber-200 bg-amber-50 text-xs text-amber-700">
+          <div
+            data-tour-target="compute-connecting-btn"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-amber-200 bg-amber-50 text-xs text-amber-700"
+          >
             <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
             <span>Connecting to howden-training-cluster...</span>
           </div>
@@ -362,7 +357,10 @@ function ContentPane({ ui }: { ui: string }) {
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
         <div className="flex items-center justify-between px-4 border-b border-gray-100 bg-gray-50" style={{ height: BB, flexShrink: 0 }}>
           <span className="text-xs font-semibold text-gray-800">phase1_foundations.py</span>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-green-200 bg-green-50 text-xs text-green-700">
+          <div
+            data-tour-target="compute-connected-btn"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-green-200 bg-green-50 text-xs text-green-700"
+          >
             <div className="w-2 h-2 rounded-full bg-green-500" />
             <span>howden-training-cluster</span>
             <CheckCircle2 size={12} className="text-green-500" />
@@ -370,10 +368,14 @@ function ContentPane({ ui }: { ui: string }) {
         </div>
         <div className="flex-1 bg-white p-4 space-y-3">
           {[
-            { code: "# Phase 1, Databricks Foundations\nprint('Hello, Databricks!')", out: "Hello, Databricks!" },
-            { code: "display(spark.sql('SHOW CATALOGS'))", out: null },
-          ].map(({ code, out }, i) => (
-            <div key={i} className="rounded-lg border border-gray-200 overflow-hidden">
+            { code: "# Phase 1, Databricks Foundations\nprint('Hello, Databricks!')", out: "Hello, Databricks!", target: "cell-0-connected" },
+            { code: "display(spark.sql('SHOW CATALOGS'))", out: null, target: "cell-1-connected" },
+          ].map(({ code, out, target }, i) => (
+            <div
+              key={i}
+              data-tour-target={target}
+              className="rounded-lg border border-gray-200 overflow-hidden"
+            >
               <div className="bg-gray-50 border-b border-gray-100 px-3 py-1.5 flex items-center gap-2">
                 <div className="w-5 h-5 rounded flex items-center justify-center bg-green-100">
                   <Play size={9} className="text-green-600" />
@@ -399,11 +401,15 @@ function ContentPane({ ui }: { ui: string }) {
         {topbar}
         <div className="flex-1 p-4 space-y-1">
           {[
-            { label: "enterprise",   icon: Database,  indent: 0, bold: true,  color: "#059669" },
-            { label: "samples",      icon: Database,  indent: 0, bold: false, color: "#6B7280" },
-            { label: "system",       icon: Database,  indent: 0, bold: false, color: "#6B7280" },
-          ].map(({ label, icon: Icon, indent, bold, color }) => (
-            <div key={label} className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer" style={{ marginLeft: indent * 16 }}>
+            { label: "enterprise", icon: Database, bold: true,  color: "#059669", target: "cat-root-0" },
+            { label: "samples",    icon: Database, bold: false, color: "#6B7280", target: "cat-root-1" },
+            { label: "system",     icon: Database, bold: false, color: "#6B7280", target: "cat-root-2" },
+          ].map(({ label, icon: Icon, bold, color, target }) => (
+            <div
+              key={label}
+              data-tour-target={target}
+              className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer"
+            >
               <Icon size={13} style={{ color }} />
               <span className={cn("text-xs", bold ? "font-semibold text-gray-900" : "text-gray-500")}>{label}</span>
             </div>
@@ -418,16 +424,20 @@ function ContentPane({ ui }: { ui: string }) {
       <div className="flex-1 bg-white flex flex-col overflow-hidden">
         {topbar}
         <div className="flex-1 p-4 space-y-0.5">
-          <div className="flex items-center gap-2 px-2 py-2 cursor-pointer">
+          <div data-tour-target="cat-schema-enterprise" className="flex items-center gap-2 px-2 py-2 cursor-pointer">
             <Database size={13} className="text-[#059669]" />
             <span className="text-xs font-semibold text-gray-900">enterprise</span>
           </div>
           {[
-            { label: "bronze", color: "#CD7F32", desc: "3 tables" },
-            { label: "silver", color: "#6B7280", desc: "6 tables" },
-            { label: "gold",   color: "#D97706", desc: "5 tables" },
-          ].map(({ label, color, desc }) => (
-            <div key={label} className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer ml-4">
+            { label: "bronze", color: "#CD7F32", desc: "3 tables", target: "cat-schema-bronze" },
+            { label: "silver", color: "#6B7280", desc: "6 tables", target: "cat-schema-silver" },
+            { label: "gold",   color: "#D97706", desc: "5 tables", target: "cat-schema-gold" },
+          ].map(({ label, color, desc, target }) => (
+            <div
+              key={label}
+              data-tour-target={target}
+              className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer ml-4"
+            >
               <Folder size={12} style={{ color }} />
               <span className="text-xs text-gray-700 flex-1">{label}</span>
               <span className="text-[10px] text-gray-400">{desc}</span>
@@ -452,14 +462,18 @@ function ContentPane({ ui }: { ui: string }) {
             <span className="text-[11px] font-semibold text-gray-800">silver</span>
           </div>
           {[
-            "commission_clean",
-            "product_type_mapping",
-            "insurer_entity_mapping",
-            "entity_attribution",
-          ].map((t) => (
-            <div key={t} className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer ml-6">
+            { name: "commission_clean",        target: "cat-table-0" },
+            { name: "product_type_mapping",    target: "cat-table-1" },
+            { name: "insurer_entity_mapping",  target: "cat-table-2" },
+            { name: "entity_attribution",      target: "cat-table-3" },
+          ].map(({ name, target }) => (
+            <div
+              key={name}
+              data-tour-target={target}
+              className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 cursor-pointer ml-6"
+            >
               <Table2 size={12} className="text-[#0891B2]" />
-              <span className="text-xs text-gray-700">{t}</span>
+              <span className="text-xs text-gray-700">{name}</span>
             </div>
           ))}
         </div>
@@ -494,14 +508,14 @@ function ContentPane({ ui }: { ui: string }) {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {[
-                { col: "policy_ref", type: "STRING", null: "No" },
-                { col: "insured_name", type: "STRING", null: "No" },
-                { col: "finma_product_code", type: "STRING", null: "No" },
-                { col: "insurer_finma_name", type: "STRING", null: "No" },
-                { col: "commission_chf", type: "DECIMAL(18,2)", null: "No" },
-                { col: "is_valid", type: "BOOLEAN", null: "No" },
-              ].map(({ col, type, null: nl }) => (
-                <tr key={col} className="hover:bg-blue-50/40">
+                { col: "policy_ref",          type: "STRING",        null: "No",  target: "col-row-0" },
+                { col: "insured_name",        type: "STRING",        null: "No",  target: "col-row-1" },
+                { col: "finma_product_code",  type: "STRING",        null: "No",  target: "col-row-2" },
+                { col: "insurer_finma_name",  type: "STRING",        null: "No",  target: "col-row-3" },
+                { col: "commission_chf",      type: "DECIMAL(18,2)", null: "No",  target: "col-row-4" },
+                { col: "is_valid",            type: "BOOLEAN",       null: "No",  target: "col-row-5" },
+              ].map(({ col, type, null: nl, target }) => (
+                <tr key={col} data-tour-target={target} className="hover:bg-blue-50/40">
                   <td className="px-4 py-2 font-mono text-gray-800">{col}</td>
                   <td className="px-4 py-2 font-mono text-[#7C3AED]">{type}</td>
                   <td className="px-4 py-2 text-gray-500">{nl}</td>
@@ -518,7 +532,6 @@ function ContentPane({ ui }: { ui: string }) {
 }
 
 // ── Sidebar activity derived from scenario/step ───────────────────────────────
-
 function activeSidebar(scenarioId: string, stepIndex: number): "workspace" | "catalog" | "compute" | "none" {
   if (scenarioId === "notebook") return stepIndex >= 1 ? "workspace" : "none";
   if (scenarioId === "compute")  return "none";
@@ -527,7 +540,6 @@ function activeSidebar(scenarioId: string, stepIndex: number): "workspace" | "ca
 }
 
 // ── Highlight overlay ─────────────────────────────────────────────────────────
-
 function Highlight({ box }: { box: Box }) {
   return (
     <motion.div
@@ -545,7 +557,6 @@ function Highlight({ box }: { box: Box }) {
         zIndex: 20,
       }}
     >
-      {/* Pulsing border */}
       <motion.div
         animate={{ opacity: [1, 0.5, 1] }}
         transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
@@ -556,7 +567,6 @@ function Highlight({ box }: { box: Box }) {
           border: "2px solid #F47920",
         }}
       />
-      {/* Fill glow */}
       <motion.div
         animate={{ opacity: [0.08, 0.18, 0.08] }}
         transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
@@ -567,7 +577,6 @@ function Highlight({ box }: { box: Box }) {
           backgroundColor: "#F47920",
         }}
       />
-      {/* Click dot */}
       <motion.div
         animate={{ scale: [1, 1.4, 1], opacity: [0.8, 0, 0.8] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -587,17 +596,46 @@ function Highlight({ box }: { box: Box }) {
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
-
 export function UIWalkthrough() {
   const [scenarioIdx, setScenarioIdx] = useState(0);
   const [stepIdx, setStepIdx] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [hlBox, setHlBox] = useState<Box | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const scenario = SCENARIOS[scenarioIdx];
   const step = scenario.steps[stepIdx];
   const isFirst = stepIdx === 0;
   const isLast = stepIdx === scenario.steps.length - 1;
+
+  const computeHighlight = useCallback((target: string | undefined) => {
+    if (!target || !containerRef.current) { setHlBox(null); return; }
+    const el = containerRef.current.querySelector<HTMLElement>(`[data-tour-target="${target}"]`);
+    if (!el) { setHlBox(null); return; }
+    const cRect = containerRef.current.getBoundingClientRect();
+    const eRect = el.getBoundingClientRect();
+    setHlBox({
+      x: eRect.left - cRect.left,
+      y: eRect.top - cRect.top,
+      w: eRect.width,
+      h: eRect.height,
+    });
+  }, []);
+
+  // Recompute after step/scenario change (delay for AnimatePresence to settle)
+  useEffect(() => {
+    const t = setTimeout(() => computeHighlight(step.hl), 80);
+    return () => clearTimeout(t);
+  }, [scenarioIdx, stepIdx, step.hl, computeHighlight]);
+
+  // Recompute on container resize
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const ro = new ResizeObserver(() => computeHighlight(step.hl));
+    ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, [step.hl, computeHighlight]);
 
   const advance = useCallback(() => {
     setStepIdx((i) => {
@@ -623,19 +661,20 @@ export function UIWalkthrough() {
     setPlaying(false);
     setScenarioIdx(idx);
     setStepIdx(0);
+    setHlBox(null);
   }
 
   function reset() {
     if (intervalRef.current) clearInterval(intervalRef.current);
     setPlaying(false);
     setStepIdx(0);
+    setHlBox(null);
   }
 
   const sidebarActive = activeSidebar(scenario.id, stepIdx);
 
   return (
     <div className="space-y-4">
-
       {/* Scenario tabs */}
       <div className="flex gap-2 flex-wrap">
         {SCENARIOS.map((s, i) => (
@@ -670,8 +709,9 @@ export function UIWalkthrough() {
         <span className="ml-2 text-xs text-gray-400">Step {stepIdx + 1} of {scenario.steps.length}</span>
       </div>
 
-      {/* Mockup */}
+      {/* Mockup canvas */}
       <div
+        ref={containerRef}
         className="relative rounded-2xl border border-gray-200 overflow-hidden shadow-xl"
         style={{ height: 460 }}
       >
@@ -708,7 +748,7 @@ export function UIWalkthrough() {
 
         {/* Highlight overlay */}
         <AnimatePresence>
-          {step.hl && <Highlight box={{ ...step.hl, y: step.hl.y + TH }} />}
+          {hlBox && <Highlight box={hlBox} />}
         </AnimatePresence>
       </div>
 
@@ -765,7 +805,6 @@ export function UIWalkthrough() {
           {isLast ? "End of walkthrough" : "Auto-advances every 3 seconds when playing"}
         </span>
       </div>
-
     </div>
   );
 }
