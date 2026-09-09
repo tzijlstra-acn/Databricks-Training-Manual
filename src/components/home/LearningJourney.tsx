@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { trainingDays } from "@/data/trainingDays";
+import { PHASES } from "@/data/phases";
 import { LayoutDashboard, Table2, Code2, Workflow, BarChart3, ArrowRight, CheckCircle } from "lucide-react";
 import { getProgress } from "@/lib/progress";
 import { useEffect, useState } from "react";
@@ -15,26 +16,27 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export function LearningJourney() {
-  const router = useRouter();
-  const [visitedDays, setVisitedDays] = useState<number[]>([]);
+  const [visitedPhases, setVisitedPhases] = useState<number[]>([]);
 
   useEffect(() => {
     const p = getProgress();
-    setVisitedDays(p.visitedDays);
+    setVisitedPhases(p.visitedPhases);
   }, []);
 
   return (
     <section className="py-8">
       <p className="text-xs font-semibold uppercase tracking-widest text-[#F47920] mb-1">Programme</p>
-      <h2 className="text-2xl font-bold text-[#1F2144] mb-6">Your 5-Day Learning Journey</h2>
+      <h2 className="text-2xl font-bold text-[#1F2144] mb-6">Your 5-Phase Learning Journey</h2>
       <div className="flex items-center gap-0 overflow-x-auto pb-2">
         {trainingDays.map((day, idx) => {
-          const done = visitedDays.includes(day.id);
+          const done = visitedPhases.includes(day.id);
+          const phaseRoute = PHASES[idx]?.route ?? `/phase${day.id}`;
           return (
             <div key={day.id} className="flex items-center shrink-0">
-              {/* Day card */}
-              <div
-                onClick={() => router.push(`/day${day.id}`)}
+              {/* Phase card */}
+              <Link
+                href={phaseRoute}
+                aria-label={`Go to Phase ${day.id}: ${day.title}`}
                 className="group cursor-pointer w-48 rounded-2xl border-2 bg-white p-5 hover:shadow-lg transition-all duration-200 hover:-translate-y-1 relative"
                 style={{ borderColor: `${day.color}40` }}
               >
@@ -45,12 +47,12 @@ export function LearningJourney() {
                   </div>
                 )}
 
-                {/* Day number */}
+                {/* Phase number */}
                 <div
                   className="text-xs font-bold uppercase tracking-wider mb-3"
                   style={{ color: day.color }}
                 >
-                  Day {day.id}
+                  Phase {day.id}
                 </div>
 
                 {/* Icon */}
@@ -83,7 +85,7 @@ export function LearningJourney() {
                     <span className="text-xs text-gray-400">{done ? "Done" : "Start"}</span>
                   </div>
                 </div>
-              </div>
+              </Link>
 
               {/* Arrow connector */}
               {idx < trainingDays.length - 1 && (

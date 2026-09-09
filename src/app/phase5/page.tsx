@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { markDayVisited } from "@/lib/progress";
+import { markPhaseVisited } from "@/lib/progress";
 import { DashboardLineage } from "@/components/phase5/DashboardLineage";
 import { GenieDemo } from "@/components/phase5/GenieDemo";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
@@ -25,7 +25,7 @@ const supportingCapabilities = [
 
 export default function Phase5Page() {
   useEffect(() => {
-    markDayVisited(5);
+    markPhaseVisited(5);
   }, []);
 
   return (

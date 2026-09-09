@@ -4,35 +4,35 @@ import { PageHeader, PageFooter, ScreenshotBlock, MedallionDiagram } from "../sh
 
 const AGENDA = [
   {
-    day: "01",
+    day: "P1",
     title: "Foundations",
     color: COLORS.phase1,
     bg: "#EFF6FF",
     items: ["Platform orientation", "7 workspace UI areas", "Workspace vs Catalog"],
   },
   {
-    day: "02",
+    day: "P2",
     title: "Data & Catalog",
     color: COLORS.phase2,
     bg: "#ECFEFF",
     items: ["Medallion Architecture", "Unity Catalog", "5 source CRMs"],
   },
   {
-    day: "03",
+    day: "P3",
     title: "Develop & Query",
     color: COLORS.phase3,
     bg: "#ECFDF5",
     items: ["Notebooks & SQL Editor", "Compute types", "Query Gold tables"],
   },
   {
-    day: "04",
+    day: "P4",
     title: "Automate & Monitor",
     color: COLORS.phase4,
     bg: "#FFFBEB",
     items: ["Databricks Jobs", "DQX data quality", "6-step Alerts"],
   },
   {
-    day: "05",
+    day: "P5",
     title: "Analyze & Apply",
     color: COLORS.phase5,
     bg: "#F5F3FF",
@@ -60,7 +60,7 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
           Introduction
         </Text>
         <Text style={{ fontSize: 9.5, color: COLORS.gray500 }}>
-          Platform overview · FINMA context · 5-day agenda
+          Platform overview · FINMA context · 5-phase agenda
         </Text>
       </View>
 
@@ -119,9 +119,9 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
       </Text>
       <MedallionDiagram />
 
-      {/* 5-Day Agenda — horizontal strip per day */}
+      {/* 5-Phase Agenda — horizontal strip per phase */}
       <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 10.5, color: COLORS.navy, marginBottom: 8 }}>
-        5-Day Training Agenda
+        5-Phase Training Agenda
       </Text>
       <View>
         {AGENDA.map((day) => (

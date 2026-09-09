@@ -210,7 +210,7 @@ export function WhatIsDatabricks() {
         </div>
 
         <p className="text-xs text-gray-400 mt-3 text-right">
-          This 5-day programme takes you from where things are today to how they will work with Databricks, one step at a time.
+          This five-phase programme takes you from where things are today to how they will work with Databricks, one step at a time.
         </p>
       </section>
 

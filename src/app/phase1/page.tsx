@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { Database, Folder, FileText, Table2, Lock, ArrowRight } from "lucide-react";
-import { markDayVisited } from "@/lib/progress";
+import { markPhaseVisited } from "@/lib/progress";
 import { WhatIsDatabricks } from "@/components/phase1/WhatIsDatabricks";
 import { WorkspaceExplorer } from "@/components/phase1/WorkspaceExplorer";
 import { UIWalkthrough } from "@/components/phase1/UIWalkthrough";
@@ -12,7 +12,7 @@ import { HowdenContext } from "@/components/shared/HowdenContext";
 
 export default function Phase1Page() {
   useEffect(() => {
-    markDayVisited(1);
+    markPhaseVisited(1);
   }, []);
 
   return (

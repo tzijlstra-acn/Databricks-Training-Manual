@@ -88,7 +88,7 @@ export interface TroubleshootingNode {
 }
 
 export interface ProgressState {
-  visitedDays: number[];
+  visitedPhases: number[];
   completedSteps: string[];
   quizScores: Record<string, number>;
   overallCompletion: number;

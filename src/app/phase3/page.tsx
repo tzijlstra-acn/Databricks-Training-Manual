@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { markDayVisited } from "@/lib/progress";
+import { markPhaseVisited } from "@/lib/progress";
 import { NotebookSimulator } from "@/components/phase3/NotebookSimulator";
 import { ComputeExplainer } from "@/components/phase3/ComputeExplainer";
 import { ComputeStateMachine } from "@/components/phase3/ComputeStateMachine";
@@ -45,7 +45,7 @@ const magicCommands = [
 
 export default function Phase3Page() {
   useEffect(() => {
-    markDayVisited(3);
+    markPhaseVisited(3);
   }, []);
 
   return (

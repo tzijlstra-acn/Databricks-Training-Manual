@@ -27,11 +27,11 @@ export function HomeHeader() {
           <span className="text-[#F47920]">Learning Journey</span>
         </h1>
         <p className="text-lg text-[#6B7280] mt-3 max-w-xl">
-          From raw data to trusted business insight, in 5 days.
+          From raw data to trusted business insight, across five phases.
         </p>
         <div className="flex gap-3 mt-4">
           {[
-            { label: "5 Days", desc: "Structured learning" },
+            { label: "5 Phases", desc: "Structured learning" },
             { label: "100+", desc: "Interactive diagrams" },
             { label: "3", desc: "Knowledge checks" },
           ].map((stat) => (

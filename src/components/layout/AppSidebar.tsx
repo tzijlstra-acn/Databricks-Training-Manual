@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getProgress } from "@/lib/progress";
+import { PHASES } from "@/data/phases";
 
 interface NavItem {
   href: string;
@@ -32,19 +33,28 @@ interface NavItem {
   children?: NavItem[];
 }
 
+const PHASE_ICONS: Record<number, React.ReactNode> = {
+  1: <LayoutDashboard size={14} />,
+  2: <Table2 size={14} />,
+  3: <Code2 size={14} />,
+  4: <Workflow size={14} />,
+  5: <BarChart3 size={14} />,
+};
+
+const phaseNavItems: NavItem[] = PHASES.map((p) => ({
+  href: p.route,
+  label: p.fullLabel,
+  icon: PHASE_ICONS[p.id],
+  dayId: p.id,
+}));
+
 const navItems: NavItem[] = [
   { href: "/", label: "Home", icon: <Home size={16} /> },
   {
     href: "#learning",
     label: "Learning Journey",
     icon: <LayoutDashboard size={16} />,
-    children: [
-      { href: "/phase1", label: "Phase 1: Foundations", icon: <LayoutDashboard size={14} />, dayId: 1 },
-      { href: "/phase2", label: "Phase 2: Data & Catalog", icon: <Table2 size={14} />, dayId: 2 },
-      { href: "/phase3", label: "Phase 3: Develop & Query", icon: <Code2 size={14} />, dayId: 3 },
-      { href: "/phase4", label: "Phase 4: Automate & Monitor", icon: <Workflow size={14} />, dayId: 4 },
-      { href: "/phase5", label: "Phase 5: Analyze & Apply", icon: <BarChart3 size={14} />, dayId: 5 },
-    ],
+    children: phaseNavItems,
   },
   { href: "/architecture", label: "Architecture Explorer", icon: <Map size={16} /> },
   { href: "/workspace-map", label: "Workspace Map", icon: <FolderOpen size={16} /> },
@@ -58,7 +68,7 @@ export function AppSidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [journeyOpen, setJourneyOpen] = useState(true);
-  const [progress, setProgress] = useState({ visitedDays: [] as number[], overallCompletion: 0 });
+  const [progress, setProgress] = useState({ visitedPhases: [] as number[], overallCompletion: 0 });
 
   useEffect(() => {
     const p = getProgress();
@@ -148,7 +158,7 @@ export function AppSidebar() {
                 {journeyOpen && (
                   <div className="ml-4 mt-1 space-y-0.5">
                     {item.children.map((child) => {
-                      const done = child.dayId !== undefined && progress.visitedDays.includes(child.dayId);
+                      const done = child.dayId !== undefined && progress.visitedPhases.includes(child.dayId);
                       const active = isActive(child.href);
                       return (
                         <Link
@@ -209,20 +219,20 @@ export function AppSidebar() {
             style={{ width: `${progress.overallCompletion}%` }}
           />
         </div>
-        {/* Day dots */}
+        {/* Phase dots */}
         <div className="mt-2 flex items-center gap-1">
-          {[1, 2, 3, 4, 5].map((day) => (
+          {PHASES.map((phase) => (
             <div
-              key={day}
+              key={phase.id}
               className={cn(
                 "flex-1 h-1 rounded-full",
-                progress.visitedDays.includes(day) ? "bg-[#F47920]" : "bg-white/15"
+                progress.visitedPhases.includes(phase.id) ? "bg-[#F47920]" : "bg-white/15"
               )}
-              title={`Day ${day}`}
+              title={`Phase ${phase.id}`}
             />
           ))}
         </div>
-        <p className="text-xs text-white/30 mt-1">{progress.visitedDays.length}/5 days visited</p>
+        <p className="text-xs text-white/30 mt-1">{progress.visitedPhases.length}/5 phases visited</p>
       </div>
     </div>
   );

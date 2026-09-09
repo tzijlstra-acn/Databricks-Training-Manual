@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { ArrowRight, Layers, Database } from "lucide-react";
-import { markDayVisited } from "@/lib/progress";
+import { markPhaseVisited } from "@/lib/progress";
 import { CatalogTree } from "@/components/phase2/CatalogTree";
 import { MedallionFlow } from "@/components/phase2/MedallionFlow";
 import { MedallionPlayground } from "@/components/phase2/MedallionPlayground";
@@ -11,7 +11,7 @@ import { HowdenContext } from "@/components/shared/HowdenContext";
 
 export default function Phase2Page() {
   useEffect(() => {
-    markDayVisited(2);
+    markPhaseVisited(2);
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { markDayVisited } from "@/lib/progress";
+import { markPhaseVisited } from "@/lib/progress";
 import { PipelineSimulator } from "@/components/phase4/PipelineSimulator";
 import { DQXFlow } from "@/components/phase4/DQXFlow";
 import { WriteYourOwnRule } from "@/components/phase4/WriteYourOwnRule";
@@ -30,7 +30,7 @@ const DONUT_COLORS = ["#22C55E", "#EF4444"];
 
 export default function Phase4Page() {
   useEffect(() => {
-    markDayVisited(4);
+    markPhaseVisited(4);
   }, []);
 
   return (
