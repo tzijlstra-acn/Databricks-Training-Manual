@@ -20,9 +20,11 @@ import {
   CheckCircle,
   Circle,
   Download,
+  Trash2,
 } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
-import { getProgress } from "@/lib/progress";
+import { getProgress, resetProgress } from "@/lib/progress";
 import { PHASES } from "@/data/phases";
 
 interface NavItem {
@@ -212,7 +214,7 @@ export function AppSidebar() {
           <span className="text-xs font-medium text-white/50">Overall Progress</span>
           <span className="text-xs font-bold text-[#F47920]">{progress.overallCompletion}%</span>
         </div>
-        {/* Progress bar — orange on navy track */}
+        {/* Progress bar, orange on navy track */}
         <div className="w-full bg-white/15 rounded-full h-1.5">
           <div
             className="bg-[#F47920] h-1.5 rounded-full transition-all duration-500"
@@ -233,6 +235,40 @@ export function AppSidebar() {
           ))}
         </div>
         <p className="text-xs text-white/30 mt-1">{progress.visitedPhases.length}/5 phases visited</p>
+
+        {/* Reset learning data */}
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <button className="mt-3 flex items-center gap-1.5 text-[11px] text-white/25 hover:text-white/50 transition-colors w-full">
+              <Trash2 size={11} />
+              Reset learning data
+            </button>
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+            <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+              <Dialog.Title className="text-base font-bold text-gray-900 mb-2">
+                Reset learning data?
+              </Dialog.Title>
+              <Dialog.Description className="text-sm text-gray-500 mb-5">
+                This will clear your phase progress, step completions, and quiz scores. This cannot be undone.
+              </Dialog.Description>
+              <div className="flex gap-3 justify-end">
+                <Dialog.Close asChild>
+                  <button className="px-4 py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors">
+                    Cancel
+                  </button>
+                </Dialog.Close>
+                <button
+                  onClick={resetProgress}
+                  className="px-4 py-2 rounded-xl text-sm font-semibold bg-red-600 text-white hover:bg-red-700 transition-colors"
+                >
+                  Reset
+                </button>
+              </div>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
       </div>
     </div>
   );

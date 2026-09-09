@@ -246,7 +246,7 @@ export function FollowTheData() {
               <span className="text-xs text-gray-400 font-mono">{activeStage.tableName}</span>
             </div>
 
-            {/* Fields — compact single-line rows: KEY | value  ← note */}
+            {/* Fields, compact single-line rows: KEY | value  ← note */}
             <div className="divide-y divide-gray-50">
               {Object.entries(activeStage.record).map(([key, value]) => {
                 const isChanged = activeStage.changedFields.includes(key);

@@ -419,7 +419,7 @@ export function MedallionPlayground() {
             )}
           </motion.div>
         ) : (
-          /* Gold view — aggregated */
+          /* Gold view, aggregated */
           <motion.div
             key="gold"
             initial={{ opacity: 0, y: 8 }}

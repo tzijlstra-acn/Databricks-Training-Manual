@@ -36,7 +36,7 @@ export default function HomePage() {
 
       {/* ── Zone 2: Interactive learning ────────────────────── */}
       <div className="space-y-12 pb-16">
-        {/* BigPictureArchitecture — featured */}
+        {/* BigPictureArchitecture, featured */}
         <div className="rounded-3xl border border-blue-100 bg-gradient-to-b from-blue-50 to-white px-8 py-6 shadow-sm">
           <BigPictureArchitecture />
         </div>

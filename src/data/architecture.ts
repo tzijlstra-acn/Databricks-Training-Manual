@@ -4,7 +4,7 @@ export const architectureNodes: ArchitectureNode[] = [
   {
     id: "workspace",
     label: "Workspace",
-    description: "The Databricks web interface — your central hub for all development and data work.",
+    description: "The Databricks web interface, your central hub for all development and data work.",
     usedFor: ["Navigating the platform", "Organising notebooks and files", "Launching compute"],
     dependsOn: [],
     outputsTo: ["notebooks", "compute", "catalog", "jobs"],
@@ -15,7 +15,7 @@ export const architectureNodes: ArchitectureNode[] = [
   {
     id: "unity-catalog",
     label: "Unity Catalog",
-    description: "The unified governance layer for all data and AI assets — tables, volumes, models, and functions.",
+    description: "The unified governance layer for all data and AI assets, tables, volumes, models, and functions.",
     usedFor: ["Discovering data", "Managing permissions", "Tracking data lineage", "Enforcing policies"],
     dependsOn: ["workspace"],
     outputsTo: ["notebooks", "sql-editor", "dashboards", "genie"],
@@ -59,7 +59,7 @@ export const architectureNodes: ArchitectureNode[] = [
   {
     id: "sql-warehouse",
     label: "SQL Warehouse",
-    description: "Optimised compute for SQL queries — faster and more cost-effective than general clusters for analytics.",
+    description: "Optimised compute for SQL queries, faster and more cost-effective than general clusters for analytics.",
     usedFor: ["Dashboard queries", "Genie queries", "SQL Editor queries", "BI tool connections"],
     dependsOn: ["workspace"],
     outputsTo: ["sql-editor", "dashboards", "genie"],
@@ -70,7 +70,7 @@ export const architectureNodes: ArchitectureNode[] = [
   {
     id: "jobs",
     label: "Jobs & Workflows",
-    description: "Scheduled or triggered automation — run notebooks, scripts, or pipelines on a schedule.",
+    description: "Scheduled or triggered automation, run notebooks, scripts, or pipelines on a schedule.",
     usedFor: ["Automating ETL", "Scheduling reports", "Orchestrating multi-step pipelines"],
     dependsOn: ["compute", "notebooks", "pipelines"],
     outputsTo: ["pipelines", "alerts"],
@@ -103,7 +103,7 @@ export const architectureNodes: ArchitectureNode[] = [
   {
     id: "genie",
     label: "Genie AI",
-    description: "Natural language interface — ask data questions in plain English, get SQL and visualisations back.",
+    description: "Natural language interface, ask data questions in plain English, get SQL and visualisations back.",
     usedFor: ["Self-service analytics", "Business user queries", "Exploring data without SQL knowledge"],
     dependsOn: ["sql-warehouse", "unity-catalog"],
     outputsTo: ["dashboards"],

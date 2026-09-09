@@ -32,7 +32,7 @@ export const qualityRules: QualityRule[] = [
     id: "abacus-variance",
     name: "Abacus Variance Gate",
     type: "threshold",
-    description: "Total commission_chf per entity must not deviate from Abacus 2025 cashflows by more than CHF 10,000 or 5% of category total — whichever is larger.",
+    description: "Total commission_chf per entity must not deviate from Abacus 2025 cashflows by more than CHF 10,000 or 5% of category total, whichever is larger.",
     passCount: 5,
     failCount: 0,
     severity: "warning",

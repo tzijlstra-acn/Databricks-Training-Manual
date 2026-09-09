@@ -13,7 +13,7 @@ import { ArrowRight, BarChart3 } from "lucide-react";
 const capstoneNodes: (NodeDetail & { desc: string })[] = [
   {
     id: "source", label: "Source System", color: "#6B7280", bg: "#F9FAFB", desc: "CRM, Mainframe, APIs",
-    what: "Raw data is extracted from source systems and landed in cloud storage. No transformation occurs at this stage — the goal is simply to capture everything.",
+    what: "Raw data is extracted from source systems and landed in cloud storage. No transformation occurs at this stage, the goal is simply to capture everything.",
     input: "CSV exports, API responses, and database dumps from CRM and mainframe systems",
     output: "Raw files in ADLS Gen2 (Azure Data Lake Storage)",
     databricksComponent: "Auto Loader / COPY INTO",
@@ -21,7 +21,7 @@ const capstoneNodes: (NodeDetail & { desc: string })[] = [
   },
   {
     id: "bronze", label: "Bronze", color: "#CD7F32", bg: "#FDF3E7", desc: "Raw ingested data",
-    what: "Data lands in the Bronze layer exactly as received — no filtering or cleaning. This preserves the full audit trail so any original record can always be traced.",
+    what: "Data lands in the Bronze layer exactly as received, no filtering or cleaning. This preserves the full audit trail so any original record can always be traced.",
     input: "Raw files from ADLS",
     output: "Delta tables in enterprise.bronze.* with added ingestion timestamp",
     databricksComponent: "Delta Lake + Auto Loader",
@@ -39,13 +39,13 @@ const capstoneNodes: (NodeDetail & { desc: string })[] = [
     id: "gold", label: "Gold", color: "#D97706", bg: "#FFFBEB", desc: "Entity table written",
     what: "Clean Silver data is aggregated into business-ready Gold tables. These are the single source of truth used by all downstream reports and analytics.",
     input: "enterprise.silver.commission_validated",
-    output: "enterprise.gold.commission_by_entity — one aggregated row per entity per period",
+    output: "enterprise.gold.commission_by_entity, one aggregated row per entity per period",
     databricksComponent: "Databricks Notebooks + Spark SQL",
     relatedPhase: 3, lessonRoute: "/phase3",
   },
   {
     id: "powerbi", label: "Power BI", color: "#F2C811", bg: "#FFFDE8", desc: "Refresh triggered",
-    what: "Power BI refreshes its dataset by querying the Gold table directly in Unity Catalog. No data is copied — each refresh runs a live query against the latest Gold data.",
+    what: "Power BI refreshes its dataset by querying the Gold table directly in Unity Catalog. No data is copied, each refresh runs a live query against the latest Gold data.",
     input: "enterprise.gold.commission_by_entity (live query via Databricks connector)",
     output: "Updated Power BI dataset with all dependent report pages re-rendered",
     databricksComponent: "Unity Catalog + Partner Connect",
@@ -169,7 +169,7 @@ FROM enterprise.gold.commission_reporting
 GROUP BY reporting_unit, region, report_month;
 
 -- Zero-copy clone for dashboard dev/test
--- (doesn't duplicate data — shares underlying files)
+-- (doesn't duplicate data, shares underlying files)
 CREATE TABLE enterprise.dev.commission_kpi_clone
 CLONE enterprise.gold.commission_reporting;`}
             </pre>

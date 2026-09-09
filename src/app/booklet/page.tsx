@@ -110,7 +110,7 @@ export default function BookletPage() {
               reader.readAsDataURL(blob);
             });
           } catch {
-            // Missing screenshot — ScreenshotBlock renders a placeholder, no crash.
+            // Missing screenshot, ScreenshotBlock renders a placeholder, no crash.
           }
         })
       );
@@ -152,7 +152,7 @@ export default function BookletPage() {
             Databricks Training Booklet
           </h1>
           <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
-            A complete reference for the Howden Databricks FINMA platform — 5 training phases, 32
+            A complete reference for the Howden Databricks FINMA platform, 5 training phases, 32
             glossary terms, and every platform component documented in one client-ready PDF.
           </p>
 
@@ -213,7 +213,7 @@ export default function BookletPage() {
         </div>
         {status === "generating" && (
           <p className="text-center text-sm text-gray-400 mt-3">
-            Building your PDF — this takes about 5–15 seconds…
+            Building your PDF, this takes about 5-15 seconds…
           </p>
         )}
         {status === "error" && (
@@ -236,7 +236,7 @@ export default function BookletPage() {
               key={ch.number}
               className="rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 bg-white flex flex-col"
             >
-              {/* Colored header — mini chapter cover */}
+              {/* Colored header, mini chapter cover */}
               <div
                 className="px-4 pt-4 pb-5 flex flex-col gap-2"
                 style={{ backgroundColor: ch.color }}

@@ -46,10 +46,10 @@ const EXECUTE_STEPS = [
 ];
 
 const MAGIC_COMMANDS = [
-  ["%%sql", "Run a SQL cell inside a Python notebook — most common for ad-hoc queries against Howden Gold tables"],
+  ["%%sql", "Run a SQL cell inside a Python notebook, most common for ad-hoc queries against Howden Gold tables"],
   ["%%python", "Switch a single cell to Python inside a SQL notebook"],
-  ["%%md", "Write Markdown documentation — headers, bullet lists, explanatory notes"],
-  ["%%scala", "Switch a single cell to Scala — rarely needed for Howden FINMA work"],
+  ["%%md", "Write Markdown documentation, headers, bullet lists, explanatory notes"],
+  ["%%scala", "Switch a single cell to Scala, rarely needed for Howden FINMA work"],
 ];
 
 const AppendixHeader = ({ letter, title, subtitle }: { letter: string; title: string; subtitle: string }) => (
@@ -144,7 +144,7 @@ export function AppendixWorkingWithDatabricks() {
 
         <SectionTitle color={COLORS.gray500}>Switch Languages with Magic Commands</SectionTitle>
         <Body>
-          {"Magic commands change the language of a single cell. Place them on the first line of the cell. The most common in Howden notebooks is %%sql — used to run a SQL query inside a Python pipeline notebook."}
+          {"Magic commands change the language of a single cell. Place them on the first line of the cell. The most common in Howden notebooks is %%sql, used to run a SQL query inside a Python pipeline notebook."}
         </Body>
         <SimpleTable
           headers={["Command", "What It Does"]}
@@ -161,7 +161,7 @@ export function AppendixWorkingWithDatabricks() {
         <SectionTitle color={COLORS.gray500}>Save Your Notebook</SectionTitle>
         <View wrap={false} style={{ marginBottom: 10 }}>
           {[
-            "Databricks notebooks auto-save every few seconds — no manual save button is needed for routine edits.",
+            "Databricks notebooks auto-save every few seconds, no manual save button is needed for routine edits.",
             "Force an immediate save: press Ctrl+S (Windows) or Cmd+S (Mac), or click File > Save.",
             "Verify the save: the top-left corner next to the notebook title shows 'Saved' or the timestamp of the last save.",
           ].map((item, i) => (
@@ -173,7 +173,7 @@ export function AppendixWorkingWithDatabricks() {
 
         <SectionTitle color={COLORS.gray500}>Export a Notebook</SectionTitle>
         <Body>
-          {"To download a copy to your local machine or share outside the workspace: click File in the top toolbar, hover over Export, and choose your preferred format — Source File (.py / .sql), HTML, or IPython Notebook (.ipynb). The file downloads automatically to your computer."}
+          {"To download a copy to your local machine or share outside the workspace: click File in the top toolbar, hover over Export, and choose your preferred format, Source File (.py / .sql), HTML, or IPython Notebook (.ipynb). The file downloads automatically to your computer."}
         </Body>
 
         <SectionTitle color={COLORS.gray500}>Share with Collaborators</SectionTitle>
@@ -195,8 +195,8 @@ export function AppendixWorkingWithDatabricks() {
           ))}
         </View>
 
-        <CalloutBox title="Tip — Recents & Quick Navigation">
-          {"After creating or opening any asset, it appears in Recents on the home page and left panel. Use Ctrl+P from anywhere in the workspace to instantly jump to any notebook, table, query, or dashboard — the fastest way to navigate without browsing folders."}
+        <CalloutBox title="Tip, Recents & Quick Navigation">
+          {"After creating or opening any asset, it appears in Recents on the home page and left panel. Use Ctrl+P from anywhere in the workspace to instantly jump to any notebook, table, query, or dashboard, the fastest way to navigate without browsing folders."}
         </CalloutBox>
       </Page>
     </>

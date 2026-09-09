@@ -468,7 +468,7 @@ export function PipelineSimulator() {
     [phase, currentScenario, animStep]
   );
 
-  // Build RF nodes (positions are static — dragging disabled)
+  // Build RF nodes (positions are static, dragging disabled)
   const displayNodes = useMemo(() => {
     return INITIAL_POSITIONS.map((n, i) => ({
       ...n,

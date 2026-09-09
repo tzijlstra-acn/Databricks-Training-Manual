@@ -52,7 +52,7 @@ const allPurposeFeatures = {
   characteristics: [
     "Stays alive while you work",
     "Shared across notebooks",
-    "Starts in ~2–5 minutes",
+    "Starts in ~2-5 minutes",
     "Full Spark cluster",
   ],
   cost: "Higher cost: it runs continuously while you are working and shuts off automatically after 2 hours of inactivity.",

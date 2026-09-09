@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface LayerInfo {
@@ -106,7 +107,9 @@ const layers: LayerInfo[] = [
   },
 ];
 
-const TOUR_DELAY = 1800; // ms per layer
+const LEFT_CAPS = ["Unity Catalog", "Governance", "Data Quality"];
+const RIGHT_CAPS = ["Compute", "Jobs & Pipelines", "Monitoring"];
+const TOUR_DELAY = 1800;
 
 export function BigPictureArchitecture() {
   const [hoveredLayer, setHoveredLayer] = useState<string | null>(null);
@@ -121,10 +124,8 @@ export function BigPictureArchitecture() {
     setTouring(false);
   }, []);
 
-  // Auto-tour when section enters viewport for the first time
   useEffect(() => {
     if (!inView || userTookControl) return;
-
     setTouring(true);
     let step = 0;
 
@@ -139,22 +140,21 @@ export function BigPictureArchitecture() {
       tourRef.current = setTimeout(advance, TOUR_DELAY);
     };
 
-    // Small initial delay so the section has finished animating in
     tourRef.current = setTimeout(advance, 400);
-
-    return () => {
-      if (tourRef.current) clearTimeout(tourRef.current);
-    };
+    return () => { if (tourRef.current) clearTimeout(tourRef.current); };
   }, [inView, userTookControl]);
 
-  const handleMouseEnter = (id: string) => {
+  const handleInteract = (id: string) => {
     if (touring) stopTour();
     setUserTookControl(true);
     setHoveredLayer(id);
   };
 
-  const handleMouseLeave = () => {
-    setHoveredLayer(null);
+  const handleKeyDown = (e: React.KeyboardEvent, id: string) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleInteract(id);
+    }
   };
 
   const active = layers.find((l) => l.id === hoveredLayer);
@@ -183,11 +183,12 @@ export function BigPictureArchitecture() {
       </div>
 
       <div className="flex gap-6">
-        {/* Main diagram */}
-        <div className="flex-1 relative">
-          {/* Capability chips — left */}
-          <div className="absolute -left-32 top-0 bottom-0 flex flex-col justify-around py-8 gap-3 w-28">
-            {["Unity Catalog", "Governance", "Data Quality"].map((cap) => (
+        {/* ── Main diagram: 3-column grid ── */}
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-[120px_1fr_120px] gap-4 items-start">
+
+          {/* Left capability rail */}
+          <div className="flex md:flex-col flex-row flex-wrap justify-around md:justify-start md:py-10 gap-2 md:gap-3">
+            {LEFT_CAPS.map((cap) => (
               <div
                 key={cap}
                 className="text-xs font-medium text-[#1F2144] bg-[#E8E9F0] border border-[#D0D2E1] rounded-full px-2 py-1 text-center shadow-sm"
@@ -197,20 +198,8 @@ export function BigPictureArchitecture() {
             ))}
           </div>
 
-          {/* Capability chips — right */}
-          <div className="absolute -right-32 top-0 bottom-0 flex flex-col justify-around py-8 gap-3 w-28">
-            {["Compute", "Jobs & Pipelines", "Monitoring"].map((cap) => (
-              <div
-                key={cap}
-                className="text-xs font-medium text-[#1F2144] bg-[#E8E9F0] border border-[#D0D2E1] rounded-full px-2 py-1 text-center shadow-sm"
-              >
-                {cap}
-              </div>
-            ))}
-          </div>
-
-          {/* Layer bands */}
-          <div className="relative ml-8 mr-8 space-y-0">
+          {/* Central layer bands */}
+          <div className="space-y-0">
             {layers.map((layer, idx) => {
               const isActive = hoveredLayer === layer.id;
               return (
@@ -219,56 +208,52 @@ export function BigPictureArchitecture() {
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.08, duration: 0.3 }}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isActive}
+                    aria-label={`${layer.label}: ${layer.sublabel}`}
+                    className={cn(
+                      "relative rounded-2xl border-2 px-6 py-4 cursor-pointer transition-all duration-300",
+                      layer.height,
+                      "flex items-center",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+                      isActive ? "shadow-xl scale-[1.01]" : "shadow-sm hover:shadow-md"
+                    )}
+                    style={{
+                      backgroundColor: layer.bgColor,
+                      borderColor: isActive ? layer.color : layer.borderColor,
+                      boxShadow: isActive ? `0 0 0 3px ${layer.color}30` : undefined,
+                    }}
+                    onMouseEnter={() => handleInteract(layer.id)}
+                    onMouseLeave={() => setHoveredLayer(null)}
+                    onFocus={() => handleInteract(layer.id)}
+                    onBlur={() => setHoveredLayer(null)}
+                    onKeyDown={(e) => handleKeyDown(e, layer.id)}
                   >
-                    <div
-                      className={cn(
-                        "relative rounded-2xl border-2 px-6 py-4 cursor-pointer transition-all duration-300",
-                        layer.height,
-                        "flex items-center",
-                        isActive ? "shadow-xl scale-[1.01]" : "shadow-sm hover:shadow-md"
-                      )}
-                      style={{
-                        backgroundColor: layer.bgColor,
-                        borderColor: isActive ? layer.color : layer.borderColor,
-                        boxShadow: isActive ? `0 0 0 3px ${layer.color}30` : undefined,
-                      }}
-                      onMouseEnter={() => handleMouseEnter(layer.id)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3">
-                          <div
-                            className="w-3 h-3 rounded-full shrink-0"
-                            style={{ backgroundColor: layer.color }}
-                          />
-                          <div>
-                            <span className="font-bold text-sm" style={{ color: layer.textColor }}>
-                              {layer.label}
-                            </span>
-                            <span className="text-xs ml-2" style={{ color: `${layer.color}80` }}>
-                              {layer.sublabel}
-                            </span>
-                          </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: layer.color }} />
+                        <div>
+                          <span className="font-bold text-sm" style={{ color: layer.textColor }}>{layer.label}</span>
+                          <span className="text-xs ml-2" style={{ color: `${layer.color}80` }}>{layer.sublabel}</span>
                         </div>
                       </div>
-
-                      {/* Consumption sub-columns */}
-                      {layer.id === "consumption" && (
-                        <div className="flex gap-3 ml-4">
-                          {["SQL / Queries", "Dashboards", "Genie AI"].map((col) => (
-                            <div
-                              key={col}
-                              className="bg-white rounded-xl border border-[#F47920]/30 px-3 py-2 text-xs font-medium text-[#F47920] shadow-sm"
-                            >
-                              {col}
-                            </div>
-                          ))}
-                        </div>
-                      )}
                     </div>
+
+                    {layer.id === "consumption" && (
+                      <div className="flex gap-3 ml-4">
+                        {["SQL / Queries", "Dashboards", "Genie AI"].map((col) => (
+                          <div
+                            key={col}
+                            className="bg-white rounded-xl border border-[#F47920]/30 px-3 py-2 text-xs font-medium text-[#F47920] shadow-sm"
+                          >
+                            {col}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </motion.div>
 
-                  {/* Arrow between layers */}
                   {idx < layers.length - 1 && (
                     <div className="flex justify-center my-1 h-8 items-center">
                       <svg width="24" height="32" viewBox="0 0 24 32" className="overflow-visible">
@@ -291,6 +276,18 @@ export function BigPictureArchitecture() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Right capability rail */}
+          <div className="flex md:flex-col flex-row flex-wrap justify-around md:justify-start md:py-10 gap-2 md:gap-3">
+            {RIGHT_CAPS.map((cap) => (
+              <div
+                key={cap}
+                className="text-xs font-medium text-[#1F2144] bg-[#E8E9F0] border border-[#D0D2E1] rounded-full px-2 py-1 text-center shadow-sm"
+              >
+                {cap}
+              </div>
+            ))}
           </div>
         </div>
 

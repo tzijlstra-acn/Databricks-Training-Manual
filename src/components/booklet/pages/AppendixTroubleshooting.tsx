@@ -13,7 +13,7 @@ const FAQS = [
   },
   {
     q: "Why is my notebook not running?",
-    a: "Check that the notebook is attached to a cluster using the dropdown in the top-left toolbar. Verify the cluster is in Running state — a cluster that was idle may take up to 4 minutes to restart. Also check for a red error indicator in a previous cell: Databricks stops execution at the first cell that errors unless you explicitly skip it.",
+    a: "Check that the notebook is attached to a cluster using the dropdown in the top-left toolbar. Verify the cluster is in Running state, a cluster that was idle may take up to 4 minutes to restart. Also check for a red error indicator in a previous cell: Databricks stops execution at the first cell that errors unless you explicitly skip it.",
   },
   {
     q: "Who should I contact for access or technical issues?",
@@ -25,20 +25,20 @@ const RESOURCES = [
   {
     title: "Databricks Official Documentation",
     label: "docs.databricks.com",
-    body: "Comprehensive reference for all platform features: Unity Catalog, notebooks, Lakeflow pipelines, SQL Editor, AI/BI dashboards, Genie, and data engineering. Use the search function — most questions are answered here.",
+    body: "Comprehensive reference for all platform features: Unity Catalog, notebooks, Lakeflow pipelines, SQL Editor, AI/BI dashboards, Genie, and data engineering. Use the search function, most questions are answered here.",
   },
   {
-    title: "Databricks Academy — Free Training",
+    title: "Databricks Academy, Free Training",
     label: "customer-academy.databricks.com",
     body: "Structured courses and recorded webinars available free of charge for Databricks customers. Recommended starting point: 'Get Started with Data Engineering on Databricks' and 'Databricks SQL for Data Analysts'.",
   },
   {
-    title: "Databricks Free Edition — Hands-on Practice",
+    title: "Databricks Free Edition, Hands-on Practice",
     label: "databricks.com/try-databricks",
     body: "A no-cost personal environment for experimenting with notebooks, SQL, data exploration, Genie, and Lakeflow. Safe to practise in without affecting the production workspace or FINMA data.",
   },
   {
-    title: "Recommended Video: Codebasics — End-to-End Databricks Tutorial",
+    title: "Recommended Video: Codebasics, End-to-End Databricks Tutorial",
     label: "YouTube · Codebasics channel",
     body: "Beginner-friendly practical walkthrough covering Databricks, Delta Lake, Unity Catalog, Spark, and Genie in a single end-to-end project. Ideal for building a mental model of how the components fit together before working with live data.",
   },
@@ -158,7 +158,7 @@ export function AppendixTroubleshooting() {
         </View>
 
         <CalloutBox title="Support">
-          {"For workspace access, data permission issues, or pipeline errors: contact your Workspace Admin. For questions about FINMA reporting requirements or source data: contact the FINMA pipeline team. For platform features and usage: start with docs.databricks.com — the search is comprehensive."}
+          {"For workspace access, data permission issues, or pipeline errors: contact your Workspace Admin. For questions about FINMA reporting requirements or source data: contact the FINMA pipeline team. For platform features and usage: start with docs.databricks.com, the search is comprehensive."}
         </CalloutBox>
       </Page>
     </>

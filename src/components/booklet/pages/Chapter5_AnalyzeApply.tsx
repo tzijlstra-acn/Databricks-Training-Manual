@@ -16,7 +16,7 @@ const GENIE_SPACES = [
     "VP_Space",
     "Mansi Mansi",
     "howden.gold.howden_schweiz_commission",
-    "Commission by LOB, period, segment — ask in plain English",
+    "Commission by LOB, period, segment, ask in plain English",
   ],
   [
     "IBS_Space",
@@ -42,12 +42,12 @@ const DASHBOARDS = [
   [
     "DQX_Dashboard_v1",
     "Rajneesh X Sharma",
-    "Data quality KPIs — Input Rows, Error Rows, Warn Rows, Valid Rows per Silver table; DQX run history; freshness indicators",
+    "Data quality KPIs, Input Rows, Error Rows, Warn Rows, Valid Rows per Silver table; DQX run history; freshness indicators",
   ],
   [
     "Howden VP Dashboard",
     "Mansi Mansi",
-    "Business VP KPIs from Gold — total commission CHF, breakdown by line of business, trend over time; auto-refreshes on pipeline run",
+    "Business VP KPIs from Gold, total commission CHF, breakdown by line of business, trend over time; auto-refreshes on pipeline run",
   ],
 ];
 
@@ -87,7 +87,7 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
         />
 
         <CalloutBox title="Howden Context">
-          {"Before this platform, analysts manually pivoted commission data in Excel — different pivot tables, different filters, sometimes different numbers. Now the Gold table drives both the Howden VP Dashboard (for KPI tracking) and Genie AI Spaces (for ad-hoc questions). A business user can ask 'What is total Vorsorge Partner commission by line of business this quarter?' in plain English and receive an instant, auditable answer backed by the same Gold data that feeds FINMA."}
+          {"Before this platform, analysts manually pivoted commission data in Excel, different pivot tables, different filters, sometimes different numbers. Now the Gold table drives both the Howden VP Dashboard (for KPI tracking) and Genie AI Spaces (for ad-hoc questions). A business user can ask 'What is total Vorsorge Partner commission by line of business this quarter?' in plain English and receive an instant, auditable answer backed by the same Gold data that feeds FINMA."}
         </CalloutBox>
 
         <SectionTitle color={COLORS.phase5}>Databricks AI/BI Dashboards (Lakeview)</SectionTitle>
@@ -102,17 +102,17 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
 
         <ScreenshotBlock
           src={screenshots["dashboard-dqx"]}
-          caption="DQX_Dashboard_v1 — data quality overview showing Input Rows, Error Rows, Warn Rows, and Valid Rows per Silver table"
+          caption="DQX_Dashboard_v1, data quality overview showing Input Rows, Error Rows, Warn Rows, and Valid Rows per Silver table"
         />
 
         <SectionTitle color={COLORS.phase5}>Genie AI Spaces: Natural Language Analytics</SectionTitle>
         <Body>
-          {"Each Genie Space is connected to specific Gold tables and a SQL Warehouse. The user types a question; Genie converts it to SQL, runs it, and returns the result as a table or chart — without needing to know the table schema."}
+          {"Each Genie Space is connected to specific Gold tables and a SQL Warehouse. The user types a question; Genie converts it to SQL, runs it, and returns the result as a table or chart, without needing to know the table schema."}
         </Body>
 
         <ScreenshotBlock
           src={screenshots["genie"]}
-          caption="Genie Spaces list — VP_Space, IBS_Space, Max_Genie, Perennial_KETL_Space, IBS Data Quality Monitoring, Customer Overview Analytics"
+          caption="Genie Spaces list, VP_Space, IBS_Space, Max_Genie, Perennial_KETL_Space, IBS Data Quality Monitoring, Customer Overview Analytics"
         />
       </Page>
 
@@ -130,7 +130,7 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
 
         <SectionTitle color={COLORS.phase5}>End-to-End: The Complete FINMA Data Journey</SectionTitle>
         <Body>
-          {"Every number in a dashboard or Genie answer traces back through this chain — from the original CRM export to the FINMA regulatory submission."}
+          {"Every number in a dashboard or Genie answer traces back through this chain, from the original CRM export to the FINMA regulatory submission."}
         </Body>
 
         <View
@@ -175,7 +175,7 @@ export function Chapter5_AnalyzeApply({ screenshots }: { screenshots: Record<str
           ))}
         </View>
 
-        <CalloutBox title="Data Lineage — The Audit Trail">
+        <CalloutBox title="Data Lineage, The Audit Trail">
           {"Unity Catalog tracks lineage automatically at the column level. Any commission figure in howden.gold.howden_schweiz_commission can be traced back through howden.silver.commissions_clean → howden.bronze.bayo_raw (or the relevant CRM Bronze table) → the original CRM export file. FINMA inspectors can follow this trail entirely within the Unity Catalog lineage view."}
         </CalloutBox>
 

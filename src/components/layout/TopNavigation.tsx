@@ -47,7 +47,7 @@ export function TopNavigation() {
           })}
         </div>
 
-        {/* Present button — navy accent when active */}
+        {/* Present button, navy accent when active */}
         <button
           onClick={togglePresentationMode}
           className={cn(

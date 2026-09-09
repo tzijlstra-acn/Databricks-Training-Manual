@@ -46,7 +46,7 @@ export function ChapterHeader({
       wrap={false}
       style={[styles.chapterHeader, { backgroundColor: color }]}
     >
-      {/* Left: large decorative number — normal flow, low opacity */}
+      {/* Left: large decorative number, normal flow, low opacity */}
       <Text
         style={{
           fontFamily: "Helvetica-Bold",
@@ -177,7 +177,7 @@ export function ScreenshotBlock({
     // image from being split across a page break.
     <View wrap={false} style={styles.screenshotContainer}>
       {src ? (
-        // No width or height override — react-pdf renders the image at its
+        // No width or height override, react-pdf renders the image at its
         // natural aspect ratio scaled to the full content width.
         <Image style={styles.screenshotImage} src={src} />
       ) : (

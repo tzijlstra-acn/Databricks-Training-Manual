@@ -82,7 +82,7 @@ DQXRule(
         " AND TRIM(finma_product_code) != ''"
         " AND finma_product_code != 'UNKNOWN'"
     ),
-    criticality="error",   # stops the pipeline — FINMA submission requires this field
+    criticality="error",   # stops the pipeline, FINMA submission requires this field
 )`,
   explanation: [
     "IS NOT NULL: catches missing values",
@@ -274,7 +274,7 @@ export function WriteYourOwnRule() {
         </div>
       </div>
 
-      {/* Worked example — collapsible */}
+      {/* Worked example, collapsible */}
       <div className="rounded-2xl border border-gray-200 overflow-hidden">
         <button
           onClick={() => setExampleOpen(!exampleOpen)}
@@ -368,7 +368,7 @@ export function WriteYourOwnRule() {
     is_in_list("source_system", ["BAYO", "IBS_ALABUS", "MAX", "KETL", "VP"]),
     is_in_range("commission_rate", min=0.0, max=0.50),
 
-    # Your new rule — pasted from the AI output above:
+    # Your new rule, pasted from the AI output above:
     DQXRule(
         name="finma_product_code_valid",
         constraint=(

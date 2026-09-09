@@ -6,7 +6,7 @@ const BEST_PRACTICES_P1 = [
   {
     num: "1",
     title: "Use the provided Excel template",
-    detail: "Always use the approved FINMA input template. Do not change sheet names, column names, or structure — the pipeline reads exact headers.",
+    detail: "Always use the approved FINMA input template. Do not change sheet names, column names, or structure, the pipeline reads exact headers.",
   },
   {
     num: "2",
@@ -16,7 +16,7 @@ const BEST_PRACTICES_P1 = [
   {
     num: "3",
     title: "Do not modify column headers",
-    detail: "Header names must remain exactly as defined. Avoid spaces, special characters, or spelling changes — any deviation breaks ingestion.",
+    detail: "Header names must remain exactly as defined. Avoid spaces, special characters, or spelling changes, any deviation breaks ingestion.",
   },
   {
     num: "4",
@@ -26,7 +26,7 @@ const BEST_PRACTICES_P1 = [
   {
     num: "5",
     title: "Maintain consistent data formats",
-    detail: "Dates must use the required format. Monetary values must be numeric — no CHF symbol, no text mixed into numeric columns.",
+    detail: "Dates must use the required format. Monetary values must be numeric, no CHF symbol, no text mixed into numeric columns.",
   },
   {
     num: "6",
@@ -44,12 +44,12 @@ const BEST_PRACTICES_P2 = [
   {
     num: "8",
     title: "Upload complete data for the reporting period",
-    detail: "All required source files must be included. Avoid partial uploads — missing files will leave gaps in the FINMA output.",
+    detail: "All required source files must be included. Avoid partial uploads, missing files will leave gaps in the FINMA output.",
   },
   {
     num: "9",
     title: "Do not manually modify processed output data",
-    detail: "Make corrections in the source files and re-upload. Do not edit the generated FINMA report directly — it will be overwritten on the next run.",
+    detail: "Make corrections in the source files and re-upload. Do not edit the generated FINMA report directly, it will be overwritten on the next run.",
   },
   {
     num: "10",
@@ -69,13 +69,13 @@ const BEST_PRACTICES_P2 = [
 ];
 
 const UPLOAD_CHECKLIST = [
-  "Excel template is the approved FINMA version — sheet and column names unchanged",
+  "Excel template is the approved FINMA version, sheet and column names unchanged",
   "File name follows the convention and matches the reporting year in the data",
   "All mandatory fields populated: Policy Number, Client, Insurer, Product/Branch, Dates, Amounts",
   "Date columns use the required format; monetary columns are numeric only",
   "No duplicate policy or commission records",
   "Product and Insurer mappings reviewed and updated for this reporting year",
-  "All required source files for the period are included — no partial upload",
+  "All required source files for the period are included, no partial upload",
   "DQX validation run and all rejected records corrected before final report",
   "Original source files saved and accessible for audit purposes",
   "Reporting year selection matches all uploaded files",
@@ -151,7 +151,7 @@ function NumberedItem({ num, title, detail }: { num: string; title: string; deta
 export function AppendixBestPractices() {
   return (
     <>
-      {/* ── Page 1 ── Best practices 1–7 */}
+      {/* ── Page 1 ── Best practices 1-7 */}
       <Page size="A4" style={styles.page}>
         <PageHeader chapter="Appendix F: Best Practices for FINMA Data" />
         <PageFooter />
@@ -175,7 +175,7 @@ export function AppendixBestPractices() {
         </View>
       </Page>
 
-      {/* ── Page 2 ── Best practices 8–12 + upload checklist */}
+      {/* ── Page 2 ── Best practices 8-12 + upload checklist */}
       <Page size="A4" style={styles.page}>
         <PageHeader chapter="Appendix F: Best Practices for FINMA Data" />
         <PageFooter />
@@ -186,7 +186,7 @@ export function AppendixBestPractices() {
           ))}
         </View>
 
-        <SectionTitle color={COLORS.gray500}>Before Uploading — Checklist</SectionTitle>
+        <SectionTitle color={COLORS.gray500}>Before Uploading, Checklist</SectionTitle>
 
         <View
           wrap={false}

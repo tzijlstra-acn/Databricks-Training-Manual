@@ -332,7 +332,7 @@ export default function ArchitectureClient() {
               onNodeClick={handleNodeClick}
               onPaneClick={() => {
                 setSelectedNodeId(null);
-                // Do not exit tour on background click — user must press Exit Tour
+                // Do not exit tour on background click, user must press Exit Tour
               }}
               nodeTypes={nodeTypes}
               nodesConnectable={false}

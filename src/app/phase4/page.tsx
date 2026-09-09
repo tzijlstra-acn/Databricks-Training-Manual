@@ -9,14 +9,7 @@ import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
 import { recentRuns } from "@/data/pipeline";
 import { cn } from "@/lib/utils";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import { MonitoringChart } from "@/components/phase4/MonitoringChart";
 
 const successCount = recentRuns.filter((r) => r.status === "success").length;
 const failCount = recentRuns.filter((r) => r.status === "failed").length;
@@ -76,7 +69,7 @@ export default function Phase4Page() {
         to show the new numbers. In the Databricks workspace, the Vorsorge Partner jobs appear as{" "}
         <strong>VorsorgePartnerCommission_nondlt</strong>, <strong>VP_kundenliste_nondlt</strong>, and{" "}
         <strong>VP_nondlt</strong> (owned by Mansi Mansi). Note: jobs currently run under a personal account
-        — the recommended practice is to set <em>Run as</em> to a dedicated service principal, so pipelines
+       , the recommended practice is to set <em>Run as</em> to a dedicated service principal, so pipelines
         keep running if that account is disabled or MFA settings change.
       </HowdenContext>
 
@@ -106,18 +99,18 @@ export default function Phase4Page() {
             </div>
             <p className="font-medium text-gray-800">Passing values between tasks:</p>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
-{`# Task 1: Ingest — store a result for downstream tasks
+{`# Task 1: Ingest, store a result for downstream tasks
 df = spark.read.format("csv").load("...")
 dbutils.jobs.taskValues.set(key="record_count", value=df.count())
 
-# Task 2: Validate — read the upstream value
+# Task 2: Validate, read the upstream value
 count = dbutils.jobs.taskValues.get(
     taskKey="ingest",
     key="record_count",
     default=0
 )
 if count == 0:
-    raise Exception("Upstream produced zero records — aborting")`}
+    raise Exception("Upstream produced zero records, aborting")`}
             </pre>
             <p className="font-medium text-gray-800">Branch conditions:</p>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
@@ -219,7 +212,7 @@ rules = [
     ),
 ]
 
-# Apply rules — returns (good_df, bad_df)
+# Apply rules, returns (good_df, bad_df)
 from databricks.labs.dqx.engine import DQEngine
 engine = DQEngine(spark)
 good_df, bad_df = engine.apply_checks_and_split(df, rules)
@@ -249,44 +242,7 @@ bad_df.write.mode("append").saveAsTable("enterprise.bronze.quarantine")`}
         <h2 className="text-lg font-bold text-gray-900 mb-4">Monitoring &amp; Observability</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* Donut chart */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">Job Success Rate (Last 7 Days)</h3>
-            <ResponsiveContainer width="100%" height={200}>
-              <PieChart>
-                <Pie
-                  data={donutData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={55}
-                  outerRadius={80}
-                  paddingAngle={3}
-                  dataKey="value"
-                >
-                  {donutData.map((_entry, index) => (
-                    <Cell key={index} fill={DONUT_COLORS[index]} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(v) => [`${v} run${Number(v) !== 1 ? "s" : ""}`, ""]} />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="flex justify-center gap-6 mt-2">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-green-600">{successCount}</p>
-                <p className="text-xs text-gray-500">Successful</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-red-500">{failCount}</p>
-                <p className="text-xs text-gray-500">Failed</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-primary-800">
-                  {Math.round((successCount / recentRuns.length) * 100)}%
-                </p>
-                <p className="text-xs text-gray-500">Success Rate</p>
-              </div>
-            </div>
-          </div>
+          <MonitoringChart data={donutData} />
 
           {/* Recent runs timeline */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5">
@@ -337,13 +293,13 @@ bad_df.write.mode("append").saveAsTable("enterprise.bronze.quarantine")`}
         </div>
 
         <HowdenContext title="Setting up Alerts for the FINMA pipeline">
-          In the Databricks workspace you can create an alert in 6 steps: (1) <strong>Create Query</strong> — write
+          In the Databricks workspace you can create an alert in 6 steps: (1) <strong>Create Query</strong>, write
           a SQL query that returns the metric you want to monitor (e.g. the count of failed DQX rows); (2){" "}
-          <strong>Save Query</strong> — give it a descriptive name so the team can find it; (3){" "}
-          <strong>Create Alert</strong> — open Alerts from the SQL sidebar and attach it to your saved query; (4){" "}
-          <strong>Define condition</strong> — set the threshold (e.g. failure_count &gt; 10); (5){" "}
-          <strong>Configure Notification</strong> — choose a destination: email, Slack, PagerDuty, or webhook; (6){" "}
-          <strong>Schedule Evaluation</strong> — decide how often Databricks checks the query (e.g. every 15 minutes,
+          <strong>Save Query</strong>, give it a descriptive name so the team can find it; (3){" "}
+          <strong>Create Alert</strong>, open Alerts from the SQL sidebar and attach it to your saved query; (4){" "}
+          <strong>Define condition</strong>, set the threshold (e.g. failure_count &gt; 10); (5){" "}
+          <strong>Configure Notification</strong>, choose a destination: email, Slack, PagerDuty, or webhook; (6){" "}
+          <strong>Schedule Evaluation</strong>, decide how often Databricks checks the query (e.g. every 15 minutes,
           or after each pipeline run). For the FINMA pipeline, a good starting alert is: DQX rejected record count &gt; 0,
           notifying the data steward immediately so they can resolve attribution issues before the 31 May deadline.
         </HowdenContext>

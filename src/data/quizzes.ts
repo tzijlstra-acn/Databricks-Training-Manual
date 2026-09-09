@@ -17,7 +17,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q3",
-    question: "Which layer contains data that is 'business-ready' — aggregated and shaped for reporting?",
+    question: "Which layer contains data that is 'business-ready', aggregated and shaped for reporting?",
     options: ["Bronze", "Silver", "Gold", "Ingestion"],
     correct: 2,
     explanation: "Gold layer data has been cleaned (Silver), then aggregated and enriched specifically for business reporting needs.",
@@ -62,10 +62,10 @@ export const quizQuestions: QuizQuestion[] = [
     id: "q7",
     question: "BAYO is the CRM used by both Howden Schweiz AG and SWIBRO AG. A single BAYO extract contains rows for both entities mixed together. Which Medallion layer correctly separates them?",
     options: [
-      "Bronze — it splits entities on ingestion",
-      "Silver — it applies attribution logic after Bronze stores the raw extract",
-      "Gold — it separates entities at aggregation time",
-      "Abacus — the accounting system resolves entity attribution",
+      "Bronze, it splits entities on ingestion",
+      "Silver, it applies attribution logic after Bronze stores the raw extract",
+      "Gold, it separates entities at aggregation time",
+      "Abacus, the accounting system resolves entity attribution",
     ],
     correct: 1,
     explanation: "Bronze stores the BAYO extract exactly as received, with all entities mixed together. Silver is where the attribution logic runs: rows are assigned to Howden Schweiz AG or SWIBRO AG based on deal reference numbers, then validated before the data moves to Gold.",
@@ -77,19 +77,19 @@ export const layerAssignmentQuiz = [
     id: "record-1",
     description: "POL-2024-77821,helvetica ag,PROP,485000,CHF,20240101,,10,BAYO_CRM_V2",
     correct: "bronze",
-    hint: "Lowercase insured name, LoB code not decoded, date not ISO, expiry missing — this is raw CRM data exactly as received.",
+    hint: "Lowercase insured name, LoB code not decoded, date not ISO, expiry missing, this is raw CRM data exactly as received.",
   },
   {
     id: "record-2",
     description: "Policy: POL-2024-77821 | Insured: Helvetica AG | LoB: Property | Premium: CHF 485,000 | Coverage: 2024-01-01 → 2024-12-31 | Status: Active",
     correct: "silver",
-    hint: "Name title-cased, LoB decoded, ISO dates, expiry date derived — cleaned and validated but still one row per policy.",
+    hint: "Name title-cased, LoB decoded, ISO dates, expiry date derived, cleaned and validated but still one row per policy.",
   },
   {
     id: "record-3",
     description: "Q1 2024 | Property | Premium: CHF 12.4M | Commission: CHF 1.24M | Policies: 847 | Renewal Rate: 91.3%",
     correct: "gold",
-    hint: "Aggregated across 847 policies, commission calculated, renewal KPI derived — business-ready for board-level reporting.",
+    hint: "Aggregated across 847 policies, commission calculated, renewal KPI derived, business-ready for board-level reporting.",
   },
 ];
 

@@ -38,7 +38,7 @@ export function AppendixPlatformRef() {
             Appendix B: Platform Quick Reference
           </Text>
           <Text style={{ fontSize: 8.5, color: "rgba(255,255,255,0.6)", marginTop: 2 }}>
-            All 16 workspace components — when to use them and who uses them
+            All 16 workspace components, when to use them and who uses them
           </Text>
         </View>
       </View>

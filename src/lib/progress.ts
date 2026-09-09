@@ -80,3 +80,9 @@ export function getCompletionByPhase(phaseId: number): boolean {
   const progress = getProgress();
   return progress.visitedPhases.includes(phaseId);
 }
+
+export function resetProgress(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(STORAGE_KEY);
+  window.location.reload();
+}

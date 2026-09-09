@@ -67,10 +67,10 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
       {/* Home screenshot */}
       <ScreenshotBlock
         src={screenshots["home"]}
-        caption="The Databricks home page — recently accessed objects, suggested items, and navigation"
+        caption="The Databricks home page, recently accessed objects, suggested items, and navigation"
       />
 
-      {/* What + why — very brief */}
+      {/* What + why, very brief */}
       <View style={{ flexDirection: "row", gap: 8, marginBottom: 14 }}>
         <View style={{ flex: 1, backgroundColor: COLORS.surface, borderRadius: 4, padding: 10, borderWidth: 1, borderColor: COLORS.gray200 }}>
           <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5, color: COLORS.navy, marginBottom: 4 }}>What is Databricks?</Text>
@@ -81,7 +81,7 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
         <View style={{ flex: 1, backgroundColor: "#FFF3E8", borderRadius: 4, padding: 10, borderWidth: 1, borderColor: "#F47920" }}>
           <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5, color: "#78350F", marginBottom: 4 }}>Why Howden uses it</Text>
           <Text style={{ fontSize: 8.5, color: "#78350F", lineHeight: 1.5 }}>
-            FINMA Art. 190b ISO requires annual commission reports per entity by 31 May. Databricks automates the full pipeline — from raw CRM export to validated FINMA submission.
+            FINMA Art. 190b ISO requires annual commission reports per entity by 31 May. Databricks automates the full pipeline, from raw CRM export to validated FINMA submission.
           </Text>
         </View>
       </View>
@@ -89,7 +89,7 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
       {/* The 5 entities */}
       <View style={{ backgroundColor: COLORS.navy, borderRadius: 5, padding: 12, marginBottom: 14 }}>
         <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9.5, color: COLORS.orange, marginBottom: 8 }}>
-          5 Howden Entities — 5 FINMA Submissions
+          5 Howden Entities, 5 FINMA Submissions
         </Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
           {ENTITIES.map((e) => (
@@ -119,7 +119,7 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
       </Text>
       <MedallionDiagram />
 
-      {/* 5-Phase Agenda — horizontal strip per phase */}
+      {/* 5-Phase Agenda, horizontal strip per phase */}
       <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 10.5, color: COLORS.navy, marginBottom: 8 }}>
         5-Phase Training Agenda
       </Text>
@@ -156,7 +156,7 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
               </Text>
             </View>
 
-            {/* Day title — fixed width so chips always have room */}
+            {/* Day title, fixed width so chips always have room */}
             <Text
               style={{
                 fontFamily: "Helvetica-Bold",
@@ -169,7 +169,7 @@ export function IntroPage({ screenshots }: { screenshots: Record<string, string>
               {day.title}
             </Text>
 
-            {/* Topic chips — row, no wrap, shrink allowed */}
+            {/* Topic chips, row, no wrap, shrink allowed */}
             <View style={{ flex: 1, flexDirection: "row", gap: 5 }}>
               {day.items.map((item) => (
                 <View

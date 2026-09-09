@@ -24,7 +24,7 @@ export function AppendixGlossary() {
     <>
       {grouped.map((group) => (
         <Page key={group.cat} size="A4" style={styles.page}>
-          <PageHeader chapter={`Appendix A: Glossary — ${group.label}`} />
+          <PageHeader chapter={`Appendix A: Glossary, ${group.label}`} />
           <PageFooter />
 
           {/* Appendix header (first page only per category) */}

@@ -13,7 +13,7 @@ import {
 } from "../shared";
 
 const CRM_SOURCES = [
-  ["BAYO", "Howden Schweiz AG + SWIBRO AG", "Mixed — must split in Silver", "48,234"],
+  ["BAYO", "Howden Schweiz AG + SWIBRO AG", "Mixed, must split in Silver", "48,234"],
   ["IBS Alabus", "Howden Schweiz AG", "commission_chf", "31,102"],
   ["MAX CRM", "Howden Broker Services AG", "brokerage_fee", "22,780"],
   ["KETL", "Perennial AG", "comm_amt", "12,506"],
@@ -21,7 +21,7 @@ const CRM_SOURCES = [
 ];
 
 const CATALOG_TABLES = [
-  ["howden.bronze.bayo_raw", "Raw BAYO export — both entities mixed", "48,234"],
+  ["howden.bronze.bayo_raw", "Raw BAYO export, both entities mixed", "48,234"],
   ["howden.bronze.vp_raw", "Raw Vorsorge Partner CRM export", "8,914"],
   ["howden.silver.commissions_clean", "All 5 CRMs merged, unified field names", "123,536"],
   ["howden.silver.entity_attribution", "BAYO rows resolved to entity", "48,234"],
@@ -36,8 +36,8 @@ const SCHEMAS: Array<{
   color: string;
   description: string;
 }> = [
-  { name: "bronze", color: "#A0522D", description: "Raw ingested data from source systems — immutable" },
-  { name: "silver", color: "#4B5563", description: "Cleaned, validated, integrated data — DQX applied" },
+  { name: "bronze", color: "#A0522D", description: "Raw ingested data from source systems, immutable" },
+  { name: "silver", color: "#4B5563", description: "Cleaned, validated, integrated data, DQX applied" },
   { name: "gold",   color: "#B45309", description: "FINMA-ready aggregated reporting tables" },
   { name: "audit",  color: "#1E40AF", description: "DQX run logs and pipeline execution metadata" },
 ];
@@ -86,10 +86,10 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
                 marginBottom: 4,
               }}
             >
-              BRONZE — Raw / Ingested
+              BRONZE, Raw / Ingested
             </Text>
             <Text style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5 }}>
-              {"Data lands exactly as received. Immutable — no modifications allowed. Full history preserved. Debugging and audit use only. Engineers access only."}
+              {"Data lands exactly as received. Immutable, no modifications allowed. Full history preserved. Debugging and audit use only. Engineers access only."}
             </Text>
           </View>
 
@@ -112,7 +112,7 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
                 marginBottom: 4,
               }}
             >
-              SILVER — Cleaned + Validated
+              SILVER, Cleaned + Validated
             </Text>
             <Text style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5 }}>
               {"Standardised commission_chf field. Entity attribution for BAYO split. DQX quality rules applied. Rejected rows quarantined. Analysts and data scientists work here."}
@@ -138,7 +138,7 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
                 marginBottom: 4,
               }}
             >
-              GOLD — FINMA Ready
+              GOLD, FINMA Ready
             </Text>
             <Text style={{ fontSize: 8.5, color: COLORS.gray700, lineHeight: 1.5 }}>
               {"One table per legal entity. Written only after all DQX checks pass. Powers dashboards, Genie AI, and FINMA submission by 31 May deadline."}
@@ -148,7 +148,7 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
 
         <ScreenshotBlock
           src={screenshots["catalog-tree"]}
-          caption="Catalog tree — howden catalog with bronze, gold, silver schemas expanded showing commission tables"
+          caption="Catalog tree, howden catalog with bronze, gold, silver schemas expanded showing commission tables"
         />
 
         <SectionTitle color={COLORS.phase2}>Five Source CRM Systems</SectionTitle>
@@ -168,7 +168,7 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
         <SectionTitle color={COLORS.phase2}>Unity Catalog: The Howden Data Hierarchy</SectionTitle>
 
         <Body>
-          {"Unity Catalog organises every data asset — tables, volumes, models, functions — in a three-level hierarchy with permissions, lineage tracking, and governance applied automatically."}
+          {"Unity Catalog organises every data asset, tables, volumes, models, functions, in a three-level hierarchy with permissions, lineage tracking, and governance applied automatically."}
         </Body>
 
         {/* Navy catalog hierarchy block */}
@@ -254,12 +254,12 @@ export function Chapter2_DataCatalog({ screenshots }: { screenshots: Record<stri
         />
 
         <CalloutBox title="Why BAYO is Special">
-          {"BAYO (shared by Howden Schweiz AG and SWIBRO AG) delivers one file with rows for both entities mixed. The entity_attribution Silver task resolves each BAYO row using deal-level identifiers — rows that cannot be attributed go to dq_rejected_records for manual review. Attribution must reach 100% before Gold can be written."}
+          {"BAYO (shared by Howden Schweiz AG and SWIBRO AG) delivers one file with rows for both entities mixed. The entity_attribution Silver task resolves each BAYO row using deal-level identifiers, rows that cannot be attributed go to dq_rejected_records for manual review. Attribution must reach 100% before Gold can be written."}
         </CalloutBox>
 
         <ScreenshotBlock
           src={screenshots["catalog"]}
-          caption="Unity Catalog suggested tables view — Gold tables ready for querying and dashboard use"
+          caption="Unity Catalog suggested tables view, Gold tables ready for querying and dashboard use"
         />
       </Page>
     </>

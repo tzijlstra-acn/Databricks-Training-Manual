@@ -2,14 +2,14 @@ import { Page, View, Text } from "@react-pdf/renderer";
 import { COLORS, styles } from "../styles";
 
 const TOC_ENTRIES = [
-  { num: "—", title: "Introduction", sub: "Platform overview, FINMA context", color: COLORS.navy, page: 3 },
+  { num: "-", title: "Introduction", sub: "Platform overview, FINMA context", color: COLORS.navy, page: 3 },
   { num: "01", title: "Foundations: Meet the Platform", sub: "Workspace UI, navigation, Workspace vs Catalog", color: COLORS.phase1, page: 4 },
   { num: "02", title: "Data & Catalog", sub: "Medallion Architecture, Unity Catalog, Howden data structure", color: COLORS.phase2, page: 7 },
   { num: "03", title: "Develop & Query", sub: "Notebooks, SQL Editor, Compute types", color: COLORS.phase3, page: 11 },
   { num: "04", title: "Automate & Monitor", sub: "Jobs, DQX pipeline, Alerts, monitoring", color: COLORS.phase4, page: 14 },
   { num: "05", title: "Analyze & Apply", sub: "Dashboards, Genie AI Spaces, end-to-end flow", color: COLORS.phase5, page: 18 },
   { num: "A", title: "Appendix A: Glossary", sub: "32 key terms with plain-English definitions and analogies", color: COLORS.gray500, page: 21 },
-  { num: "B", title: "Appendix B: Platform Quick Reference", sub: "All 16 workspace components — when to use & who uses them", color: COLORS.gray500, page: 27 },
+  { num: "B", title: "Appendix B: Platform Quick Reference", sub: "All 16 workspace components, when to use & who uses them", color: COLORS.gray500, page: 27 },
   { num: "C", title: "Appendix C: Architecture Reference", sub: "11 platform components and their connections", color: COLORS.gray500, page: 30 },
   { num: "D", title: "Appendix D: Getting Started", sub: "Workspace access, login steps, orientation checklist", color: COLORS.gray500, page: 31 },
   { num: "E", title: "Appendix E: Working with Databricks", sub: "Create notebooks, execute code, save and share", color: COLORS.gray500, page: 32 },
@@ -77,7 +77,7 @@ export function TocPage() {
               <Text
                 style={{
                   fontFamily: "Helvetica-Bold",
-                  fontSize: entry.num === "—" ? 12 : 9,
+                  fontSize: entry.num === "-" ? 12 : 9,
                   color: COLORS.white,
                 }}
               >
@@ -134,7 +134,7 @@ export function TocPage() {
         }}
       >
         <Text style={{ fontSize: 8.5, color: "#78350F", lineHeight: 1.5 }}>
-          This booklet summarises the 5-phase Databricks training delivered on the Howden FINMA Commission Reporting project. Page numbers are approximate — actual positions may vary slightly based on content flow. All Howden-specific details (job names, catalog structure, Genie Spaces) reflect the live Azure Databricks environment.
+          This booklet summarises the 5-phase Databricks training delivered on the Howden FINMA Commission Reporting project. Page numbers are approximate, actual positions may vary slightly based on content flow. All Howden-specific details (job names, catalog structure, Genie Spaces) reflect the live Azure Databricks environment.
         </Text>
       </View>
     </Page>

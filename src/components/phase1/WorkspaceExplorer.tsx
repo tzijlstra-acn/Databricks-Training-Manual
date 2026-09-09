@@ -91,7 +91,7 @@ export function WorkspaceExplorer() {
           <nav className="flex-1 overflow-y-auto py-1">
             {workspaceSidebarSections.map((section) => (
               <div key={section.section}>
-                {/* Section header — hidden for "main" (top-level items have no header in real Databricks) */}
+                {/* Section header, hidden for "main" (top-level items have no header in real Databricks) */}
                 {section.section !== "main" && (
                   <div className={cn("px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-widest", SECTION_LABEL_COLORS[section.section] ?? "text-gray-500")}>
                     {section.section}

@@ -14,28 +14,28 @@ import {
 const COMPUTE_TYPES = [
   [
     "All-Purpose Cluster",
-    "Interactive notebooks and exploration — stays running, pay-per-hour",
+    "Interactive notebooks and exploration, stays running, pay-per-hour",
     "adb-cluster-howden-switzerland-groupdatapoc-we (Runtime 17.3 / Spark 3.5.2)",
   ],
   [
     "Job Cluster",
-    "Automated pipeline runs — spins up fresh per job run, then terminates",
+    "Automated pipeline runs, spins up fresh per job run, then terminates",
     "Created automatically by VorsorgePartnerCommission_nondlt and other Jobs",
   ],
   [
     "SQL Warehouse",
-    "Optimised for SQL queries, dashboards, and Genie AI — serverless billing",
+    "Optimised for SQL queries, dashboards, and Genie AI, serverless billing",
     "serverless-starter (shared across the Howden team)",
   ],
 ];
 
 const MAGIC_COMMANDS = [
-  ["%sql", "Run a SQL cell inside a Python notebook — most common for ad-hoc table queries"],
+  ["%sql", "Run a SQL cell inside a Python notebook, most common for ad-hoc table queries"],
   ["%python", "Switch a cell to Python inside a SQL notebook"],
   ["%md", "Write Markdown documentation in a notebook cell"],
-  ["%run", "Execute another notebook from the current one — used for modular pipelines"],
+  ["%run", "Execute another notebook from the current one, used for modular pipelines"],
   ["%fs", "File system operations: ls, cp, mv, rm on DBFS or Volume paths"],
-  ["%sh", "Run shell commands — useful for inspecting the cluster OS environment"],
+  ["%sh", "Run shell commands, useful for inspecting the cluster OS environment"],
 ];
 
 const NOTEBOOK_VS_SQL = [
@@ -77,7 +77,7 @@ export function Chapter3_DevelopQuery({ screenshots }: { screenshots: Record<str
         />
 
         <CalloutBox title="Howden Context">
-          {"The primary development surfaces are: (1) Notebooks — for pipeline code (Bronze → Silver → Gold transformation logic); (2) SQL Editor — for ad-hoc queries against Gold tables and building saved queries that power dashboards. The cluster is adb-cluster-howden-switzerland-groupdatapoc-we running Databricks Runtime 17.3. Always start this cluster before running a notebook — attaching to a terminated cluster is a common source of confusion."}
+          {"The primary development surfaces are: (1) Notebooks, for pipeline code (Bronze → Silver → Gold transformation logic); (2) SQL Editor, for ad-hoc queries against Gold tables and building saved queries that power dashboards. The cluster is adb-cluster-howden-switzerland-groupdatapoc-we running Databricks Runtime 17.3. Always start this cluster before running a notebook, attaching to a terminated cluster is a common source of confusion."}
         </CalloutBox>
 
         <SectionTitle color={COLORS.phase3}>Notebook vs SQL Editor: When to Use Which</SectionTitle>
@@ -89,7 +89,7 @@ export function Chapter3_DevelopQuery({ screenshots }: { screenshots: Record<str
 
         <ScreenshotBlock
           src={screenshots["compute"]}
-          caption="Compute page — All-Purpose Cluster (adb-cluster-howden-switzerland-groupdatapoc-we), Job Clusters created by runs, and SQL Warehouse"
+          caption="Compute page, All-Purpose Cluster (adb-cluster-howden-switzerland-groupdatapoc-we), Job Clusters created by runs, and SQL Warehouse"
         />
 
         <SectionTitle color={COLORS.phase3}>The Three Compute Types</SectionTitle>
@@ -107,7 +107,7 @@ export function Chapter3_DevelopQuery({ screenshots }: { screenshots: Record<str
 
         <SectionTitle color={COLORS.phase3}>Magic Commands</SectionTitle>
         <Body>
-          {"Magic commands change the language or behaviour of a single cell. They are essential for mixing SQL queries into Python notebooks — the pattern used throughout the FINMA pipeline."}
+          {"Magic commands change the language or behaviour of a single cell. They are essential for mixing SQL queries into Python notebooks, the pattern used throughout the FINMA pipeline."}
         </Body>
         <SimpleTable
           headers={["Command", "What It Does"]}
@@ -139,11 +139,11 @@ export function Chapter3_DevelopQuery({ screenshots }: { screenshots: Record<str
 
         <ScreenshotBlock
           src={screenshots["workspace"]}
-          caption="Notebook view — SQL cell running against howden.gold table with results panel below"
+          caption="Notebook view, SQL cell running against howden.gold table with results panel below"
         />
 
         <CalloutBox title="Cluster Attachment Warning">
-          {"If you open a notebook and the cluster dropdown shows 'Detached', click it and select adb-cluster-howden-switzerland-groupdatapoc-we. If the cluster is terminated, start it first — it takes ~4 minutes to spin up. Never run a job attached to a personal All-Purpose cluster; use Job Clusters for automation."}
+          {"If you open a notebook and the cluster dropdown shows 'Detached', click it and select adb-cluster-howden-switzerland-groupdatapoc-we. If the cluster is terminated, start it first, it takes ~4 minutes to spin up. Never run a job attached to a personal All-Purpose cluster; use Job Clusters for automation."}
         </CalloutBox>
       </Page>
     </>

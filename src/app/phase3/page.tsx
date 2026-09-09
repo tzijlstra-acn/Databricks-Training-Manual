@@ -171,10 +171,10 @@ dbutils.fs.cp("source/path/file.csv", "dest/path/file.csv")
             </div>
             <p className="font-medium text-gray-800">Controlling partitions:</p>
             <pre className="bg-[#1F2144] text-green-400 font-mono text-xs rounded-xl p-4 overflow-x-auto">
-{`# Increase partitions — distribute work more evenly
+{`# Increase partitions, distribute work more evenly
 df = df.repartition(200)
 
-# Reduce partitions — consolidate before writing
+# Reduce partitions, consolidate before writing
 df = df.coalesce(10)  # Faster than repartition; no full shuffle
 
 # Check partition count

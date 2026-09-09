@@ -6,7 +6,7 @@ import { saveQuizScore } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Quiz 1 — Layer Assignment
+// Quiz 1, Layer Assignment
 // ─────────────────────────────────────────────────────────────────────────────
 
 type Layer = "bronze" | "silver" | "gold";
@@ -212,7 +212,7 @@ function LayerAssignmentQuiz() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Quiz 2 — Workflow Ordering
+// Quiz 2, Workflow Ordering
 // ─────────────────────────────────────────────────────────────────────────────
 
 type OrderStep = (typeof workflowOrderQuiz)[number] & { idx: number };
@@ -355,7 +355,7 @@ function WorkflowOrderQuiz() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Quiz 3 — Multiple Choice
+// Quiz 3, Multiple Choice
 // ─────────────────────────────────────────────────────────────────────────────
 
 function MultipleChoiceQuiz() {

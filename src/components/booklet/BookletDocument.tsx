@@ -39,7 +39,7 @@ export function BookletDocument({ screenshots = {} }: Props) {
   const ss = screenshots as Record<string, string>;
   return (
     <Document
-      title="Databricks Training Booklet — Howden Group"
+      title="Databricks Training Booklet, Howden Group"
       author="Howden Group · Accenture"
       subject="Databricks FINMA platform training reference"
       creator="DatabricksLearning Platform"

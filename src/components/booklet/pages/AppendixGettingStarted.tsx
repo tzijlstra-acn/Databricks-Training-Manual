@@ -117,7 +117,7 @@ export function AppendixGettingStarted({ screenshots }: { screenshots: Record<st
 
       <ScreenshotBlock
         src={screenshots["home"]}
-        caption="Databricks home after login — left nav, Recents panel, and workspace name (ADB-GDL-GROUPDATA-POC-WE) confirm successful access"
+        caption="Databricks home after login, left nav, Recents panel, and workspace name (ADB-GDL-GROUPDATA-POC-WE) confirm successful access"
       />
 
       <SectionTitle color={COLORS.gray500}>Workspace Orientation Checklist</SectionTitle>

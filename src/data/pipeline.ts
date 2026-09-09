@@ -4,7 +4,7 @@ export const pipelineTasks: PipelineTask[] = [
   {
     id: "task-1",
     name: "Bronze Ingestion",
-    description: "Load three source types into Bronze: (1) raw commission extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM — untouched as delivered; (2) product type mapping table (CRM codes → FINMA intermediary product categories); (3) insurer name mapping table (CRM insurer names → FINMA-registered entity names). Reference tables arrive as dedicated database uploads, not CRM exports.",
+    description: "Load three source types into Bronze: (1) raw commission extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM, untouched as delivered; (2) product type mapping table (CRM codes → FINMA intermediary product categories); (3) insurer name mapping table (CRM insurer names → FINMA-registered entity names). Reference tables arrive as dedicated database uploads, not CRM exports.",
     status: "success",
     duration: "2m 14s",
     type: "ingestion",
@@ -44,7 +44,7 @@ export const failedPipelineTasks: PipelineTask[] = [
   {
     id: "task-1",
     name: "Bronze Ingestion",
-    description: "Load three source types into Bronze: (1) raw commission extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM — untouched as delivered; (2) product type mapping table (CRM codes → FINMA intermediary product categories); (3) insurer name mapping table (CRM insurer names → FINMA-registered entity names). Reference tables arrive as dedicated database uploads, not CRM exports.",
+    description: "Load three source types into Bronze: (1) raw commission extracts from BAYO, IBS Alabus, MAX, KETL, and Vorsorge Partner CRM, untouched as delivered; (2) product type mapping table (CRM codes → FINMA intermediary product categories); (3) insurer name mapping table (CRM insurer names → FINMA-registered entity names). Reference tables arrive as dedicated database uploads, not CRM exports.",
     status: "success",
     duration: "2m 14s",
     type: "ingestion",
@@ -63,7 +63,7 @@ export const failedPipelineTasks: PipelineTask[] = [
     description: "Run DQX rules: entity attribution completeness, commission null check, duplicate deal detection, and Abacus variance check.",
     status: "failed",
     duration: "0m 22s",
-    errorMessage: "DQX rule failed: 218 BAYO rows could not be attributed to a single entity (neither Howden Schweiz AG nor SWIBRO AG deal-level identifier matched). Attribution rate: 99.55% — below the required 100% threshold. Pipeline stopped to prevent unattributed records reaching the FINMA Gold tables.",
+    errorMessage: "DQX rule failed: 218 BAYO rows could not be attributed to a single entity (neither Howden Schweiz AG nor SWIBRO AG deal-level identifier matched). Attribution rate: 99.55%, below the required 100% threshold. Pipeline stopped to prevent unattributed records reaching the FINMA Gold tables.",
     type: "quality",
   },
   {

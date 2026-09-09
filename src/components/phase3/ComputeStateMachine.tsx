@@ -25,7 +25,7 @@ const STATE_CONFIG: Record<ClusterState, { label: string; color: string; bg: str
 
 const STEP_HINTS: Partial<Record<ClusterState, string>> = {
   stopped:   "Click Start Cluster to provision compute resources.",
-  starting:  "Cluster is provisioning — workers are being allocated…",
+  starting:  "Cluster is provisioning, workers are being allocated…",
   running:   "Cluster is ready. Click Attach Notebook to connect your notebook.",
   executing: "Spark job running across 2 workers…",
   success:   "Job complete. Results written to the Gold layer. Click Reset to run again.",
@@ -110,7 +110,7 @@ function IdleDemo() {
             <AlertTriangle className="w-3 h-3 text-amber-500" />
             <span className="text-[11px] text-amber-700 font-medium">
               {demoState === "idle"
-                ? `Idle — auto-terminating in ${countdown}s`
+                ? `Idle, auto-terminating in ${countdown}s`
                 : "Terminating cluster…"}
             </span>
           </div>
@@ -439,7 +439,7 @@ export function ComputeStateMachine({ onReset }: ComputeStateMachineProps) {
         </div>
       </div>
 
-      {/* Educational idle demo — only visible after a successful run */}
+      {/* Educational idle demo, only visible after a successful run */}
       <AnimatePresence>
         {clusterState === "success" && (
           <motion.div

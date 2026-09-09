@@ -2,7 +2,7 @@
 
 import { AlertTriangle, CheckCircle2, Target, Shield } from "lucide-react";
 
-// 5 real entities — each needs its own FINMA submission by 31 May
+// 5 real entities, each needs its own FINMA submission by 31 May
 const ENTITIES = [
   { id: 1, name: "Howden Schweiz AG",        crm: "BAYO + IBS Alabus", note: "Dual CRM (BAYO shared with SWIBRO)" },
   { id: 2, name: "Howden Broker Services AG", crm: "MAX",               note: "" },

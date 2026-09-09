@@ -4,7 +4,7 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
   {
     id: "notebook-not-running",
     title: "My notebook isn't running",
-    symptom: "Clicking Run doesn't execute the cell — no output, no error.",
+    symptom: "Clicking Run doesn't execute the cell, no output, no error.",
     tree: {
       id: "n1",
       type: "question",
@@ -23,7 +23,7 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
           id: "n1yn",
           type: "solution",
           question: "Start the compute cluster",
-          resolution: "The cluster may have auto-terminated. Click 'Start' on the compute cluster. It typically takes 2–5 minutes to start.",
+          resolution: "The cluster may have auto-terminated. Click 'Start' on the compute cluster. It typically takes 2-5 minutes to start.",
         },
         yes: {
           id: "n1yy",
@@ -122,7 +122,7 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
           id: "p1ny",
           type: "solution",
           question: "Increase cluster timeout or use job compute",
-          resolution: "Job compute (not all-purpose) is recommended for pipeline jobs — it's more stable. Ask your admin to configure job compute for this workflow.",
+          resolution: "Job compute (not all-purpose) is recommended for pipeline jobs, it's more stable. Ask your admin to configure job compute for this workflow.",
         },
         no: {
           id: "p1nn",
@@ -136,7 +136,7 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
   {
     id: "bayo-attribution-failure",
     title: "BAYO attribution DQ gate is failing",
-    symptom: "The Data Quality Gate fails with 'BAYO rows could not be attributed' — attribution rate below 100%.",
+    symptom: "The Data Quality Gate fails with 'BAYO rows could not be attributed', attribution rate below 100%.",
     tree: {
       id: "b1",
       type: "question",
@@ -180,7 +180,7 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
   {
     id: "abacus-variance-breach",
     title: "Abacus variance gate failing for an entity",
-    symptom: "The pipeline fails at Task 5 — Abacus Reconciliation shows variance above 5% or CHF 10,000 for one or more entities.",
+    symptom: "The pipeline fails at Task 5, Abacus Reconciliation shows variance above 5% or CHF 10,000 for one or more entities.",
     tree: {
       id: "av1",
       type: "question",
@@ -224,7 +224,7 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
   {
     id: "genie-wrong-numbers",
     title: "Genie returns different numbers than the dashboard",
-    symptom: "Asking Genie the same question as a dashboard KPI gives a different total — sometimes higher, sometimes lower.",
+    symptom: "Asking Genie the same question as a dashboard KPI gives a different total, sometimes higher, sometimes lower.",
     tree: {
       id: "g1",
       type: "question",
@@ -259,7 +259,7 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
             id: "g1ynn",
             type: "solution",
             question: "Check for a Row Filter applied to the Gold table",
-            resolution: "If a Unity Catalog Row Filter is attached to finma_commission_summary (e.g. restricting SWIBRO AG's team to HW-CH-03 only), Genie will honour it — the dashboard may be queried by a user with broader permissions. Check Catalog → finma_commission_summary → Security → Row Filters to see if one is active for your account.",
+            resolution: "If a Unity Catalog Row Filter is attached to finma_commission_summary (e.g. restricting SWIBRO AG's team to HW-CH-03 only), Genie will honour it, the dashboard may be queried by a user with broader permissions. Check Catalog → finma_commission_summary → Security → Row Filters to see if one is active for your account.",
           },
         },
       },
@@ -268,7 +268,7 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
   {
     id: "dashboard-stale",
     title: "My dashboard shows old data",
-    symptom: "Dashboard numbers haven't updated — they still show yesterday's or last week's figures.",
+    symptom: "Dashboard numbers haven't updated, they still show yesterday's or last week's figures.",
     tree: {
       id: "d1",
       type: "question",

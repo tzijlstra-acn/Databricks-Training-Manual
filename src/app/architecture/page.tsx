@@ -35,7 +35,7 @@ function ArchFallback({ onRetry }: { onRetry: () => void }) {
         <div className="space-y-2 text-xs text-gray-600">
           {[
             { layer: "Unity Catalog", desc: "Single governance layer across all data assets" },
-            { layer: "Bronze", desc: "Raw ingested data — exact copy of source" },
+            { layer: "Bronze", desc: "Raw ingested data, exact copy of source" },
             { layer: "Silver", desc: "Cleaned and quality-validated records" },
             { layer: "Gold", desc: "Aggregated, business-ready tables" },
             { layer: "Compute", desc: "All-purpose clusters and SQL warehouses" },

@@ -83,7 +83,7 @@ export default function Phase2Page() {
         </HowdenContext>
 
         {/* ══════════════════════════════════════════════════════════════════
-            PART 1 — THE FLOW
+            PART 1, THE FLOW
         ══════════════════════════════════════════════════════════════════ */}
         <div className="mt-10 mb-2 flex items-center gap-3">
           <div className="w-7 h-7 rounded-lg bg-[#0891B2] flex items-center justify-center flex-shrink-0">
@@ -240,7 +240,7 @@ ADD COLUMN loyalty_tier STRING;`}
         </section>
 
         {/* ══════════════════════════════════════════════════════════════════
-            PART 2 — THE MAP
+            PART 2, THE MAP
         ══════════════════════════════════════════════════════════════════ */}
         <div className="mb-2 flex items-center gap-3">
           <div className="w-7 h-7 rounded-lg bg-green-600 flex items-center justify-center flex-shrink-0">

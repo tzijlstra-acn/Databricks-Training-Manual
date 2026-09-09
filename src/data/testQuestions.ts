@@ -12,11 +12,11 @@ export interface TestQuestion {
 }
 
 export const DAY_LABELS: Record<DayNumber, string> = {
-  1: "Phase 1 — Platform & Workspace",
-  2: "Phase 2 — Data & Medallion",
-  3: "Phase 3 — Develop & Query",
-  4: "Phase 4 — Automate & Monitor",
-  5: "Phase 5 — Analyse & Present",
+  1: "Phase 1, Platform & Workspace",
+  2: "Phase 2, Data & Medallion",
+  3: "Phase 3, Develop & Query",
+  4: "Phase 4, Automate & Monitor",
+  5: "Phase 5, Analyse & Present",
 };
 
 export const DAY_SHORT: Record<DayNumber, string> = {
@@ -42,7 +42,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "The Workspace is your development environment — like Google Drive for notebooks and code. Data tables live in the Catalog, not the Workspace.",
+      "The Workspace is your development environment, like Google Drive for notebooks and code. Data tables live in the Catalog, not the Workspace.",
   },
   {
     id: "d1-b2",
@@ -73,7 +73,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "A cluster is compute — the engine that executes code. Without a running cluster attached to your notebook, no code can execute.",
+      "A cluster is compute, the engine that executes code. Without a running cluster attached to your notebook, no code can execute.",
   },
 
   // ── PHASE 1 · STANDARD ────────────────────────────────────────────
@@ -91,7 +91,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "The SQL Editor with a SQL Warehouse is designed for interactive SQL — autocomplete, result download, inline visualisation. No Python required.",
+      "The SQL Editor with a SQL Warehouse is designed for interactive SQL, autocomplete, result download, inline visualisation. No Python required.",
   },
   {
     id: "d1-s2",
@@ -107,7 +107,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "Unity Catalog uses Catalog.Schema.Table. 'enterprise' is the catalog — the outermost governance container that holds all schemas and tables.",
+      "Unity Catalog uses Catalog.Schema.Table. 'enterprise' is the catalog, the outermost governance container that holds all schemas and tables.",
   },
   {
     id: "d1-s3",
@@ -119,11 +119,11 @@ export const testQuestions: TestQuestion[] = [
       "All-Purpose clusters support Python only; Job clusters support SQL",
       "All-Purpose clusters stay running for interactive work; Job clusters start for a task and terminate when done",
       "Job clusters use GPUs and run significantly faster",
-      "There is no meaningful difference — both types work the same way",
+      "There is no meaningful difference, both types work the same way",
     ],
     correctIndex: 1,
     explanation:
-      "Job Clusters are ephemeral — they start, execute the task, and shut down automatically. This prevents state leaking between runs and eliminates idle compute cost.",
+      "Job Clusters are ephemeral, they start, execute the task, and shut down automatically. This prevents state leaking between runs and eliminates idle compute cost.",
   },
 
   // ── PHASE 1 · PRO ─────────────────────────────────────────────────
@@ -141,7 +141,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "Named accounts are tied to individuals — if they leave, the job breaks. Service Principals are managed identities decoupled from any specific employee, making them correct for production automation.",
+      "Named accounts are tied to individuals, if they leave, the job breaks. Service Principals are managed identities decoupled from any specific employee, making them correct for production automation.",
   },
   {
     id: "d1-p2",
@@ -151,7 +151,7 @@ export const testQuestions: TestQuestion[] = [
       "A cluster has auto-termination set to 30 minutes. A scheduled job runs for 2 hours continuously. What happens?",
     options: [
       "The cluster terminates after 30 minutes and the job fails with a timeout error",
-      "Auto-termination tracks inactivity, not elapsed time — the cluster only terminates 30 minutes after the last activity ends",
+      "Auto-termination tracks inactivity, not elapsed time, the cluster only terminates 30 minutes after the last activity ends",
       "The job completes but all in-memory results are lost on termination",
       "The cluster auto-scales to additional nodes to meet the 2-hour demand",
     ],
@@ -166,11 +166,11 @@ export const testQuestions: TestQuestion[] = [
     day: 2,
     difficulty: "beginner",
     question:
-      "Which Medallion layer stores raw data exactly as it arrives from source systems — no transformations?",
+      "Which Medallion layer stores raw data exactly as it arrives from source systems, no transformations?",
     options: ["Gold", "Silver", "Bronze", "Staging"],
     correctIndex: 2,
     explanation:
-      "Bronze is the raw landing zone. Data is stored exactly as delivered — untouched. This means you can always recover the original extract if something goes wrong downstream.",
+      "Bronze is the raw landing zone. Data is stored exactly as delivered, untouched. This means you can always recover the original extract if something goes wrong downstream.",
   },
   {
     id: "d2-b2",
@@ -179,9 +179,9 @@ export const testQuestions: TestQuestion[] = [
     question:
       "Howden's executive team needs a dashboard showing total commission by entity for FINMA submission. Which layer should the dashboard query?",
     options: [
-      "Bronze — it has all the original deal-level data",
-      "Silver — the data is already cleaned and validated",
-      "Gold — it has aggregated, FINMA-ready entity totals",
+      "Bronze, it has all the original deal-level data",
+      "Silver, the data is already cleaned and validated",
+      "Gold, it has aggregated, FINMA-ready entity totals",
       "The CRM systems directly via live connection",
     ],
     correctIndex: 2,
@@ -202,7 +202,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "BAYO is a shared CRM serving two Howden entities. Its raw extract cannot go straight to Silver — first, every row must be attributed to either Howden Schweiz AG or SWIBRO AG based on deal-level identifiers.",
+      "BAYO is a shared CRM serving two Howden entities. Its raw extract cannot go straight to Silver, first, every row must be attributed to either Howden Schweiz AG or SWIBRO AG based on deal-level identifiers.",
   },
 
   // ── PHASE 2 · STANDARD ────────────────────────────────────────────
@@ -265,12 +265,12 @@ export const testQuestions: TestQuestion[] = [
     options: [
       "Column-level encryption of sensitive fields",
       "Automatic cluster auto-scaling during writes",
-      "Time Travel — querying the table as it was at any previous version or timestamp",
+      "Time Travel, querying the table as it was at any previous version or timestamp",
       "Native streaming data ingestion without a connector",
     ],
     correctIndex: 2,
     explanation:
-      "The transaction log records every write operation with a unique version number. SELECT * FROM table VERSION AS OF N replays the log to reconstruct historical table states — impossible with plain Parquet.",
+      "The transaction log records every write operation with a unique version number. SELECT * FROM table VERSION AS OF N replays the log to reconstruct historical table states, impossible with plain Parquet.",
   },
   {
     id: "d2-p2",
@@ -280,13 +280,13 @@ export const testQuestions: TestQuestion[] = [
       "A team member runs VACUUM enterprise.bronze.bayo_raw RETAIN 0 HOURS after disabling the safety check. What is the risk?",
     options: [
       "The table schema definition is deleted along with its data",
-      "Files no longer in the current version are deleted — any in-flight reader or stream referencing those files will immediately fail",
+      "Files no longer in the current version are deleted, any in-flight reader or stream referencing those files will immediately fail",
       "The table is automatically migrated to the Silver schema",
       "Only uncommitted data files are removed; committed data is always safe",
     ],
     correctIndex: 1,
     explanation:
-      "VACUUM removes files not referenced by the current table version. With RETAIN 0 HOURS there is no buffer — any job still reading older file versions will encounter missing files and fail. The default 7-day retention exists for exactly this reason.",
+      "VACUUM removes files not referenced by the current table version. With RETAIN 0 HOURS there is no buffer, any job still reading older file versions will encounter missing files and fail. The default 7-day retention exists for exactly this reason.",
   },
 
   // ── PHASE 3 · BEGINNER ────────────────────────────────────────────
@@ -298,12 +298,12 @@ export const testQuestions: TestQuestion[] = [
     options: [
       "Python and SQL only",
       "SQL, Python, Scala, R, and formatted markdown",
-      "Python code only — one language per notebook",
+      "Python code only, one language per notebook",
       "Dashboard widgets and pipeline configuration",
     ],
     correctIndex: 1,
     explanation:
-      "Notebooks are polyglot — each cell can use a different language. Switch language per cell using magic commands like %sql, %python, %scala, or %r.",
+      "Notebooks are polyglot, each cell can use a different language. Switch language per cell using magic commands like %sql, %python, %scala, or %r.",
   },
   {
     id: "d3-b2",
@@ -313,7 +313,7 @@ export const testQuestions: TestQuestion[] = [
     options: ["#SQL", "@sql", "%sql", "USE SQL;"],
     correctIndex: 2,
     explanation:
-      "%sql is a Databricks magic command placed at the top of a cell. It overrides the default notebook language for that cell only — all other cells remain unchanged.",
+      "%sql is a Databricks magic command placed at the top of a cell. It overrides the default notebook language for that cell only, all other cells remain unchanged.",
   },
   {
     id: "d3-b3",
@@ -329,7 +329,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "The SQL cell groups by entity_code, sums commission_chf, and computes variance against the Abacus baseline — giving the team a per-entity view before Gold is built.",
+      "The SQL cell groups by entity_code, sums commission_chf, and computes variance against the Abacus baseline, giving the team a per-entity view before Gold is built.",
   },
 
   // ── PHASE 3 · STANDARD ────────────────────────────────────────────
@@ -340,14 +340,14 @@ export const testQuestions: TestQuestion[] = [
     question:
       "Howden's data team needs to aggregate 120,000 Silver rows using PySpark on a nightly schedule. Which compute should they use?",
     options: [
-      "SQL Warehouse — it is optimised for high-volume aggregations",
+      "SQL Warehouse, it is optimised for high-volume aggregations",
       "A Databricks Job using a Job Cluster attached to a Python notebook",
-      "Genie Space — it handles complex aggregations automatically",
-      "No compute is needed — Databricks auto-runs notebooks on a schedule",
+      "Genie Space, it handles complex aggregations automatically",
+      "No compute is needed, Databricks auto-runs notebooks on a schedule",
     ],
     correctIndex: 1,
     explanation:
-      "PySpark workloads run on Spark clusters, not SQL Warehouses. For scheduled automation use a Databricks Job with a Job Cluster — it starts fresh, executes, and terminates, keeping costs low.",
+      "PySpark workloads run on Spark clusters, not SQL Warehouses. For scheduled automation use a Databricks Job with a Job Cluster, it starts fresh, executes, and terminates, keeping costs low.",
   },
   {
     id: "d3-s2",
@@ -363,7 +363,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      ".withColumn() adds a new column to the DataFrame. The expression F.col('abacus_variance_chf') < 10000 evaluates to True or False for each entity row — creating the variance_ok flag.",
+      ".withColumn() adds a new column to the DataFrame. The expression F.col('abacus_variance_chf') < 10000 evaluates to True or False for each entity row, creating the variance_ok flag.",
   },
   {
     id: "d3-s3",
@@ -373,13 +373,13 @@ export const testQuestions: TestQuestion[] = [
       "A SQL query on enterprise.silver.commissions_clean (123,000 rows) is slow. You only need entity HW-CH-03. What is the most efficient approach with Delta?",
     options: [
       "Load the full table as a Pandas DataFrame and filter in Python",
-      "SELECT ... WHERE entity_code = 'HW-CH-03' — Delta data skipping avoids reading unneeded files",
+      "SELECT ... WHERE entity_code = 'HW-CH-03', Delta data skipping avoids reading unneeded files",
       "VACUUM the table first to remove old file versions",
-      "Read from Bronze instead — it stores data in smaller per-entity files",
+      "Read from Bronze instead, it stores data in smaller per-entity files",
     ],
     correctIndex: 1,
     explanation:
-      "Delta tables store min/max statistics per file per column. A WHERE clause lets Delta skip entire data files that cannot contain HW-CH-03 — reading only the relevant subset.",
+      "Delta tables store min/max statistics per file per column. A WHERE clause lets Delta skip entire data files that cannot contain HW-CH-03, reading only the relevant subset.",
   },
 
   // ── PHASE 3 · PRO ─────────────────────────────────────────────────
@@ -407,13 +407,13 @@ export const testQuestions: TestQuestion[] = [
       "A data engineer writes df.groupBy('entity_code').agg(F.sum('commission_chf')). No further code follows. What actually executes?",
     options: [
       "Both groupBy and agg execute immediately and cache the result",
-      "Nothing executes — without an action, Spark builds the query plan but runs nothing",
+      "Nothing executes, without an action, Spark builds the query plan but runs nothing",
       "Only the agg executes; groupBy is deferred to the next cell",
       "Spark raises a syntax error because there is no output target specified",
     ],
     correctIndex: 1,
     explanation:
-      "groupBy() and agg() are transformations, not actions. Without a subsequent .show(), .count(), display(), or .write(), the computation never runs — Spark only holds the plan in memory.",
+      "groupBy() and agg() are transformations, not actions. Without a subsequent .show(), .count(), display(), or .write(), the computation never runs, Spark only holds the plan in memory.",
   },
 
   // ── PHASE 4 · BEGINNER ────────────────────────────────────────────
@@ -430,7 +430,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "A Job is Databricks' orchestration layer — define tasks, set dependencies, schedule runs on a cron, and monitor outcomes. It is the primary tool for production automation.",
+      "A Job is Databricks' orchestration layer, define tasks, set dependencies, schedule runs on a cron, and monitor outcomes. It is the primary tool for production automation.",
   },
   {
     id: "d4-b2",
@@ -446,7 +446,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "The Entity Attribution DQX rule requires 100% attribution. Even 218 unresolved BAYO rows (0.45%) fails the gate — preventing unattributed data from reaching the FINMA Gold tables.",
+      "The Entity Attribution DQX rule requires 100% attribution. Even 218 unresolved BAYO rows (0.45%) fails the gate, preventing unattributed data from reaching the FINMA Gold tables.",
   },
   {
     id: "d4-b3",
@@ -457,12 +457,12 @@ export const testQuestions: TestQuestion[] = [
     options: [
       "They run with a warning flag attached to their output",
       "They are permanently skipped and must be manually re-enabled",
-      "They remain in 'waiting' state — dependent tasks do not run when an upstream task has failed",
+      "They remain in 'waiting' state, dependent tasks do not run when an upstream task has failed",
       "They retry automatically three times before reporting failure",
     ],
     correctIndex: 2,
     explanation:
-      "Databricks Jobs enforce task dependencies strictly. A failed upstream task blocks all tasks that depend on it — the pipeline stops at the failure point, preserving data integrity.",
+      "Databricks Jobs enforce task dependencies strictly. A failed upstream task blocks all tasks that depend on it, the pipeline stops at the failure point, preserving data integrity.",
   },
 
   // ── PHASE 4 · STANDARD ────────────────────────────────────────────
@@ -471,16 +471,16 @@ export const testQuestions: TestQuestion[] = [
     day: 4,
     difficulty: "standard",
     question:
-      "SWIBRO AG has a commission variance vs Abacus of CHF 8,500 — representing 6.2% of its category total. Does it pass the FINMA Abacus Variance Gate?",
+      "SWIBRO AG has a commission variance vs Abacus of CHF 8,500, representing 6.2% of its category total. Does it pass the FINMA Abacus Variance Gate?",
     options: [
-      "Yes — CHF 8,500 is below the CHF 10,000 absolute threshold",
-      "No — 6.2% exceeds the 5% percentage threshold, even though the CHF amount is below the limit",
-      "Yes — only one of the two thresholds needs to be met",
+      "Yes, CHF 8,500 is below the CHF 10,000 absolute threshold",
+      "No, 6.2% exceeds the 5% percentage threshold, even though the CHF amount is below the limit",
+      "Yes, only one of the two thresholds needs to be met",
       "It depends on which reporting period is being checked",
     ],
     correctIndex: 1,
     explanation:
-      "The Abacus Variance Gate requires BOTH thresholds to be met: ≤ CHF 10,000 AND ≤ 5%. SWIBRO's 6.2% fails the percentage check — so the entity fails even though CHF 8,500 is below the absolute limit.",
+      "The Abacus Variance Gate requires BOTH thresholds to be met: ≤ CHF 10,000 AND ≤ 5%. SWIBRO's 6.2% fails the percentage check, so the entity fails even though CHF 8,500 is below the absolute limit.",
   },
   {
     id: "d4-s2",
@@ -512,7 +512,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "Job Clusters are ephemeral — no stale variables, no cached data from previous runs. They terminate automatically after the job completes, so you pay only for actual execution time.",
+      "Job Clusters are ephemeral, no stale variables, no cached data from previous runs. They terminate automatically after the job completes, so you pay only for actual execution time.",
   },
 
   // ── PHASE 4 · PRO ─────────────────────────────────────────────────
@@ -524,13 +524,13 @@ export const testQuestions: TestQuestion[] = [
       "The FINMA pipeline must build Gold tables only if all DQX checks pass. How do you enforce this ordering in a Databricks Job?",
     options: [
       "Set all tasks to run in parallel with a shared result aggregator task",
-      "Configure 'FINMA Report Build' to depend on 'Data Quality Gate' — it only executes if the DQ Gate task completes successfully",
+      "Configure 'FINMA Report Build' to depend on 'Data Quality Gate', it only executes if the DQ Gate task completes successfully",
       "Use a shared All-Purpose Cluster for all tasks so they share execution state",
       "Add a programmatic WAIT statement inside the Gold Build notebook",
     ],
     correctIndex: 1,
     explanation:
-      "Databricks Jobs define explicit task dependencies. The 'FINMA Report Build' task lists 'Data Quality Gate' as an upstream — it is skipped entirely if the DQ Gate fails, preventing invalid data from reaching Gold.",
+      "Databricks Jobs define explicit task dependencies. The 'FINMA Report Build' task lists 'Data Quality Gate' as an upstream, it is skipped entirely if the DQ Gate fails, preventing invalid data from reaching Gold.",
   },
   {
     id: "d4-p2",
@@ -539,14 +539,14 @@ export const testQuestions: TestQuestion[] = [
     question:
       "The Entity Attribution DQX rule checks every individual row. The Abacus Variance Gate checks a single aggregated total for the entity. What category of DQX rule is the Abacus Variance Gate?",
     options: [
-      "null — checks that commission_chf is not null or zero",
-      "duplicate — identifies repeated deal_id values within an entity",
-      "threshold — validates a computed numeric value against defined limits",
-      "schema — verifies that field types match the expected data types",
+      "null, checks that commission_chf is not null or zero",
+      "duplicate, identifies repeated deal_id values within an entity",
+      "threshold, validates a computed numeric value against defined limits",
+      "schema, verifies that field types match the expected data types",
     ],
     correctIndex: 2,
     explanation:
-      "The variance gate compares a computed aggregate (total commission_chf per entity) against fixed numeric limits (CHF 10,000 and 5%). This is a threshold rule — not a row-level null, duplicate, or schema check.",
+      "The variance gate compares a computed aggregate (total commission_chf per entity) against fixed numeric limits (CHF 10,000 and 5%). This is a threshold rule, not a row-level null, duplicate, or schema check.",
   },
 
   // ── PHASE 5 · BEGINNER ────────────────────────────────────────────
@@ -563,7 +563,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "Genie lets non-technical users ask questions in plain English. It generates and runs the SQL, then returns a table or chart — no SQL knowledge required.",
+      "Genie lets non-technical users ask questions in plain English. It generates and runs the SQL, then returns a table or chart, no SQL knowledge required.",
   },
   {
     id: "d5-b2",
@@ -573,13 +573,13 @@ export const testQuestions: TestQuestion[] = [
       "On Howden's FINMA dashboard, the KPI reads 'Abacus Variance CHF 4,200 / 0.03%'. What does this tell you?",
     options: [
       "The pipeline has failed and requires immediate manual intervention",
-      "The largest gap between Gold commission totals and Abacus cashflows is CHF 4,200 — well within the 5% threshold",
+      "The largest gap between Gold commission totals and Abacus cashflows is CHF 4,200, well within the 5% threshold",
       "4,200 commission records were rejected by DQX rules in the last run",
       "The FINMA submission process is 0.03% complete",
     ],
     correctIndex: 1,
     explanation:
-      "This KPI shows the maximum Abacus variance across all 5 entities. CHF 4,200 at 0.03% is far below the CHF 10,000 / 5% gate — all entities reconcile cleanly.",
+      "This KPI shows the maximum Abacus variance across all 5 entities. CHF 4,200 at 0.03% is far below the CHF 10,000 / 5% gate, all entities reconcile cleanly.",
   },
   {
     id: "d5-b3",
@@ -594,7 +594,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "Lineage shows the full journey of data — Dashboard → Saved Query → Gold → Silver → Bronze → Source CRM. This is essential for audit questions: 'Where does this number come from?'",
+      "Lineage shows the full journey of data, Dashboard → Saved Query → Gold → Silver → Bronze → Source CRM. This is essential for audit questions: 'Where does this number come from?'",
   },
 
   // ── PHASE 5 · STANDARD ────────────────────────────────────────────
@@ -628,7 +628,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "Genie Spaces are configured to reference specific tables. If the Space points to a different table, schema, or version than the dashboard query, totals will diverge — even on the same underlying data.",
+      "Genie Spaces are configured to reference specific tables. If the Space points to a different table, schema, or version than the dashboard query, totals will diverge, even on the same underlying data.",
   },
   {
     id: "d5-s3",
@@ -644,7 +644,7 @@ export const testQuestions: TestQuestion[] = [
     ],
     correctIndex: 1,
     explanation:
-      "Dashboards run their queries through a SQL Warehouse — the dedicated SQL compute layer. The nightly pipeline Job and dashboard refreshes are independent; they do not share compute.",
+      "Dashboards run their queries through a SQL Warehouse, the dedicated SQL compute layer. The nightly pipeline Job and dashboard refreshes are independent; they do not share compute.",
   },
 
   // ── PHASE 5 · PRO ─────────────────────────────────────────────────
@@ -655,29 +655,29 @@ export const testQuestions: TestQuestion[] = [
     question:
       "A FINMA regulator asks: 'Can you prove that SWIBRO AG's commission_chf total in the Gold table originated from the BAYO extract?' Which capability provides this proof?",
     options: [
-      "The DQX audit log — shows rule pass/fail counts but not column-level data origin",
-      "Unity Catalog column-level lineage — traces commission_chf in finma_commission_summary through Silver transformations back to bayo_raw",
-      "The Job pipeline run log — shows task outcomes and durations but not column provenance",
+      "The DQX audit log, shows rule pass/fail counts but not column-level data origin",
+      "Unity Catalog column-level lineage, traces commission_chf in finma_commission_summary through Silver transformations back to bayo_raw",
+      "The Job pipeline run log, shows task outcomes and durations but not column provenance",
       "Genie can reconstruct lineage from conversational context and query history",
     ],
     correctIndex: 1,
     explanation:
-      "Unity Catalog tracks column-level lineage automatically as data moves through transformations. You can trace any column in any table — including commission_chf in the Gold summary — all the way back to its source table and original file.",
+      "Unity Catalog tracks column-level lineage automatically as data moves through transformations. You can trace any column in any table, including commission_chf in the Gold summary, all the way back to its source table and original file.",
   },
   {
     id: "d5-p2",
     day: 5,
     difficulty: "pro",
     question:
-      "Howden wants to enforce that SWIBRO AG's team can only query rows where entity_code = 'HW-CH-03' across all Gold tables — regardless of which SQL tool they use. Which Unity Catalog feature implements this?",
+      "Howden wants to enforce that SWIBRO AG's team can only query rows where entity_code = 'HW-CH-03' across all Gold tables, regardless of which SQL tool they use. Which Unity Catalog feature implements this?",
     options: [
       "A Python post-processing script that filters query results before returning them",
-      "A Row Filter function registered on each Gold table in Unity Catalog — applied transparently to every query by every user",
+      "A Row Filter function registered on each Gold table in Unity Catalog, applied transparently to every query by every user",
       "A separate Gold table created exclusively for each entity's team",
       "Cluster-level firewall rules that block cross-entity SQL patterns",
     ],
     correctIndex: 1,
     explanation:
-      "Unity Catalog Row Filters are SQL functions attached to table definitions. They apply automatically to every query — whether from a notebook, SQL Editor, dashboard, or Genie — without requiring any change to the query itself.",
+      "Unity Catalog Row Filters are SQL functions attached to table definitions. They apply automatically to every query, whether from a notebook, SQL Editor, dashboard, or Genie, without requiring any change to the query itself.",
   },
 ];

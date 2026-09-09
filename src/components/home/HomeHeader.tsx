@@ -46,7 +46,7 @@ export function HomeHeader() {
         </div>
       </div>
 
-      {/* Progress ring — Howden orange */}
+      {/* Progress ring, Howden orange */}
       <div className="flex flex-col items-center gap-3">
         <div className="relative">
           <svg width="96" height="96" viewBox="0 0 96 96">

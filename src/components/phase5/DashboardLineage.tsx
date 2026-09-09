@@ -181,7 +181,7 @@ export function DashboardLineage() {
         </div>
       </div>
 
-      {/* Lineage graph — always visible, activates when KPI selected */}
+      {/* Lineage graph, always visible, activates when KPI selected */}
       <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
         <div className="px-5 py-3 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Data Lineage</span>
