@@ -9,6 +9,7 @@ import {
   useNodesState,
   NodeMouseHandler,
   BackgroundVariant,
+  MarkerType,
 } from "@xyflow/react";
 import {
   X,
@@ -173,20 +174,28 @@ export default function ArchitectureClient() {
       const anyActive = selectedNodeId !== null || tourStep !== null;
       const isActive = !anyActive || isDirectlyConnected || isInTour;
 
+      const strokeColor = isActive
+        ? anyActive
+          ? "#4B5563"
+          : "#94A3B8"
+        : "#E5E7EB";
+
       return {
         id: `edge-${i}`,
         source: e.source,
         target: e.target,
         animated: isDirectlyConnected || isInTour,
         style: {
-          stroke: isActive
-            ? anyActive
-              ? "#4B5563"
-              : "#94A3B8"
-            : "#E5E7EB",
+          stroke: strokeColor,
           strokeWidth: isDirectlyConnected || isInTour ? 2.5 : 1.5,
-          opacity: isActive ? 1 : 0.12,
+          opacity: isActive ? 1 : 0.15,
           transition: "all 0.3s ease",
+        },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: strokeColor,
+          width: 16,
+          height: 16,
         },
         type: "smoothstep",
       };

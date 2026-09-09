@@ -1,6 +1,7 @@
 "use client";
 
 import { memo } from "react";
+import { Handle, Position } from "@xyflow/react";
 import {
   LayoutDashboard,
   Shield,
@@ -125,86 +126,95 @@ export const CustomArchNode = memo(function CustomArchNode({
     ? `0 0 0 2px ${s.border}90, 0 4px 16px ${s.color}25`
     : "0 2px 8px rgba(0,0,0,0.08)";
 
+  const handleStyle = { opacity: 0, width: 1, height: 1, minWidth: 0, minHeight: 0 };
+
   return (
-    <div
-      style={{
-        opacity,
-        transform: `scale(${scale})`,
-        transition: "opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
-        transformOrigin: "center",
-        boxShadow,
-        background: s.bg,
-        border: `2px solid ${borderColor}`,
-        borderRadius: 14,
-        minWidth: category === "platform" ? 162 : 142,
-        cursor: "pointer",
-        overflow: "hidden",
-      }}
-    >
-      {/* Accent stripe */}
+    <>
+      <Handle type="target" position={Position.Top}    isConnectable={false} style={handleStyle} />
+      <Handle type="target" position={Position.Left}   isConnectable={false} style={handleStyle} />
+      <Handle type="source" position={Position.Bottom} isConnectable={false} style={handleStyle} />
+      <Handle type="source" position={Position.Right}  isConnectable={false} style={handleStyle} />
+
       <div
         style={{
-          height: 3,
-          background: s.dark
-            ? "rgba(255,255,255,0.3)"
-            : s.color,
-          opacity: 0.9,
+          opacity,
+          transform: `scale(${scale})`,
+          transition: "opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
+          transformOrigin: "center",
+          boxShadow,
+          background: s.bg,
+          border: `2px solid ${borderColor}`,
+          borderRadius: 14,
+          minWidth: category === "platform" ? 162 : 142,
+          cursor: "pointer",
+          overflow: "hidden",
         }}
-      />
+      >
+        {/* Accent stripe */}
+        <div
+          style={{
+            height: 3,
+            background: s.dark
+              ? "rgba(255,255,255,0.3)"
+              : s.color,
+            opacity: 0.9,
+          }}
+        />
 
-      {/* Content */}
-      <div style={{ padding: "10px 13px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
-          {/* Icon */}
-          <div
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              background: s.iconBg,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-              border: s.dark ? "1px solid rgba(255,255,255,0.1)" : "none",
-            }}
-          >
-            <Icon
-              size={17}
-              color={s.dark ? "#fff" : s.color}
-              strokeWidth={2.2}
-            />
-          </div>
-
-          {/* Label */}
-          <div>
+        {/* Content */}
+        <div style={{ padding: "10px 13px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+            {/* Icon */}
             <div
               style={{
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: "0.09em",
-                textTransform: "uppercase" as const,
-                color: s.labelColor,
-                lineHeight: 1,
-                marginBottom: 3,
+                width: 36,
+                height: 36,
+                borderRadius: 10,
+                background: s.iconBg,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+                border: s.dark ? "1px solid rgba(255,255,255,0.1)" : "none",
               }}
             >
-              {s.label}
+              <Icon
+                size={17}
+                color={s.dark ? "#fff" : s.color}
+                strokeWidth={2.2}
+              />
             </div>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: s.textColor,
-                lineHeight: 1.25,
-              }}
-            >
-              {label}
+
+            {/* Label */}
+            <div>
+              <div
+                style={{
+                  fontSize: 9,
+                  fontWeight: 700,
+                  letterSpacing: "0.09em",
+                  textTransform: "uppercase" as const,
+                  color: s.labelColor,
+                  lineHeight: 1,
+                  marginBottom: 3,
+                }}
+              >
+                {s.label}
+              </div>
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: s.textColor,
+                  lineHeight: 1.25,
+                }}
+              >
+                {label}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 });
 
