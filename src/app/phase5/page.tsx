@@ -1,22 +1,80 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { markPhaseVisited } from "@/lib/progress";
 import { DashboardLineage } from "@/components/phase5/DashboardLineage";
 import { GenieDemo } from "@/components/phase5/GenieDemo";
+import { JourneyNodeDetail, type NodeDetail } from "@/components/phase5/JourneyNodeDetail";
 import { AdvancedSection } from "@/components/shared/AdvancedSection";
 import { HowdenContext } from "@/components/shared/HowdenContext";
+import { AnimatePresence } from "framer-motion";
 import { ArrowRight, BarChart3 } from "lucide-react";
 
-const capstoneNodes = [
-  { id: "source", label: "Source System", color: "#6B7280", bg: "#F9FAFB", desc: "CRM, Mainframe, APIs" },
-  { id: "bronze", label: "Bronze", color: "#CD7F32", bg: "#FDF3E7", desc: "Raw ingested data" },
-  { id: "silver", label: "Silver", color: "#9CA3AF", bg: "#F3F4F6", desc: "Cleaned & validated" },
-  { id: "gold", label: "Gold", color: "#D97706", bg: "#FFFBEB", desc: "Entity table written" },
-  { id: "powerbi", label: "Power BI", color: "#F2C811", bg: "#FFFDE8", desc: "Refresh triggered" },
-  { id: "dashboard", label: "Dashboard", color: "#7C3AED", bg: "#F5F3FF", desc: "Visual KPIs" },
-  { id: "genie", label: "Genie AI", color: "#DC2626", bg: "#FEF2F2", desc: "Natural language" },
-  { id: "decision", label: "Business Decision", color: "#1F2144", bg: "#E8E9F0", desc: "Value created" },
+const capstoneNodes: (NodeDetail & { desc: string })[] = [
+  {
+    id: "source", label: "Source System", color: "#6B7280", bg: "#F9FAFB", desc: "CRM, Mainframe, APIs",
+    what: "Raw data is extracted from source systems and landed in cloud storage. No transformation occurs at this stage — the goal is simply to capture everything.",
+    input: "CSV exports, API responses, and database dumps from CRM and mainframe systems",
+    output: "Raw files in ADLS Gen2 (Azure Data Lake Storage)",
+    databricksComponent: "Auto Loader / COPY INTO",
+    relatedPhase: 2, lessonRoute: "/phase2",
+  },
+  {
+    id: "bronze", label: "Bronze", color: "#CD7F32", bg: "#FDF3E7", desc: "Raw ingested data",
+    what: "Data lands in the Bronze layer exactly as received — no filtering or cleaning. This preserves the full audit trail so any original record can always be traced.",
+    input: "Raw files from ADLS",
+    output: "Delta tables in enterprise.bronze.* with added ingestion timestamp",
+    databricksComponent: "Delta Lake + Auto Loader",
+    relatedPhase: 2, lessonRoute: "/phase2",
+  },
+  {
+    id: "silver", label: "Silver", color: "#9CA3AF", bg: "#F3F4F6", desc: "Cleaned & validated",
+    what: "Quality rules run on Bronze data. Records that pass the checks move to Silver. Records that fail are written to a quarantine table with the failure reason attached.",
+    input: "enterprise.bronze.* tables",
+    output: "enterprise.silver.* (clean) and enterprise.bronze.quarantine (rejected records)",
+    databricksComponent: "Databricks DQX + Delta MERGE",
+    relatedPhase: 4, lessonRoute: "/phase4",
+  },
+  {
+    id: "gold", label: "Gold", color: "#D97706", bg: "#FFFBEB", desc: "Entity table written",
+    what: "Clean Silver data is aggregated into business-ready Gold tables. These are the single source of truth used by all downstream reports and analytics.",
+    input: "enterprise.silver.commission_validated",
+    output: "enterprise.gold.commission_by_entity — one aggregated row per entity per period",
+    databricksComponent: "Databricks Notebooks + Spark SQL",
+    relatedPhase: 3, lessonRoute: "/phase3",
+  },
+  {
+    id: "powerbi", label: "Power BI", color: "#F2C811", bg: "#FFFDE8", desc: "Refresh triggered",
+    what: "Power BI refreshes its dataset by querying the Gold table directly in Unity Catalog. No data is copied — each refresh runs a live query against the latest Gold data.",
+    input: "enterprise.gold.commission_by_entity (live query via Databricks connector)",
+    output: "Updated Power BI dataset with all dependent report pages re-rendered",
+    databricksComponent: "Unity Catalog + Partner Connect",
+    relatedPhase: 5, lessonRoute: "/phase5",
+  },
+  {
+    id: "dashboard", label: "Dashboard", color: "#7C3AED", bg: "#F5F3FF", desc: "Visual KPIs",
+    what: "Business users see KPI visuals updated with the latest pipeline output. Charts, counters, and tables reflect the numbers written by the most recent successful pipeline run.",
+    input: "Power BI dataset (post-refresh)",
+    output: "Updated commission KPIs visible to all report consumers across the organisation",
+    databricksComponent: "Lakeview AI/BI Dashboards or Power BI Service",
+    relatedPhase: 5, lessonRoute: "/phase5",
+  },
+  {
+    id: "genie", label: "Genie AI", color: "#DC2626", bg: "#FEF2F2", desc: "Natural language",
+    what: "Anyone can ask a business question in plain English. Genie translates it to SQL, runs it against the Gold tables, and returns the result with a plain-English explanation.",
+    input: "Natural language question (e.g. 'What is our total DACH commission this quarter?')",
+    output: "SQL result with plain-English explanation, ready to share or export",
+    databricksComponent: "Databricks Genie (AI/BI)",
+    relatedPhase: 5, lessonRoute: "/phase5",
+  },
+  {
+    id: "decision", label: "Business Decision", color: "#1F2144", bg: "#E8E9F0", desc: "Value created",
+    what: "Trusted, up-to-date numbers reach the people who need them. Every figure is traceable back through the pipeline to the original source record. Decisions are made with confidence.",
+    input: "Dashboard KPIs and Genie answers backed by auditable lineage",
+    output: "Business actions taken with full confidence in the data",
+    databricksComponent: "Unity Catalog lineage + Data Governance",
+    relatedPhase: 5, lessonRoute: "/phase5",
+  },
 ];
 
 const supportingCapabilities = [
@@ -24,9 +82,17 @@ const supportingCapabilities = [
 ];
 
 export default function Phase5Page() {
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+
   useEffect(() => {
     markPhaseVisited(5);
   }, []);
+
+  const selectedNode = capstoneNodes.find((n) => n.id === selectedNodeId) ?? null;
+
+  function handleNodeClick(id: string) {
+    setSelectedNodeId((prev) => (prev === id ? null : id));
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -319,22 +385,42 @@ WHERE ingest_date = current_date()
 
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
           {/* Main flow */}
-          <div className="flex items-center gap-1 overflow-x-auto pb-4">
-            {capstoneNodes.map((node, idx) => (
-              <div key={node.id} className="flex items-center gap-1 shrink-0">
-                <div
-                  className="rounded-xl border-2 p-3 cursor-pointer hover:shadow-md transition-all text-center min-w-[90px]"
-                  style={{ backgroundColor: node.bg, borderColor: `${node.color}50` }}
-                >
-                  <p className="text-xs font-bold" style={{ color: node.color }}>{node.label}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{node.desc}</p>
+          <div className="flex items-center gap-1 overflow-x-auto pb-4" role="list">
+            {capstoneNodes.map((node, idx) => {
+              const isSelected = selectedNodeId === node.id;
+              return (
+                <div key={node.id} className="flex items-center gap-1 shrink-0" role="listitem">
+                  <button
+                    onClick={() => handleNodeClick(node.id)}
+                    aria-expanded={isSelected}
+                    aria-controls={`node-detail-${node.id}`}
+                    className="rounded-xl border-2 p-3 hover:shadow-md transition-all text-center min-w-[90px] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                    style={{
+                      backgroundColor: node.bg,
+                      borderColor: isSelected ? node.color : `${node.color}50`,
+                    }}
+                  >
+                    <p className="text-xs font-bold" style={{ color: node.color }}>{node.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{node.desc}</p>
+                  </button>
+                  {idx < capstoneNodes.length - 1 && (
+                    <ArrowRight size={14} className="text-gray-300 shrink-0" />
+                  )}
                 </div>
-                {idx < capstoneNodes.length - 1 && (
-                  <ArrowRight size={14} className="text-gray-300 shrink-0" />
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
+
+          {/* Detail panel */}
+          <AnimatePresence mode="wait">
+            {selectedNode && (
+              <JourneyNodeDetail
+                key={selectedNode.id}
+                node={selectedNode}
+                onClose={() => setSelectedNodeId(null)}
+              />
+            )}
+          </AnimatePresence>
 
           {/* Supporting capabilities */}
           <div className="mt-4 pt-4 border-t border-gray-100">
