@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { markPhaseVisited } from "@/lib/progress";
 import { NotebookSimulator } from "@/components/phase3/NotebookSimulator";
 import { ComputeExplainer } from "@/components/phase3/ComputeExplainer";
@@ -44,6 +44,8 @@ const magicCommands = [
 ];
 
 export default function Phase3Page() {
+  const [simKey, setSimKey] = useState(0);
+
   useEffect(() => {
     markPhaseVisited(3);
   }, []);
@@ -192,7 +194,7 @@ print(df.rdd.getNumPartitions())
           Compute is what actually executes your code. Without it, your notebook is just a text file.
           Walk through the cluster lifecycle (start, attach, run, idle, terminate) before reading the reference cards below.
         </p>
-        <ComputeStateMachine />
+        <ComputeStateMachine key={simKey} onReset={() => setSimKey((k) => k + 1)} />
         <div className="mt-5">
           <ComputeExplainer />
         </div>

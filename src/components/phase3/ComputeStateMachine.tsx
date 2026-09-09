@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Square, Zap, AlertTriangle, CheckCircle, Link, Unlink } from "lucide-react";
+import { Play, Square, Zap, AlertTriangle, CheckCircle, Link, Unlink, RotateCcw } from "lucide-react";
+import { useTimers } from "@/lib/useTimers";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type ClusterState = "stopped" | "starting" | "running" | "idle" | "terminating";
+type ClusterState = "stopped" | "starting" | "running" | "executing" | "success" | "idle" | "terminating";
 
 interface RunResult { status: "success" | "error"; message: string; }
 
@@ -16,8 +17,18 @@ const STATE_CONFIG: Record<ClusterState, { label: string; color: string; bg: str
   stopped:     { label: "Stopped",      color: "#6B7280", bg: "#F9FAFB", border: "#E5E7EB", pulse: false },
   starting:    { label: "Starting…",    color: "#D97706", bg: "#FFFBEB", border: "#FDE68A", pulse: true  },
   running:     { label: "Running",      color: "#059669", bg: "#ECFDF5", border: "#A7F3D0", pulse: true  },
+  executing:   { label: "Executing…",   color: "#2563EB", bg: "#EFF6FF", border: "#BFDBFE", pulse: true  },
+  success:     { label: "Job Complete", color: "#059669", bg: "#ECFDF5", border: "#A7F3D0", pulse: false },
   idle:        { label: "Idle",         color: "#B45309", bg: "#FEF3C7", border: "#FDE68A", pulse: false },
   terminating: { label: "Terminating…", color: "#DC2626", bg: "#FEF2F2", border: "#FCA5A5", pulse: true  },
+};
+
+const STEP_HINTS: Partial<Record<ClusterState, string>> = {
+  stopped:   "Click Start Cluster to provision compute resources.",
+  starting:  "Cluster is provisioning — workers are being allocated…",
+  running:   "Cluster is ready. Click Attach Notebook to connect your notebook.",
+  executing: "Spark job running across 2 workers…",
+  success:   "Job complete. Results written to the Gold layer. Click Reset to run again.",
 };
 
 const NOTEBOOK_CODE = [
@@ -47,121 +58,164 @@ function NodeDot({ role, active }: { role: "driver" | "worker"; active: boolean 
   );
 }
 
+// ─── Idle demo section (educational, separate from main flow) ─────────────────
+
+function IdleDemo() {
+  const [demoState, setDemoState] = useState<"ready" | "idle" | "terminating" | "done">("ready");
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const { addTimeout, addInterval, clearAll } = useTimers();
+
+  const playDemo = useCallback(() => {
+    if (demoState !== "ready") return;
+    setDemoState("idle");
+    let secs = 5;
+    setCountdown(secs);
+    const iv = addInterval(() => {
+      secs -= 1;
+      setCountdown(secs);
+      if (secs <= 0) {
+        clearAll();
+        setCountdown(null);
+        setDemoState("terminating");
+        addTimeout(() => setDemoState("done"), 1500);
+      }
+    }, 1000);
+    return () => clearInterval(iv);
+  }, [demoState, addTimeout, addInterval, clearAll]);
+
+  const resetDemo = useCallback(() => {
+    clearAll();
+    setCountdown(null);
+    setDemoState("ready");
+  }, [clearAll]);
+
+  return (
+    <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
+      <p className="text-xs font-semibold text-amber-800 mb-1">What happens when you step away?</p>
+      <p className="text-[11px] text-amber-700 mb-3">
+        Active clusters auto-terminate after a configurable idle period (default: 120 minutes). See the lifecycle below.
+      </p>
+
+      <div className="flex items-center gap-3">
+        {demoState === "ready" && (
+          <button
+            onClick={playDemo}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 text-white hover:bg-amber-700 transition-colors"
+          >
+            <Play className="w-3 h-3" /> Simulate inactivity
+          </button>
+        )}
+        {demoState !== "ready" && demoState !== "done" && (
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-amber-300">
+            <AlertTriangle className="w-3 h-3 text-amber-500" />
+            <span className="text-[11px] text-amber-700 font-medium">
+              {demoState === "idle"
+                ? `Idle — auto-terminating in ${countdown}s`
+                : "Terminating cluster…"}
+            </span>
+          </div>
+        )}
+        {demoState === "done" && (
+          <>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 border border-gray-200">
+              <Square className="w-3 h-3 text-gray-500" />
+              <span className="text-[11px] text-gray-600 font-medium">Cluster stopped</span>
+            </div>
+            <button
+              onClick={resetDemo}
+              className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              <RotateCcw className="w-3 h-3" /> Reset demo
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function ComputeStateMachine() {
+interface ComputeStateMachineProps {
+  onReset?: () => void;
+}
+
+export function ComputeStateMachine({ onReset }: ComputeStateMachineProps) {
   const [clusterState, setClusterState] = useState<ClusterState>("stopped");
   const [attached, setAttached] = useState(false);
   const [dbu, setDbu] = useState(0);
   const [runResult, setRunResult] = useState<RunResult | null>(null);
-  const [running, setRunning] = useState(false);
-  const [idleCountdown, setIdleCountdown] = useState<number | null>(null);
-  const transitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dbuTimer = useRef<ReturnType<typeof setInterval> | null>(null);
-  const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const idleCountdownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const { addTimeout, addInterval, clearAll } = useTimers();
 
-  const clearAll = useCallback(() => {
-    if (transitionTimer.current) clearTimeout(transitionTimer.current);
-    if (dbuTimer.current) clearInterval(dbuTimer.current);
-    if (idleTimer.current) clearTimeout(idleTimer.current);
-    if (idleCountdownTimer.current) clearInterval(idleCountdownTimer.current);
-    setIdleCountdown(null);
-  }, []);
-
-  const startIdleCountdown = useCallback(() => {
-    idleTimer.current = setTimeout(() => {
-      setClusterState("idle");
-      let secs = 5;
-      setIdleCountdown(secs);
-      idleCountdownTimer.current = setInterval(() => {
-        secs -= 1;
-        setIdleCountdown(secs);
-        if (secs <= 0) {
-          clearInterval(idleCountdownTimer.current!);
-          setIdleCountdown(null);
-          setClusterState("terminating");
-          setTimeout(() => {
-            setClusterState("stopped");
-            setAttached(false);
-            if (dbuTimer.current) clearInterval(dbuTimer.current);
-          }, 1500);
-        }
-      }, 1000);
-    }, 6000);
-  }, []);
-
-  const startDbu = useCallback(() => {
-    dbuTimer.current = setInterval(() => {
-      setDbu((d) => Math.round((d + 0.04) * 100) / 100);
-    }, 1000);
-  }, []);
+  const isActive = clusterState === "running" || clusterState === "executing" || clusterState === "success";
+  const canStart = clusterState === "stopped";
+  const canTerminate = clusterState === "running" || clusterState === "executing";
+  const canAttach = clusterState === "running";
+  const canRun = clusterState === "running" && attached;
 
   const handleStart = useCallback(() => {
-    if (clusterState !== "stopped") return;
+    if (!canStart) return;
     clearAll();
     setDbu(0);
     setRunResult(null);
+    setAttached(false);
     setClusterState("starting");
-    transitionTimer.current = setTimeout(() => {
+    addTimeout(() => {
       setClusterState("running");
-      startDbu();
-      startIdleCountdown();
+      addInterval(() => setDbu((d) => Math.round((d + 0.04) * 100) / 100), 1000);
     }, 3000);
-  }, [clusterState, clearAll, startDbu, startIdleCountdown]);
+  }, [canStart, clearAll, addTimeout, addInterval]);
 
   const handleTerminate = useCallback(() => {
-    if (clusterState !== "running" && clusterState !== "idle") return;
+    if (!canTerminate) return;
     clearAll();
-    if (dbuTimer.current) clearInterval(dbuTimer.current);
     setClusterState("terminating");
-    transitionTimer.current = setTimeout(() => {
+    addTimeout(() => {
       setClusterState("stopped");
       setAttached(false);
     }, 1500);
-  }, [clusterState, clearAll]);
+  }, [canTerminate, clearAll, addTimeout]);
 
   const handleToggleAttach = useCallback(() => {
-    if (clusterState !== "running" && clusterState !== "idle") return;
+    if (clusterState !== "running") return;
     setAttached((a) => !a);
   }, [clusterState]);
 
-  const handleRun = useCallback(async () => {
-    if (running) return;
+  const handleRun = useCallback(() => {
+    if (!canRun) return;
     setRunResult(null);
+    setClusterState("executing");
 
-    if (clusterState !== "running" && clusterState !== "idle") {
-      setRunResult({ status: "error", message: "No active compute. Start the cluster first." });
-      return;
-    }
-    if (!attached) {
-      setRunResult({ status: "error", message: "Notebook not attached to a cluster. Click Attach." });
-      return;
-    }
-
-    // Reset idle countdown on activity
-    clearAll();
-    if (dbuTimer.current) clearInterval(dbuTimer.current);
-    startDbu();
-    setClusterState("running");
-    setRunning(true);
-
-    await new Promise((r) => setTimeout(r, 2800));
-    setRunResult({ status: "success", message: "✓ 3 valid records. CHF 58,900 aggregated to enterprise.gold.commission_by_entity" });
-    setRunning(false);
-    startIdleCountdown();
-  }, [running, clusterState, attached, clearAll, startDbu, startIdleCountdown]);
-
-  useEffect(() => () => clearAll(), [clearAll]);
+    addTimeout(() => {
+      clearAll();
+      setClusterState("success");
+      setRunResult({
+        status: "success",
+        message: "3 valid records. CHF 58,900 aggregated to enterprise.gold.commission_by_entity",
+      });
+    }, 2800);
+  }, [canRun, addTimeout, clearAll]);
 
   const sc = STATE_CONFIG[clusterState];
-  const isActive = clusterState === "running" || clusterState === "idle";
-  const canStart = clusterState === "stopped";
-  const canTerminate = clusterState === "running" || clusterState === "idle";
-  const canAttach = isActive;
+  const hint = STEP_HINTS[clusterState];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
+      {/* Label badge */}
+      <div className="flex items-center justify-between">
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+          Interactive Simulation
+        </span>
+        {onReset && (
+          <button
+            onClick={onReset}
+            className="flex items-center gap-1 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <RotateCcw className="w-3 h-3" /> Reset
+          </button>
+        )}
+      </div>
+
       {/* Simulator card */}
       <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
@@ -220,20 +274,18 @@ export function ComputeStateMachine() {
               </div>
             </div>
 
-            {/* Idle countdown */}
-            <AnimatePresence>
-              {idleCountdown !== null && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="flex items-center gap-2 rounded-lg bg-orange-50 border border-orange-200 px-3 py-2"
+            {/* Step hint */}
+            <AnimatePresence mode="wait">
+              {hint && (
+                <motion.p
+                  key={clusterState}
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  className="text-[10px] text-gray-500 leading-relaxed"
                 >
-                  <AlertTriangle className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
-                  <p className="text-[10px] text-orange-700">
-                    Idle. Auto-terminating in <strong>{idleCountdown}s</strong>. Run a cell to reset.
-                  </p>
-                </motion.div>
+                  {hint}
+                </motion.p>
               )}
             </AnimatePresence>
 
@@ -288,7 +340,7 @@ export function ComputeStateMachine() {
                       : { color: "#9CA3AF", background: "#F9FAFB", borderColor: "#E5E7EB" }
                   }
                 >
-                  {attached ? "⚡ Attached" : "○ Detached"}
+                  {attached ? "Attached" : "Detached"}
                 </motion.span>
               </AnimatePresence>
             </div>
@@ -299,16 +351,16 @@ export function ComputeStateMachine() {
                 <span className="text-[10px] text-gray-400 font-mono">Cell 1: Aggregate by entity</span>
                 <motion.button
                   onClick={handleRun}
-                  disabled={running}
+                  disabled={!canRun}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-bold transition-all"
+                  className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-bold transition-all disabled:opacity-40"
                   style={{
-                    background: running ? "#374151" : isActive && attached ? "#059669" : "#374151",
+                    background: canRun ? "#059669" : "#374151",
                     color: "#fff",
                   }}
                 >
                   <Play className="w-2.5 h-2.5" />
-                  {running ? "Running…" : "Run Cell"}
+                  {clusterState === "executing" ? "Running…" : "Run Cell"}
                 </motion.button>
               </div>
               <div className="bg-[#0F1729] px-4 py-3">
@@ -322,9 +374,9 @@ export function ComputeStateMachine() {
 
             {/* Run result */}
             <AnimatePresence mode="wait">
-              {running && (
+              {clusterState === "executing" && (
                 <motion.div
-                  key="running"
+                  key="executing"
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
@@ -336,43 +388,69 @@ export function ComputeStateMachine() {
                   </span>
                 </motion.div>
               )}
-              {!running && runResult && (
+              {runResult && clusterState !== "executing" && (
                 <motion.div
-                  key={runResult.status}
+                  key="result"
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   className="rounded-lg border px-3 py-2.5 flex items-start gap-2"
-                  style={
-                    runResult.status === "success"
-                      ? { background: "#ECFDF5", borderColor: "#A7F3D0" }
-                      : { background: "#FEF2F2", borderColor: "#FCA5A5" }
-                  }
+                  style={{ background: "#ECFDF5", borderColor: "#A7F3D0" }}
                 >
-                  {runResult.status === "success"
-                    ? <CheckCircle className="w-3.5 h-3.5 text-green-600 flex-shrink-0 mt-0.5" />
-                    : <AlertTriangle className="w-3.5 h-3.5 text-red-500 flex-shrink-0 mt-0.5" />
-                  }
-                  <span
-                    className="text-[10px] font-mono leading-relaxed"
-                    style={{ color: runResult.status === "success" ? "#065F46" : "#991B1B" }}
-                  >
+                  <CheckCircle className="w-3.5 h-3.5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-[10px] font-mono leading-relaxed text-green-800">
                     {runResult.message}
                   </span>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* Explanation callout */}
-            <div className="rounded-lg bg-gray-50 border border-gray-200 px-3 py-2.5">
-              <p className="text-[10px] text-gray-500 leading-relaxed">
-                <strong className="text-gray-700">Try the sequence:</strong>{" "}
-                Click Run without a cluster → see the error. Then Start → wait → Attach → Run → watch the job execute. Leave it idle to see auto-termination.
-              </p>
-            </div>
+            {/* Error states (before cluster is ready) */}
+            <AnimatePresence>
+              {clusterState === "stopped" && (
+                <motion.div
+                  key="no-cluster"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="rounded-lg bg-gray-50 border border-gray-200 px-3 py-2.5"
+                >
+                  <p className="text-[10px] text-gray-500 leading-relaxed">
+                    <strong className="text-gray-700">Try the sequence:</strong>{" "}
+                    Start Cluster, wait for it to be Running, Attach the notebook, then Run Cell.
+                  </p>
+                </motion.div>
+              )}
+              {clusterState === "running" && !attached && (
+                <motion.div
+                  key="not-attached"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="rounded-lg bg-blue-50 border border-blue-200 px-3 py-2.5"
+                >
+                  <p className="text-[10px] text-blue-700 leading-relaxed">
+                    Cluster is ready. Attach this notebook to enable running cells.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
+
+      {/* Educational idle demo — only visible after a successful run */}
+      <AnimatePresence>
+        {clusterState === "success" && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            <IdleDemo />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

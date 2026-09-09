@@ -1,10 +1,35 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { qualityRules, qualityMetrics } from "@/data/qualityRules";
 import { MetricCard } from "@/components/shared/MetricCard";
-import { ShieldCheck, AlertCircle, Copy, FileWarning, Clock } from "lucide-react";
+import { ShieldCheck, AlertCircle, Copy, FileWarning, Clock, Play, Pause, RotateCcw, SkipForward } from "lucide-react";
+import { useTimers } from "@/lib/useTimers";
+
+// ─── Static sample records (deterministic, same every replay) ─────────────────
+
+interface SampleRecord {
+  id: string;
+  entity: string;
+  amount: string;
+  currency: string;
+  pass: boolean;
+  failReason: string | null;
+}
+
+const SAMPLE_RECORDS: SampleRecord[] = [
+  { id: "REC-001", entity: "Swiss Re",    amount: "12,450.00", currency: "CHF", pass: true,  failReason: null },
+  { id: "REC-002", entity: "Munich Re",   amount: "null",      currency: "CHF", pass: false, failReason: "Null: commission_amount" },
+  { id: "REC-003", entity: "AXA XL",      amount: "8,320.50",  currency: "CHF", pass: true,  failReason: null },
+  { id: "REC-004", entity: "Swiss Re",    amount: "12,450.00", currency: "CHF", pass: false, failReason: "Duplicate: REC-001" },
+  { id: "REC-005", entity: "Lloyd's",     amount: "5,100.00",  currency: "USD", pass: false, failReason: "Schema: currency must be CHF" },
+  { id: "REC-006", entity: "Zurich Re",   amount: "19,800.00", currency: "CHF", pass: true,  failReason: null },
+  { id: "REC-007", entity: "Hannover Re", amount: "3,250.75",  currency: "CHF", pass: true,  failReason: null },
+  { id: "REC-008", entity: "SCOR",        amount: "7,640.00",  currency: "CHF", pass: true,  failReason: null },
+];
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
 
 const severityColors: Record<string, string> = {
   critical: "border-red-300 bg-red-50 text-red-800",
@@ -29,7 +54,7 @@ function FlowNode({ label, layer, icon }: { label: string; layer?: string; icon:
     audit: "bg-purple-50 border-purple-200 text-purple-800",
     dashboard: "bg-green-50 border-green-200 text-green-800",
   };
-  const colorClass = layer ? layerColors[layer] || "bg-gray-50 border-gray-200 text-gray-800" : "bg-gray-50 border-gray-200 text-gray-800";
+  const colorClass = layer ? layerColors[layer] ?? "bg-gray-50 border-gray-200 text-gray-800" : "bg-gray-50 border-gray-200 text-gray-800";
 
   return (
     <div className={cn("rounded-2xl border-2 px-4 py-3 text-center min-w-[110px] transition-all hover:shadow-md", colorClass)}>
@@ -65,39 +90,113 @@ function GateFilter({ rule }: { rule: (typeof qualityRules)[0] }) {
   );
 }
 
-export function DQXFlow() {
-  const [animate, setAnimate] = useState(false);
-  const [dots, setDots] = useState<{ id: number; pass: boolean; pos: number }[]>([]);
+// ─── Record row ───────────────────────────────────────────────────────────────
 
+function RecordRow({ rec, index }: { rec: SampleRecord; index: number }) {
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-3 rounded-lg border px-3 py-2 text-[11px]",
+        rec.pass ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"
+      )}
+    >
+      <span className="font-mono font-semibold text-gray-500 w-6 flex-shrink-0 text-right">{index + 1}</span>
+      <span className="font-mono font-bold text-gray-700 w-16 flex-shrink-0">{rec.id}</span>
+      <span className="flex-1 text-gray-700 truncate">{rec.entity}</span>
+      <span className="font-mono text-gray-600 w-20 text-right flex-shrink-0">
+        {rec.amount === "null" ? <span className="text-red-500">null</span> : `${rec.currency} ${rec.amount}`}
+      </span>
+      {rec.pass ? (
+        <span className="flex items-center gap-1 text-green-700 font-semibold flex-shrink-0">
+          <span className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
+          Silver
+        </span>
+      ) : (
+        <span className="flex items-center gap-1 text-red-700 font-semibold flex-shrink-0 truncate max-w-[120px]" title={rec.failReason ?? ""}>
+          <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
+          {rec.failReason}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
+function useReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false);
   useEffect(() => {
-    if (!animate) return;
-    let counter = 0;
-    const interval = setInterval(() => {
-      const pass = Math.random() > 0.05;
-      setDots((prev) => [
-        ...prev.filter((d) => d.pos < 100),
-        { id: counter++, pass, pos: 0 },
-      ]);
-    }, 400);
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return reduced;
+}
 
-    const moveInterval = setInterval(() => {
-      setDots((prev) =>
-        prev
-          .map((d) => ({ ...d, pos: d.pos + 8 }))
-          .filter((d) => d.pos <= 100)
-      );
-    }, 100);
+export function DQXFlow() {
+  const reducedMotion = useReducedMotion();
 
-    return () => {
-      clearInterval(interval);
-      clearInterval(moveInterval);
-    };
-  }, [animate]);
+  const [processedCount, setProcessedCount] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const { addInterval, clearAll } = useTimers();
+
+  const passCount = SAMPLE_RECORDS.slice(0, processedCount).filter((r) => r.pass).length;
+  const failCount = processedCount - passCount;
+
+  const startBatch = useCallback((fromIndex = 0) => {
+    clearAll();
+    setProcessedCount(fromIndex);
+    setIsPlaying(true);
+    setIsComplete(false);
+
+    let idx = fromIndex;
+    addInterval(() => {
+      idx += 1;
+      setProcessedCount(idx);
+      if (idx >= SAMPLE_RECORDS.length) {
+        clearAll();
+        setIsPlaying(false);
+        setIsComplete(true);
+      }
+    }, 600);
+  }, [clearAll, addInterval]);
+
+  const handlePlay = useCallback(() => {
+    if (isComplete) return;
+    startBatch(processedCount);
+  }, [isComplete, processedCount, startBatch]);
+
+  const handlePause = useCallback(() => {
+    clearAll();
+    setIsPlaying(false);
+  }, [clearAll]);
+
+  const handleReplay = useCallback(() => {
+    clearAll();
+    setIsComplete(false);
+    setIsPlaying(false);
+    setProcessedCount(0);
+    // small delay so state resets before re-starting
+    setTimeout(() => startBatch(0), 50);
+  }, [clearAll, startBatch]);
+
+  const handleReset = useCallback(() => {
+    clearAll();
+    setProcessedCount(0);
+    setIsPlaying(false);
+    setIsComplete(false);
+  }, [clearAll]);
 
   const passRate = qualityMetrics.passRate;
   const nullFails = qualityRules.find((r) => r.type === "null")?.failCount ?? 0;
   const dupFails = qualityRules.find((r) => r.type === "duplicate")?.failCount ?? 0;
   const schemaFails = qualityRules.find((r) => r.type === "schema")?.failCount ?? 0;
+
+  // When reduced-motion is preferred, skip animation and show all records statically
+  const displayedRecords = reducedMotion ? SAMPLE_RECORDS : SAMPLE_RECORDS.slice(0, processedCount);
 
   return (
     <div className="space-y-5">
@@ -105,17 +204,43 @@ export function DQXFlow() {
       <div className="rounded-2xl border border-gray-200 bg-white p-6">
         <div className="flex items-center justify-between mb-5">
           <h3 className="font-semibold text-gray-900">DQX Data Quality Flow</h3>
-          <button
-            onClick={() => setAnimate((a) => !a)}
-            className={cn(
-              "text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all",
-              animate
-                ? "bg-green-100 border-green-300 text-green-700"
-                : "bg-primary-50 border-primary-200 text-primary-700 hover:bg-primary-100"
-            )}
-          >
-            {animate ? "⏸ Pause Animation" : "▶ Animate Flow"}
-          </button>
+
+          {reducedMotion ? (
+            <span className="text-[11px] text-gray-400 italic">Animation disabled (reduced-motion)</span>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePlay}
+                disabled={isPlaying || isComplete}
+                aria-label="Play batch"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-primary-50 border border-primary-200 text-primary-700 hover:bg-primary-100 disabled:opacity-40 transition-all"
+              >
+                <Play className="w-3 h-3" /> Play
+              </button>
+              <button
+                onClick={handlePause}
+                disabled={!isPlaying}
+                aria-label="Pause batch"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100 disabled:opacity-40 transition-all"
+              >
+                <Pause className="w-3 h-3" /> Pause
+              </button>
+              <button
+                onClick={handleReplay}
+                aria-label="Replay batch from start"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100 transition-all"
+              >
+                <SkipForward className="w-3 h-3" /> Replay
+              </button>
+              <button
+                onClick={handleReset}
+                aria-label="Reset batch"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100 transition-all"
+              >
+                <RotateCcw className="w-3 h-3" /> Reset
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Flow row */}
@@ -143,24 +268,51 @@ export function DQXFlow() {
           <FlowNode label="DQX Dashboard" layer="dashboard" icon="📊" />
         </div>
 
-        {/* Animated dots */}
-        {animate && (
-          <div className="relative h-6 mt-3 bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
-            <div className="absolute inset-0 flex items-center px-2">
-              {dots.map((dot) => (
-                <div
-                  key={dot.id}
-                  className={cn(
-                    "absolute w-3 h-3 rounded-full transition-all duration-100",
-                    dot.pass ? "bg-green-500" : "bg-red-500"
-                  )}
-                  style={{ left: `${dot.pos}%`, transform: "translateX(-50%)" }}
-                />
-              ))}
+        {/* Progress bar */}
+        {!reducedMotion && (
+          <div className="mt-4">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] text-gray-500 font-medium">
+                {isComplete ? "Batch complete" : isPlaying ? "Processing…" : processedCount === 0 ? "Ready" : "Paused"}
+              </span>
+              <span className="text-[10px] font-mono text-gray-500">
+                {processedCount} / {SAMPLE_RECORDS.length} records
+              </span>
             </div>
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 text-[10px] text-gray-500">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500" />Pass</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" />Reject</span>
+            <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+              <div
+                className="h-full rounded-full bg-primary-600 transition-all duration-300"
+                style={{ width: `${(processedCount / SAMPLE_RECORDS.length) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Batch record list */}
+        {(reducedMotion || displayedRecords.length > 0) && (
+          <div className="mt-4 space-y-1.5">
+            <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">
+              {reducedMotion ? "All 8 records" : "Records processed"}
+            </h4>
+            {displayedRecords.map((rec, i) => (
+              <RecordRow key={rec.id} rec={rec} index={i} />
+            ))}
+          </div>
+        )}
+
+        {/* Completion summary */}
+        {(reducedMotion || isComplete) && (
+          <div className="mt-4 flex items-center gap-4 rounded-xl bg-gray-50 border border-gray-200 px-4 py-3">
+            <div className="flex items-center gap-1.5 text-sm font-bold text-green-700">
+              <span className="w-3 h-3 rounded-full bg-green-500" />
+              {reducedMotion ? SAMPLE_RECORDS.filter((r) => r.pass).length : passCount} passed
+            </div>
+            <div className="flex items-center gap-1.5 text-sm font-bold text-red-700">
+              <span className="w-3 h-3 rounded-full bg-red-500" />
+              {reducedMotion ? SAMPLE_RECORDS.filter((r) => !r.pass).length : failCount} quarantined
+            </div>
+            <div className="text-sm text-gray-500">
+              of {SAMPLE_RECORDS.length} total records
             </div>
           </div>
         )}
