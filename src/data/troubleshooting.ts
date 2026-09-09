@@ -266,6 +266,222 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
     },
   },
   {
+    id: "unity-catalog-access-denied",
+    title: "Unity Catalog access denied",
+    symptom: "Query fails with 'PERMISSION_DENIED' or table does not appear in Catalog browser.",
+    tree: {
+      id: "uc1",
+      type: "question",
+      question: "Does the error mention a specific table or schema?",
+      yes: {
+        id: "uc1y",
+        type: "question",
+        question: "Do you have at least USE SCHEMA permission on the parent schema?",
+        no: {
+          id: "uc1yn",
+          type: "solution",
+          question: "Request USE SCHEMA permission from your admin",
+          resolution:
+            "Unity Catalog requires USE CATALOG, USE SCHEMA, and SELECT (in that hierarchy) before any table is visible. Ask your Databricks admin to run: GRANT USE SCHEMA ON SCHEMA enterprise.gold TO <your-group>. Then retry.",
+        },
+        yes: {
+          id: "uc1yy",
+          type: "question",
+          question: "Is a Row Filter restricting what you can see?",
+          yes: {
+            id: "uc1yyy",
+            type: "solution",
+            question: "Contact your data governance team to review the Row Filter",
+            resolution:
+              "A Unity Catalog Row Filter may be limiting your result set or making a table appear empty. Go to Catalog, select the table, open the Security tab, and check Row Filters. If one is attached and unexpectedly blocking you, contact your data governance team.",
+          },
+          no: {
+            id: "uc1yyn",
+            type: "solution",
+            question: "Request SELECT permission on the specific table",
+            resolution:
+              "You have schema access but not table access. Ask your admin to run: GRANT SELECT ON TABLE enterprise.gold.<table_name> TO <your-group>. Unity Catalog permissions are additive and hierarchical - you need all three levels.",
+          },
+        },
+      },
+      no: {
+        id: "uc1n",
+        type: "solution",
+        question: "Request USE CATALOG permission on the enterprise catalog",
+        resolution:
+          "If no table or schema is mentioned, you may lack top-level catalog access. Ask your admin: GRANT USE CATALOG ON CATALOG enterprise TO <your-group>. Without this, nothing under the catalog is visible, even if lower-level grants exist.",
+      },
+    },
+  },
+  {
+    id: "sql-warehouse-unavailable",
+    title: "SQL Warehouse stopped or unavailable",
+    symptom: "Genie, the SQL Editor, or a dashboard shows 'No warehouse selected' or 'Warehouse is stopped'.",
+    tree: {
+      id: "sw1",
+      type: "question",
+      question: "Is the warehouse listed in the SQL Warehouses section?",
+      no: {
+        id: "sw1n",
+        type: "solution",
+        question: "Ask your admin to create or restore a SQL Warehouse",
+        resolution:
+          "If no warehouse appears, it may have been deleted or you lack permission to see it. Contact your Databricks admin to create a new serverless SQL Warehouse and grant you 'Can Use' permission.",
+      },
+      yes: {
+        id: "sw1y",
+        type: "question",
+        question: "Is the warehouse in 'Stopped' or 'Starting' state?",
+        yes: {
+          id: "sw1yy",
+          type: "solution",
+          question: "Start the warehouse manually or wait for auto-start",
+          resolution:
+            "Serverless warehouses start automatically on first query but may have been manually stopped. Click the Start button in SQL Warehouses. It typically takes 15-30 seconds for serverless or 2-3 minutes for classic warehouses. If it fails to start, check the warehouse's event log for error details.",
+        },
+        no: {
+          id: "sw1yn",
+          type: "question",
+          question: "Do you have 'Can Use' permission on the warehouse?",
+          no: {
+            id: "sw1ynn",
+            type: "solution",
+            question: "Request 'Can Use' permission from your admin",
+            resolution:
+              "The warehouse exists and is running, but you are not authorized to run queries on it. Ask your admin to add you (or your group) as 'Can Use' on the specific SQL Warehouse under its permissions tab.",
+          },
+          yes: {
+            id: "sw1yny",
+            type: "solution",
+            question: "Re-select the warehouse in your tool's settings",
+            resolution:
+              "Sometimes the warehouse association is lost after a browser session or workspace update. In the SQL Editor or Genie, open the warehouse dropdown and re-select the correct warehouse. For dashboards, click the settings (gear icon) and set the warehouse explicitly.",
+          },
+        },
+      },
+    },
+  },
+  {
+    id: "page-appears-stuck",
+    title: "Training page or animation appears stuck",
+    symptom: "A simulation, animation, or interactive element stopped responding or shows a loading spinner.",
+    tree: {
+      id: "ps1",
+      type: "question",
+      question: "Does the issue persist after scrolling away and back?",
+      yes: {
+        id: "ps1y",
+        type: "question",
+        question: "Does a hard reload fix it (Ctrl+Shift+R or Cmd+Shift+R)?",
+        yes: {
+          id: "ps1yy",
+          type: "solution",
+          question: "Clear browser cache and continue",
+          resolution:
+            "A hard reload cleared the issue, which means a cached version of the page was stale. To prevent recurrence, you can clear all cached data: open browser settings, clear cached images and files (not cookies), and reload. The training site is a static export, so cache mismatches can occasionally occur after a platform update.",
+        },
+        no: {
+          id: "ps1yn",
+          type: "question",
+          question: "Does opening the page in an incognito or private window work?",
+          yes: {
+            id: "ps1yny",
+            type: "solution",
+            question: "Clear all browser data for this site",
+            resolution:
+              "The issue is browser-specific, likely a cached script conflict or extension interference. Clear site data: open browser DevTools (F12), go to Application, click 'Clear site data'. Alternatively, try a different browser. If the problem is an extension, try disabling them one by one.",
+          },
+          no: {
+            id: "ps1ynn",
+            type: "solution",
+            question: "Use the Reset simulation button if available",
+            resolution:
+              "If the page is loading correctly but a specific simulation (Compute, DQX, or a walkthrough) is stuck, look for the Reset button within that component. Clicking Reset returns it to its initial state. If no Reset is available, use the browser back button and re-enter the page.",
+          },
+        },
+      },
+      no: {
+        id: "ps1n",
+        type: "solution",
+        question: "Scroll back to trigger the component and retry",
+        resolution:
+          "Some interactive components (charts, animations) only activate when they enter the viewport. Scroll the element fully into view and wait a moment. If it still does not respond, try clicking the Play or Start button if one is visible.",
+      },
+    },
+  },
+  {
+    id: "architecture-explorer-loading",
+    title: "Architecture Explorer stays on loading",
+    symptom: "The interactive architecture graph shows a spinner or blank canvas and never renders nodes.",
+    tree: {
+      id: "ae1",
+      type: "question",
+      question: "Does the page show any error message or is it just blank/spinning?",
+      yes: {
+        id: "ae1y",
+        type: "solution",
+        question: "Use the Retry button shown in the error state",
+        resolution:
+          "An error boundary has caught the rendering failure. Click the Retry button to attempt a fresh load of the graph. If retrying fails repeatedly, try a full hard reload (Ctrl+Shift+R). If the error persists, open browser DevTools (F12) and check the Console tab for a specific error message to share with your trainer.",
+      },
+      no: {
+        id: "ae1n",
+        type: "question",
+        question: "Are you on a browser that has JavaScript blocked or restricted?",
+        yes: {
+          id: "ae1ny",
+          type: "solution",
+          question: "Enable JavaScript for this site and reload",
+          resolution:
+            "The Architecture Explorer requires JavaScript to render the interactive graph. Check your browser settings or any corporate security policies that may block script execution. Try opening the page in a different browser (Chrome or Edge recommended).",
+        },
+        no: {
+          id: "ae1nn",
+          type: "solution",
+          question: "Hard reload and try a different browser",
+          resolution:
+            "Try Ctrl+Shift+R to force a full reload including scripts and styles. If the graph still does not render, try a different browser. The Explorer uses @xyflow/react for graph rendering, which requires modern browser features. Internet Explorer and older Edge versions are not supported.",
+        },
+      },
+    },
+  },
+  {
+    id: "progress-not-recording",
+    title: "My progress is not being saved",
+    symptom: "Phase completion ticks or quiz scores are not persisting after navigating away or reloading.",
+    tree: {
+      id: "pr1",
+      type: "question",
+      question: "Is your browser set to block localStorage or site data?",
+      yes: {
+        id: "pr1y",
+        type: "solution",
+        question: "Allow site data storage for this domain",
+        resolution:
+          "Progress is stored in localStorage (key: databricks-learning-progress). If your browser blocks site data (common in strict privacy modes or private/incognito windows), nothing will be saved. Go to browser settings, find the site permissions for this domain, and allow storage. Alternatively, use a normal browser window rather than incognito.",
+      },
+      no: {
+        id: "pr1n",
+        type: "question",
+        question: "Does the progress bar in the sidebar show any visited phases?",
+        yes: {
+          id: "pr1ny",
+          type: "solution",
+          question: "Progress is saving - check the specific step or quiz",
+          resolution:
+            "If the sidebar shows visited phases but a specific quiz score is missing, the quiz may not have registered a submit. Make sure you click 'Submit answers' at the end of each quiz, not just answer the questions. Quiz scores are only saved on explicit submission.",
+        },
+        no: {
+          id: "pr1nn",
+          type: "solution",
+          question: "Use Reset learning data to clear any corrupted state, then revisit pages",
+          resolution:
+            "If no progress appears despite visiting phases, localStorage may contain corrupted data. Open the sidebar, scroll to the bottom, and click 'Reset learning data' (confirm when prompted). This clears the stored state. Then revisit each phase to rebuild your progress. If the issue recurs, check the browser console for localStorage errors.",
+        },
+      },
+    },
+  },
+  {
     id: "dashboard-stale",
     title: "My dashboard shows old data",
     symptom: "Dashboard numbers haven't updated, they still show yesterday's or last week's figures.",
