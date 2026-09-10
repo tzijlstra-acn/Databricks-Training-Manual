@@ -124,7 +124,7 @@ export function ScenarioIntro() {
         <div className="flex items-center gap-2 mb-4">
           <Target className="w-4 h-4 text-[#F47920]" />
           <p className="text-xs font-bold text-[#F47920] uppercase tracking-wide">
-            By the end of this week you will be able to…
+            By the end of the 5 phases you will be able to…
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
